@@ -1,17 +1,19 @@
-const express = require('express');
+import express from 'express';
+import 'dotenv/config';
+import cartRouter from './routes/cartRouter.js';
+import productRouter from './routes/productRouter.js';
+
+
+
 const app = express();
-const puerto = 8080;
-const productRoutes = require('./routes/productRoutes');
-const cartRoutes = require('./routes/cartRoutes');
+const api = process.env.API_URL;
+const PORT = process.env.PORT || 8080;
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use('/api/products', productRoutes);
-app.use('/api/carts', cartRoutes);
-app.get('/', (req, res) => {
-  res.send('Hola mundo!');
-});
+app.use(api+'/products', productRouter);
+app.use(api+'/carts', cartRouter);
 
-app.listen(puerto, () => {
-  console.log(`Servidor escuchando en puerto ${puerto}`);
+
+app.listen(PORT, () => {
+  console.log(api)
+  console.log(`Servidor escuchando en PORT ${PORT}`);
 });
