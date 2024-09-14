@@ -6,11 +6,14 @@ import productRouter from './routes/productRouter.js';
 
 
 const app = express();
+
 const api = process.env.API_URL;
 const PORT = process.env.PORT || 8080;
 
+app.use(express.json());
 app.use(api+'/products', productRouter);
 app.use(api+'/carts', cartRouter);
+
 
 
 app.listen(PORT, () => {

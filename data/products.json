@@ -1,17 +1,100 @@
 [
   {
     "id": 1,
-    "name": "Producto 1",
-    "price": 10.99
+    "title": "Producto-1",
+    "description": "Descripción del producto 1",
+    "code": "P001",
+    "price": 10.99,
+    "status": true,
+    "stock": 100,
+    "category": "Primero",
+    "thumbnails": [
+      "ruta/imagen1.jpg",
+      "ruta/imagen2.jpg"
+    ]
   },
   {
     "id": 2,
-    "name": "Producto 2",
-    "price": 5.99
+    "title": "Producto-2",
+    "description": "Descripción producto 2",
+    "code": "P002",
+    "price": 15.99,
+    "status": true,
+    "stock": 150,
+    "category": "Segundo",
+    "thumbnails": [
+      "ruta/imagen3.jpg",
+      "ruta/imagen4.jpg"
+    ]
   },
   {
     "id": 3,
-    "name": "Producto3",
-    "price": 7.99
+    "title": "Producto-3",
+    "description": "Descripción del producto 3",
+    "code": "P003",
+    "price": 20.99,
+    "status": false,
+    "stock": 200,
+    "category": "Tercero",
+    "thumbnails": [
+      "ruta/imagen5.jpg",
+      "ruta/imagen6.jpg"
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Nuevo Producto",
+    "description": "Descripción del nuevo producto",
+    "code": "NP004",
+    "price": 29.99,
+    "status": true,
+    "stock": 50,
+    "category": "Tercero",
+    "thumbnails": [
+      "ruta/imagen7.jpg",
+      "ruta/imagen8.jpg"
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Nuevo Producto 2",
+    "description": "Descripción del nuevo producto 2",
+    "code": "NP005",
+    "price": 29.99,
+    "status": true,
+    "stock": 50,
+    "category": "Tercero",
+    "thumbnails": [
+      "ruta/imagen7.jpg",
+      "ruta/imagen8.jpg"
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Nuevo Producto 2",
+    "description": "Descripción del nuevo producto 2",
+    "code": "NP005",
+    "price": 29.99,
+    "status": true,
+    "stock": 50,
+    "category": "Tercero",
+    "thumbnails": [
+      "ruta/imagen7.jpg",
+      "ruta/imagen8.jpg"
+    ]
+  },
+  {
+    "id": 7,
+    "title": "Nuevo Producto 3",
+    "description": "Descripción del nuevo producto 3",
+    "code": "NP005",
+    "price": 29.99,
+    "status": true,
+    "stock": 50,
+    "category": "Tercero",
+    "thumbnails": [
+      "ruta/imagen7.jpg",
+      "ruta/imagen8.jpg"
+    ]
   }
 ]
