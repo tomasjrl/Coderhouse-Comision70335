@@ -17,6 +17,5 @@ app.use(api+'/carts', cartRouter);
 
 
 app.listen(PORT, () => {
-  console.log(api)
   console.log(`Servidor escuchando en PORT ${PORT}`);
 });

@@ -82,19 +82,5 @@
       "ruta/imagen7.jpg",
       "ruta/imagen8.jpg"
     ]
-  },
-  {
-    "id": 7,
-    "title": "Nuevo Producto 3",
-    "description": "Descripción del nuevo producto 3",
-    "code": "NP005",
-    "price": 29.99,
-    "status": true,
-    "stock": 50,
-    "category": "Tercero",
-    "thumbnails": [
-      "ruta/imagen7.jpg",
-      "ruta/imagen8.jpg"
-    ]
   }
 ]
