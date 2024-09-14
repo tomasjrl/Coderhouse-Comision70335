@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllProducts, getProduct, createProduct, updateProduct, deleteProduct } from '../controllers/productController.js';
+import { getAllProducts, getProduct, createProduct, updateProduct, deleteProduct } from '../managers/productManager.js';
 
 const productRouter = express.Router();
 
@@ -10,12 +10,3 @@ productRouter.put('/:pid', updateProduct);
 productRouter.delete('/:pid', deleteProduct);
 
 export default productRouter;
-
-// import express from 'express';
-// const router = express.Router();
-
-// router.get('/', (req, res) => {
-//   res.status(200).send('Ruta de carts funciona correctamente');
-// });
-
-// export default router;

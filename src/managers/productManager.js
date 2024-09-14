@@ -1,31 +1,19 @@
-// revisar funciones, por ahora sirve de modelo
-const fs = require('fs');
-
-class ProductManager {
-  constructor(path) {
-    this.path = path;
-  }
-
-  addProduct(product) {
-    const products = this.getProducts();
-    product.id = products.length + 1;
-    products.push(product);
-    fs.writeFileSync(this.path, JSON.stringify(products));
-  }
-
-  getProducts() {
-    try {
-      const data = fs.readFileSync(this.path, 'utf8');
-      return JSON.parse(data);
-    } catch (error) {
-      return [];
-    }
-  }
-
-  getProductById(id) {
-    const products = this.getProducts();
-    return products.find(product => product.id === parseInt(id));
-  }
+export function getAllProducts(req, res) {
+  res.send('Obteniendo todos los productos');
 }
 
-module.exports = ProductManager;
+export function getProduct(req, res) {
+  res.send(`Obteniendo el producto con id ${req.params.pid}`);
+}
+
+export function createProduct(req, res) {
+  res.send('Creando un nuevo producto');
+}
+
+export function updateProduct(req, res) {
+  res.send(`Actualizando el producto con id ${req.params.pid}`);
+}
+
+export function deleteProduct(req, res) {
+  res.send(`Eliminando el producto con id ${req.params.pid}`);
+}
