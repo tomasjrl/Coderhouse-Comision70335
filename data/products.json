@@ -43,44 +43,23 @@
   },
   {
     "id": 4,
-    "title": "Nuevo Producto",
-    "description": "Descripción del nuevo producto",
-    "code": "NP004",
+    "title": "Nuevo Producto 4",
+    "description": "Descripción del nuevo producto 4",
+    "code": "NP005",
     "price": 29.99,
     "status": true,
     "stock": 50,
-    "category": "Tercero",
-    "thumbnails": [
-      "ruta/imagen7.jpg",
-      "ruta/imagen8.jpg"
-    ]
+    "category": "Cuarto",
+    "thumbnails": []
   },
   {
     "id": 5,
-    "title": "Nuevo Producto 2",
-    "description": "Descripción del nuevo producto 2",
+    "title": "Nuevo Producto 5",
+    "description": "Descripción del nuevo producto 5",
     "code": "NP005",
     "price": 29.99,
     "status": true,
     "stock": 50,
-    "category": "Tercero",
-    "thumbnails": [
-      "ruta/imagen7.jpg",
-      "ruta/imagen8.jpg"
-    ]
-  },
-  {
-    "id": 6,
-    "title": "Nuevo Producto 2",
-    "description": "Descripción del nuevo producto 2",
-    "code": "NP005",
-    "price": 29.99,
-    "status": true,
-    "stock": 50,
-    "category": "Tercero",
-    "thumbnails": [
-      "ruta/imagen7.jpg",
-      "ruta/imagen8.jpg"
-    ]
+    "category": "Quinto"
   }
 ]
