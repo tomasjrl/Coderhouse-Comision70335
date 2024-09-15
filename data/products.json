@@ -40,26 +40,5 @@
       "ruta/imagen5.jpg",
       "ruta/imagen6.jpg"
     ]
-  },
-  {
-    "id": 4,
-    "title": "Nuevo Producto 4",
-    "description": "Descripción del nuevo producto 4",
-    "code": "NP005",
-    "price": 29.99,
-    "status": true,
-    "stock": 50,
-    "category": "Cuarto",
-    "thumbnails": []
-  },
-  {
-    "id": 5,
-    "title": "Nuevo Producto 5",
-    "description": "Descripción del nuevo producto 5",
-    "code": "NP005",
-    "price": 29.99,
-    "status": true,
-    "stock": 50,
-    "category": "Quinto"
   }
 ]
