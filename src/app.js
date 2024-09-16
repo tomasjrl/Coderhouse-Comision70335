@@ -1,9 +1,11 @@
 import express from 'express';
 import handlebars from 'express-handlebars';
-import __dirname from "./utils.js";
 import 'dotenv/config';
+import __dirname from "./utils.js";
 import cartRouter from './routes/cartRouter.js';
 import productRouter from './routes/productRouter.js';
+import viewsRouter from "./routes/views.router.js";
+import realtimeproductsRouter from "./routes/realtimeproducts.router.js";
 
 
 const app = express();
@@ -30,25 +32,8 @@ app.use(express.json());
 //   res.render('realTimeProducts', { products: [] }); // por ahora, pasamos una lista vacía
 //  });
 
-// probando estaticamente lista de productos = FUNCIONA
-app.get('/', (req, res) => {
-  const productos = [
-    { id: 1, nombre: 'Producto 1', precio: 10.99 },
-    { id: 2, nombre: 'Producto 2', precio: 9.99 },
-    { id: 3, nombre: 'Producto 3', precio: 12.99 },
-  ];
-  res.render('index', { products: productos });
-});
-
-// probando estaticamente lista de productos  = FUNCIONA
-app.get('/productos-en-tiempo-real', (req, res) => {
-  const productos = [
-    { id: 1, nombre: 'Producto 10', precio: 10.99 },
-    { id: 2, nombre: 'Producto 11', precio: 9.99 },
-    { id: 3, nombre: 'Producto 12', precio: 12.99 },
-  ];
-  res.render('realTimeProducts', { products: productos });
-});
+app.use('/',viewsRouter);
+app.use('/realtimeproducts', realtimeproductsRouter);
 
 app.use(api+'/products', productRouter);
 app.use(api+'/carts', cartRouter);
