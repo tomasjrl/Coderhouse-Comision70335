@@ -1,12 +1,11 @@
-import express from 'express';
-import handlebars from 'express-handlebars';
-import 'dotenv/config';
+import express from "express";
+import handlebars from "express-handlebars";
+import "dotenv/config";
 import __dirname from "./utils.js";
-import cartRouter from './routes/cartRouter.js';
-import productRouter from './routes/productRouter.js';
+import cartRouter from "./routes/cartRouter.js";
+import productRouter from "./routes/productRouter.js";
 import viewsRouter from "./routes/views.router.js";
 import realtimeproductsRouter from "./routes/realtimeproducts.router.js";
-
 
 const app = express();
 const api = process.env.API_URL;
@@ -23,7 +22,7 @@ app.use(express.static(__dirname + "/public"));
 app.use(express.json());
 
 // AL MOMENTO NO FUNCIONA, FALTA COMPLETAR CODIGO
-//  app.get('/', (req, res) => { 
+//  app.get('/', (req, res) => {
 //  const products = getAllProducts();
 // res.render('index', { products });
 // });
@@ -32,11 +31,11 @@ app.use(express.json());
 //   res.render('realTimeProducts', { products: [] }); // por ahora, pasamos una lista vacía
 //  });
 
-app.use('/',viewsRouter);
-app.use('/realtimeproducts', realtimeproductsRouter);
+app.use("/productos", viewsRouter);
+app.use("/productosentiemporeal", realtimeproductsRouter);
 
-app.use(api+'/products', productRouter);
-app.use(api+'/carts', cartRouter);
+app.use(api + "/products", productRouter);
+app.use(api + "/carts", cartRouter);
 
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en PORT ${PORT}`);
