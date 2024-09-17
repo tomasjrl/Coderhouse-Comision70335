@@ -1,3 +1,11 @@
-p{
+.opcion1 {
   color: red;
+}
+
+.opcion2 {
+  color: green;
+}
+
+p {
+  color: blue;
 }

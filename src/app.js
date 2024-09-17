@@ -32,7 +32,7 @@ app.use(express.json());
 //  });
 
 app.use("/productos", viewsRouter);
-app.use("/productosentiemporeal", realtimeproductsRouter);
+app.use("/productos/productosentiemporeal", realtimeproductsRouter);
 
 app.use(api + "/products", productRouter);
 app.use(api + "/carts", cartRouter);

@@ -18,7 +18,7 @@ router.get("/", (req, res) => {
   };
   res.render("index", {
     user: testUser,
-    style: "index.css",
+    style: "../../css/index.css",
     isAdmin: testUser.role === "admin",
     food,
   });
