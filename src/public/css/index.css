@@ -1,11 +1,82 @@
-.opcion1 {
-  color: red;
+* {
+  text-decoration: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  list-style-type: none;
+  text-decoration: none;
+  font-style: normal;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100dvh;
+  background-color: black;
+  padding: 10px;
+}
+
+.title {
+  color: rgb(232, 232, 232);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 50px;
 }
 
 .opcion2 {
   color: green;
 }
 
-p {
-  color: blue;
+.products-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #474646;
+  border: 1px solid #d1d1d1;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 10px;
+}
+
+.products-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+}
+
+.product {
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 10px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.product h2 {
+  margin-top: 0;
+  text-align: center;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.product p {
+  padding-top: 10px;
+}
+
+/* Media queries para hacerlo responsive */
+@media (max-width: 768px) {
+  .products-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .products-list {
+    grid-template-columns: 1fr;
+  }
 }

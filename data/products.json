@@ -40,5 +40,33 @@
       "ruta/imagen5.jpg",
       "ruta/imagen6.jpg"
     ]
+  },
+  {
+    "id": 4,
+    "title": "Producto-4",
+    "description": "Descripción 4",
+    "code": "P004",
+    "price": 44.99,
+    "status": true,
+    "stock": 400,
+    "category": "Tercero",
+    "thumbnails": [
+      "ruta/imagen5.jpg",
+      "ruta/imagen6.jpg"
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Producto-5 con texto super largo",
+    "description": "Descripción 5 es muy larga porque estoy probando flex",
+    "code": "P005",
+    "price": 55.99,
+    "status": true,
+    "stock": 500,
+    "category": "Tercero",
+    "thumbnails": [
+      "ruta/imagen5.jpg",
+      "ruta/imagen6.jpg"
+    ]
   }
 ]

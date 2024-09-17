@@ -1,14 +1,15 @@
-<div>
-  <h1 class="opcion1">Hola, {{user.name}}! Gusto verte! (texto desde handlebars)</h1>
-  {{#if isAdmin}}
-    {{#each food}}
-      <div>
-        <p>{{this.name}}</p>
-        <p>{{this.price}}</p>
-      </div>
+<div class="products-container">
+  <h1 class="title">Productos</h1>
+  <ul class="products-list">
+    {{#each products}}
+      <li class="product">
+        <h2>{{title}}</h2>
+        <p>Descripción: {{description}}</p>
+        <p>Precio: ${{price}}</p>
+        <p>Stock: {{stock}}</p>
+        <p>Categoría: {{category}}</p>
+      </li>
     {{/each}}
-  {{else}}
-    <p>No tienes permisos para ver la lista de alimentos.</p>
-  {{/if}}
+  </ul>
 </div>
 <script src="/js/index.js"></script>

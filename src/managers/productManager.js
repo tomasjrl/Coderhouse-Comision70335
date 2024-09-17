@@ -5,15 +5,27 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const dataPath = path.join(__dirname, "..", "..", "data", "products.json");
 
-export function getAllProducts(req, res) {
+export function getAllProducts(req, res = null) {
   try {
     const products = JSON.parse(fs.readFileSync(dataPath, "utf8"));
-    res.json(products);
+    if (res) {
+      res.json(products);
+    } else {
+      return products;
+    }
   } catch (error) {
     if (error.code === "ENOENT") {
-      res.status(404).json({ message: "Archivo de productos no encontrado" });
+      if (res) {
+        res.status(404).json({ message: "Archivo de productos no encontrado" });
+      } else {
+        throw new Error("Archivo de productos no encontrado");
+      }
     } else {
-      res.status(500).json({ message: "Error interno al crear el producto" });
+      if (res) {
+        res.status(500).json({ message: "Error interno al crear el producto" });
+      } else {
+        throw new Error("Error interno al crear el producto");
+      }
     }
   }
 }
