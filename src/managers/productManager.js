@@ -7,25 +7,28 @@ const dataPath = path.join(__dirname, "..", "..", "data", "products.json");
 
 export function getAllProducts(req = null, res = null) {
   try {
-    const products = JSON.parse(fs.readFileSync(dataPath, "utf8"));
-    if (res) {
-      res.json(products);
+    // No intentas leer el archivo si no existe
+    if (fs.existsSync(dataPath)) {
+      const products = JSON.parse(fs.readFileSync(dataPath, "utf8"));
+      if (res) {
+        res.json(products);
+      } else {
+        return products;
+      }
     } else {
-      return products;
+      // El archivo no existe, devolver un array vacío
+      if (res) {
+        res.json([]);
+      } else {
+        return [];
+      }
     }
   } catch (error) {
-    if (error.code === "ENOENT") {
-      if (res) {
-        res.status(404).json({ message: "Archivo de productos no encontrado" });
-      } else {
-        throw new Error("Archivo de productos no encontrado");
-      }
+    // Maneja otros errores de lectura del archivo
+    if (res) {
+      res.status(500).json({ message: "Error interno al obtener productos" });
     } else {
-      if (res) {
-        res.status(500).json({ message: "Error interno al obtener productos" });
-      } else {
-        throw new Error("Error interno al obtener productos");
-      }
+      throw new Error("Error interno al obtener productos");
     }
   }
 }
@@ -51,34 +54,63 @@ export function getProduct(req, res) {
 
 export function createProduct(req, res = null) {
   try {
-    const products = getAllProducts();
-    const {
-      title,
-      description,
-      code,
-      price,
-      status,
-      stock,
-      category,
-      thumbnails,
-    } = req.body;
-    const newId =
-      products.length > 0 ? Math.max(...products.map((p) => p.id)) + 1 : 1;
+    // Verifica si el archivo existe
+    if (!fs.existsSync(dataPath)) {
+      // Crea el archivo con el primer producto
+      const {
+        title,
+        description,
+        code,
+        price,
+        status = true,
+        stock,
+        category,
+        thumbnails = [],
+      } = req.body;
+      const newId = 1;
+      const newProduct = {
+        id: newId,
+        title,
+        description,
+        code,
+        price,
+        status,
+        stock,
+        category,
+        thumbnails,
+      };
+      fs.writeFileSync(dataPath, JSON.stringify([newProduct], null, 2));
+    } else {
+      // El archivo ya existe, agrega el nuevo producto
+      const products = getAllProducts();
+      const {
+        title,
+        description,
+        code,
+        price,
+        status = true,
+        stock,
+        category,
+        thumbnails = [],
+      } = req.body;
+      const newId =
+        products.length > 0 ? Math.max(...products.map((p) => p.id)) + 1 : 1;
 
-    const newProduct = {
-      id: newId,
-      title,
-      description,
-      code,
-      price,
-      status,
-      stock,
-      category,
-      thumbnails,
-    };
+      const newProduct = {
+        id: newId,
+        title,
+        description,
+        code,
+        price,
+        status,
+        stock,
+        category,
+        thumbnails,
+      };
 
-    products.push(newProduct);
-    fs.writeFileSync(dataPath, JSON.stringify(products, null, 2));
+      products.push(newProduct);
+      fs.writeFileSync(dataPath, JSON.stringify(products, null, 2));
+    }
 
     if (res) {
       res.status(201).json(newProduct);
@@ -135,7 +167,8 @@ export function deleteProduct(req, res = null) {
       if (res) {
         res.status(404).json({ message: "Producto no encontrado" });
       } else {
-        throw new Error("Producto no encontrado");
+        // Manejar el caso cuando no se encuentra el producto
+        console.error("Producto no encontrado para eliminar.");
       }
     }
   } catch (error) {

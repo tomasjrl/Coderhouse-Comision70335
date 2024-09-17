@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const title = document.getElementById('title').value;
     const description = document.getElementById('description').value;
+    const code = document.getElementById('code').value;
     const price = document.getElementById('price').value;
     const stock = document.getElementById('stock').value;
     const category = document.getElementById('category').value;
@@ -17,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const newProduct = {
       title,
       description,
+      code,
       price,
       stock,
       category
@@ -46,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
       productItem.innerHTML = `
         <h2>${product.title}</h2>
         <p>Descripción: ${product.description}</p>
+        <p>Código: ${product.code}</p>
         <p>Precio: $${product.price}</p>
         <p>Stock: ${product.stock}</p>
         <p>Categoría: ${product.category}</p>
