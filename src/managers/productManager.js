@@ -5,7 +5,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const dataPath = path.join(__dirname, "..", "..", "data", "products.json");
 
-export function getAllProducts(req, res = null) {
+export function getAllProducts(req = null, res = null) {
   try {
     const products = JSON.parse(fs.readFileSync(dataPath, "utf8"));
     if (res) {
@@ -22,9 +22,9 @@ export function getAllProducts(req, res = null) {
       }
     } else {
       if (res) {
-        res.status(500).json({ message: "Error interno al crear el producto" });
+        res.status(500).json({ message: "Error interno al obtener productos" });
       } else {
-        throw new Error("Error interno al crear el producto");
+        throw new Error("Error interno al obtener productos");
       }
     }
   }
@@ -40,18 +40,18 @@ export function getProduct(req, res) {
     if (product) {
       res.json(product);
     } else {
-      res.status(404).json({ message: "Archivo de productos no encontrado" });
+      res.status(404).json({ message: "Producto no encontrado" });
     }
   } catch (error) {
     if (error.code === "ENOENT") {
-      res.status(500).json({ message: "Error interno al crear el producto" });
+      res.status(500).json({ message: "Error interno al obtener el producto" });
     }
   }
 }
 
-export function createProduct(req, res) {
+export function createProduct(req, res = null) {
   try {
-    const products = JSON.parse(fs.readFileSync(dataPath, "utf8"));
+    const products = getAllProducts();
     const {
       title,
       description,
@@ -80,9 +80,15 @@ export function createProduct(req, res) {
     products.push(newProduct);
     fs.writeFileSync(dataPath, JSON.stringify(products, null, 2));
 
-    res.status(201).json(newProduct);
+    if (res) {
+      res.status(201).json(newProduct);
+    }
   } catch (error) {
-    res.status(500).json({ message: "Error interno al crear el producto" });
+    if (res) {
+      res.status(500).json({ message: "Error interno al crear el producto" });
+    } else {
+      throw new Error("Error interno al crear el producto");
+    }
   }
 }
 
@@ -103,7 +109,7 @@ export function updateProduct(req, res) {
 
       res.json(updatedProduct);
     } else {
-      res.status().json({ message: "Producto no encontrado" });
+      res.status(404).json({ message: "Producto no encontrado" });
     }
   } catch (error) {
     res
@@ -112,21 +118,40 @@ export function updateProduct(req, res) {
   }
 }
 
-export function deleteProduct(req, res) {
+export function deleteProduct(req, res = null) {
   try {
-    const products = JSON.parse(fs.readFileSync(dataPath, "utf8"));
-    const productId = parseInt(req.params.pid);
+    let products = getAllProducts();
+    const productId = req.body ? parseInt(req.body.id) : parseInt(req.params.pid);
     const productIndex = products.findIndex((p) => p.id === productId);
 
     if (productIndex !== -1) {
       products.splice(productIndex, 1);
       fs.writeFileSync(dataPath, JSON.stringify(products, null, 2));
 
-      res.status(204).json();
+      if (res) {
+        res.status(204).json();
+      }
     } else {
-      res.status(404).json({ message: "Producto no encontrado" });
+      if (res) {
+        res.status(404).json({ message: "Producto no encontrado" });
+      } else {
+        throw new Error("Producto no encontrado");
+      }
     }
   } catch (error) {
-    res.status(500).json({ message: "Error al eliminar producto" });
+    if (res) {
+      res.status(500).json({ message: "Error al eliminar producto" });
+    } else {
+      throw new Error("Error al eliminar producto");
+    }
   }
+}
+
+// Funciones adicionales para el manejo en tiempo real
+export function createProductSocket(product) {
+  createProduct({ body: product });
+}
+
+export function deleteProductSocket(productId) {
+  deleteProduct({ body: { id: productId } });
 }

@@ -1,8 +1,6 @@
 <div class="container">
-
-  
   <form id="productForm" class="product-form">
-     <h1 class="title-form">formulario</h1>
+    <h1 class="title-form">Formulario</h1>
     <div class="form-group">
       <input type="text" id="title" placeholder="Título" required>
     </div>
@@ -21,24 +19,22 @@
     <button type="submit" class="submit-btn">Crear Producto</button>
   </form>
 
-
-    <div class="products-container">
-      <h1 class="title">Productos</h1>
-      <ul class="products-list">
-        {{#each products}}
-          <li class="product">
-            <h2>{{title}}</h2>
-            <p>Descripción: {{description}}</p>
-            <p>Precio: ${{price}}</p>
-            <p>Stock: {{stock}}</p>
-            <p>Categoría: {{category}}</p>
-            <button type="submit" class="submit-btn-delete">Eliminar</button>
-          </li>
-        {{/each}}
-      </ul>
-    </div>
+  <div class="products-container">
+    <h1 class="title">Productos</h1>
+    <ul class="products-list" id="productsList">
+      {{#each products}}
+        <li class="product" id="product-{{id}}">
+          <h2>{{title}}</h2>
+          <p>Descripción: {{description}}</p>
+          <p>Precio: ${{price}}</p>
+          <p>Stock: {{stock}}</p>
+          <p>Categoría: {{category}}</p>
+          <button type="button" class="submit-btn-delete" data-id="{{id}}">Eliminar</button>
+        </li>
+      {{/each}}
+    </ul>
+  </div>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/realTimeProducts.js"></script>
-<script src="/js/index.js"></script>
