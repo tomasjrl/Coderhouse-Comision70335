@@ -24,9 +24,49 @@ body {
   padding: 50px;
 }
 
-.opcion2 {
-  color: green;
+.title-form {
+  color: rgb(232, 232, 232);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 20px;
 }
+
+.product-form {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #474646;
+  border: 1px solid #d1d1d1;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 10px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background-color: #3e8e41;
+}
+
 
 .products-container {
   max-width: 1200px;
@@ -70,12 +110,18 @@ body {
 
 /* Media queries para hacerlo responsive */
 @media (max-width: 768px) {
+  .product-form {
+    margin: 20px auto;
+  }
   .products-list {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 480px) {
+  .product-form {
+    padding: 10px;
+  }
   .products-list {
     grid-template-columns: 1fr;
   }

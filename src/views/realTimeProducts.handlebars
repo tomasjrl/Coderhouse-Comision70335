@@ -1,14 +1,43 @@
-<div>
-  <h1 class="opcion2">Hola, {{user.name}}! Gusto verte! (texto desde handlebars EN TIEMPO REAL)</h1>
-  {{#if isAdmin}}
-    {{#each food}}
-      <div>
-        <p>{{this.name}}</p>
-        <p>{{this.price}}</p>
-      </div>
-    {{/each}}
-  {{else}}
-    <p>No tienes permisos para ver la lista de alimentos.</p>
-  {{/if}}
+<div class="container">
+
+  
+  <form id="productForm" class="product-form">
+     <h1 class="title-form">formulario</h1>
+    <div class="form-group">
+      <input type="text" id="title" placeholder="Título" required>
+    </div>
+    <div class="form-group">
+      <input type="text" id="description" placeholder="Descripción" required>
+    </div>
+    <div class="form-group">
+      <input type="number" id="price" placeholder="Precio" required>
+    </div>
+    <div class="form-group">
+      <input type="number" id="stock" placeholder="Stock" required>
+    </div>
+    <div class="form-group">
+      <input type="text" id="category" placeholder="Categoría" required>
+    </div>
+    <button type="submit" class="submit-btn">Crear Producto</button>
+  </form>
+
+
+    <div class="products-container">
+      <h1 class="title">Productos en Tiempo Real</h1>
+      <ul class="products-list">
+        {{#each products}}
+          <li class="product">
+            <h2>{{title}}</h2>
+            <p>Descripción: {{description}}</p>
+            <p>Precio: ${{price}}</p>
+            <p>Stock: {{stock}}</p>
+            <p>Categoría: {{category}}</p>
+          </li>
+        {{/each}}
+      </ul>
+    </div>
 </div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/realTimeProducts.js"></script>
 <script src="/js/index.js"></script>
