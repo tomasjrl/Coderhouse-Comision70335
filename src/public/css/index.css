@@ -53,7 +53,8 @@ body {
   border-radius: 5px;
 }
 
-.submit-btn {
+.submit-btn,
+.submit-btn-delete {
   width: 100%;
   padding: 10px;
   background-color: #4CAF50;
@@ -64,7 +65,7 @@ body {
 }
 
 .submit-btn:hover {
-  background-color: #3e8e41;
+  background-color: #2f9733;
 }
 
 
@@ -106,6 +107,16 @@ body {
 
 .product p {
   padding-top: 10px;
+}
+
+.submit-btn-delete {
+  margin-top: 10px;
+  background-color: rgb(242, 43, 43);
+  color: #fff;
+}
+
+.submit-btn-delete:hover {
+  background-color: rgb(221, 15, 15);
 }
 
 /* Media queries para hacerlo responsive */

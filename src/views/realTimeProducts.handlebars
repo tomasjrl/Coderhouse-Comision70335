@@ -23,7 +23,7 @@
 
 
     <div class="products-container">
-      <h1 class="title">Productos en Tiempo Real</h1>
+      <h1 class="title">Productos</h1>
       <ul class="products-list">
         {{#each products}}
           <li class="product">
@@ -32,6 +32,7 @@
             <p>Precio: ${{price}}</p>
             <p>Stock: {{stock}}</p>
             <p>Categoría: {{category}}</p>
+            <button type="submit" class="submit-btn-delete">Eliminar</button>
           </li>
         {{/each}}
       </ul>
