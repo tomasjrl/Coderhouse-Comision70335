@@ -2,15 +2,24 @@ import express from 'express';
 import { getAllProducts } from '../managers/productManager.js';
 
 const viewsRouter = express.Router();
+const viewsRealTimeRouter = express.Router();
 
-viewsRouter.get('/', async (req, res) => {
+const renderProductsView = async (req, res, viewName) => {
   try {
     const products = await getAllProducts();
-    res.render('index', { products });
+    res.render(viewName, { products });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error al obtener productos" });
   }
+};
+
+viewsRouter.get('/', async (req, res) => {
+  await renderProductsView(req, res, 'index');
 });
 
-export default viewsRouter;
+viewsRealTimeRouter.get('/', async (req, res) => {
+  await renderProductsView(req, res, 'realTimeProducts');
+});
+
+export { viewsRouter, viewsRealTimeRouter };
