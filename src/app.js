@@ -15,7 +15,6 @@ import {
 } from "./managers/productManager.js";
 
 const app = express();
-const api = process.env.API_URL;
 const PORT = process.env.PORT || 8080;
 const server = http.createServer(app);
 const io = new Server(server);
@@ -53,8 +52,8 @@ io.on("connection", (socket) => {
 app.use("/products", viewsRouter);
 app.use("/realtimeproducts", viewsRealTimeRouter);
 
-app.use(api + "/products", productRouter);
-app.use(api + "/carts", cartRouter);
+app.use("/api/products", productRouter);
+app.use("/api/carts", cartRouter);
 
 server.listen(PORT, () => {
   console.log(`Servidor escuchando en PORT ${PORT}`);

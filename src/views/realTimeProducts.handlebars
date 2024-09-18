@@ -2,22 +2,22 @@
   <form id="productForm" class="product-form">
     <h1 class="title-form">Formulario</h1>
     <div class="form-group">
-      <input type="text" id="title" placeholder="Título" required>
+      <input type="text" id="title" placeholder="Título" required />
     </div>
     <div class="form-group">
-      <input type="text" id="description" placeholder="Descripción" required>
+      <input type="text" id="description" placeholder="Descripción" required />
     </div>
     <div class="form-group">
-      <input type="text" id="code" placeholder="Código" required>
+      <input type="text" id="code" placeholder="Código" required />
     </div>
     <div class="form-group">
-      <input type="number" id="price" placeholder="Precio" required>
+      <input type="number" id="price" placeholder="Precio" required />
     </div>
     <div class="form-group">
-      <input type="number" id="stock" placeholder="Stock" required>
+      <input type="number" id="stock" placeholder="Stock" required />
     </div>
     <div class="form-group">
-      <input type="text" id="category" placeholder="Categoría" required>
+      <input type="text" id="category" placeholder="Categoría" required />
     </div>
     <button type="submit" class="submit-btn">Crear Producto</button>
   </form>
@@ -33,7 +33,11 @@
           <p>Precio: ${{price}}</p>
           <p>Stock: {{stock}}</p>
           <p>Categoría: {{category}}</p>
-          <button type="button" class="submit-btn-delete" data-id="{{id}}">Eliminar</button>
+          <button
+            type="button"
+            class="submit-btn-delete"
+            data-id="{{id}}"
+          >Eliminar</button>
         </li>
       {{/each}}
     </ul>

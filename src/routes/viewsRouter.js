@@ -1,5 +1,5 @@
-import express from 'express';
-import { getAllProducts } from '../managers/productManager.js';
+import express from "express";
+import { getAllProducts } from "../managers/productManager.js";
 
 const viewsRouter = express.Router();
 const viewsRealTimeRouter = express.Router();
@@ -14,12 +14,12 @@ const renderProductsView = async (req, res, viewName) => {
   }
 };
 
-viewsRouter.get('/', async (req, res) => {
-  await renderProductsView(req, res, 'index');
+viewsRouter.get("/", async (req, res) => {
+  await renderProductsView(req, res, "index");
 });
 
-viewsRealTimeRouter.get('/', async (req, res) => {
-  await renderProductsView(req, res, 'realTimeProducts');
+viewsRealTimeRouter.get("/", async (req, res) => {
+  await renderProductsView(req, res, "realTimeProducts");
 });
 
 export { viewsRouter, viewsRealTimeRouter };

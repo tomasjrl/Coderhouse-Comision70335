@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const productForm = document.getElementById('productForm');
   const productsList = document.getElementById('productsList');
 
-  // Escuchar eventos de creación de productos
   productForm.addEventListener('submit', (event) => {
     event.preventDefault();
 
@@ -26,11 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     socket.emit('newProduct', newProduct);
 
-    // Limpiar el formulario
     productForm.reset();
   });
 
-  // Escuchar eventos de eliminación de productos
   productsList.addEventListener('click', (event) => {
     if (event.target.classList.contains('submit-btn-delete')) {
       const productId = event.target.getAttribute('data-id');
@@ -38,7 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Actualizar la lista de productos en tiempo real
   socket.on('products', (products) => {
     productsList.innerHTML = '';
     products.forEach(product => {
@@ -58,6 +54,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Solicitar la lista inicial de productos
   socket.emit('getProducts');
 });

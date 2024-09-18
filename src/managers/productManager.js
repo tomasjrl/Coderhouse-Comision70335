@@ -7,7 +7,6 @@ const dataPath = path.join(__dirname, "..", "..", "data", "products.json");
 
 export function getAllProducts(req = null, res = null) {
   try {
-    // No intentas leer el archivo si no existe
     if (fs.existsSync(dataPath)) {
       const products = JSON.parse(fs.readFileSync(dataPath, "utf8"));
       if (res) {
@@ -16,7 +15,6 @@ export function getAllProducts(req = null, res = null) {
         return products;
       }
     } else {
-      // El archivo no existe, devolver un array vacío
       if (res) {
         res.json([]);
       } else {
@@ -24,7 +22,6 @@ export function getAllProducts(req = null, res = null) {
       }
     }
   } catch (error) {
-    // Maneja otros errores de lectura del archivo
     if (res) {
       res.status(500).json({ message: "Error interno al obtener productos" });
     } else {
@@ -54,9 +51,7 @@ export function getProduct(req, res) {
 
 export function createProduct(req, res = null) {
   try {
-    // Verifica si el archivo existe
     if (!fs.existsSync(dataPath)) {
-      // Crea el archivo con el primer producto
       const {
         title,
         description,
@@ -81,7 +76,6 @@ export function createProduct(req, res = null) {
       };
       fs.writeFileSync(dataPath, JSON.stringify([newProduct], null, 2));
     } else {
-      // El archivo ya existe, agrega el nuevo producto
       const products = getAllProducts();
       const {
         title,
@@ -153,7 +147,9 @@ export function updateProduct(req, res) {
 export function deleteProduct(req, res = null) {
   try {
     let products = getAllProducts();
-    const productId = req.body ? parseInt(req.body.id) : parseInt(req.params.pid);
+    const productId = req.body
+      ? parseInt(req.body.id)
+      : parseInt(req.params.pid);
     const productIndex = products.findIndex((p) => p.id === productId);
 
     if (productIndex !== -1) {
@@ -167,7 +163,6 @@ export function deleteProduct(req, res = null) {
       if (res) {
         res.status(404).json({ message: "Producto no encontrado" });
       } else {
-        // Manejar el caso cuando no se encuentra el producto
         console.error("Producto no encontrado para eliminar.");
       }
     }
@@ -180,7 +175,6 @@ export function deleteProduct(req, res = null) {
   }
 }
 
-// Funciones adicionales para el manejo en tiempo real
 export function createProductSocket(product) {
   createProduct({ body: product });
 }
