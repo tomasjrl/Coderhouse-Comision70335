@@ -7,7 +7,6 @@ const dataPath = path.join(__dirname, "..", "..", "data", "products.json");
 
 export function getAllProducts(req, res = null) {
   try {
-    // Intentamos leer el archivo
     const products = JSON.parse(fs.readFileSync(dataPath, "utf8"));
     if (res) {
       res.json(products);
@@ -17,7 +16,7 @@ export function getAllProducts(req, res = null) {
   } catch (error) {
     if (error.code === "ENOENT") {
       if (res) {
-        res.status(500).json({ message: "Error interno al obtener los productos" });
+        res.status(404).json({ message: "Archivo de productos no encontrado" });
       } else {
         return [];
       }
