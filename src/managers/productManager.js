@@ -7,6 +7,7 @@ const dataPath = path.join(__dirname, "..", "..", "data", "products.json");
 
 export function getAllProducts(req, res = null) {
   try {
+    // Intentamos leer el archivo
     const products = JSON.parse(fs.readFileSync(dataPath, "utf8"));
     if (res) {
       res.json(products);
@@ -16,9 +17,9 @@ export function getAllProducts(req, res = null) {
   } catch (error) {
     if (error.code === "ENOENT") {
       if (res) {
-        res.status(404).json({ message: "Archivo de productos no encontrado" });
+        res.status(500).json({ message: "Error interno al obtener los productos" });
       } else {
-        throw new Error("Archivo de productos no encontrado");
+        return [];
       }
     } else {
       if (res) {
@@ -64,6 +65,13 @@ export function createProduct(req, res = null) {
       thumbnails = [],
     } = req.body;
 
+    const priceAsNumber = Number(price);
+    const stockAsNumber = Number(stock);
+
+    if (isNaN(priceAsNumber) || isNaN(stockAsNumber)) {
+      throw new Error("El precio y el stock deben ser números válidos");
+    }
+
     let products = [];
     if (fs.existsSync(dataPath)) {
       products = getAllProducts();
@@ -76,9 +84,9 @@ export function createProduct(req, res = null) {
       title,
       description,
       code,
-      price,
+      price: priceAsNumber,
       status,
-      stock,
+      stock: stockAsNumber, 
       category,
       thumbnails,
     };
