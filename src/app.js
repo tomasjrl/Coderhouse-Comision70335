@@ -40,12 +40,16 @@ io.on("connection", (socket) => {
   });
 
   socket.on("deleteProduct", (productId) => {
+    console.log(`Intentando eliminar producto con ID: ${productId}`);
     deleteProductSocket(productId);
-    io.emit("products", getAllProducts());
   });
 
   socket.on("getProducts", () => {
     socket.emit("products", getAllProducts());
+  });
+
+  socket.on("disconnect", () => {
+    console.log("Un cliente se ha desconectado");
   });
 });
 

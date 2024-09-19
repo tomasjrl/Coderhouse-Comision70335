@@ -5,27 +5,28 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const dataPath = path.join(__dirname, "..", "..", "data", "products.json");
 
-export function getAllProducts(req = null, res = null) {
+export function getAllProducts(req, res = null) {
   try {
-    if (fs.existsSync(dataPath)) {
-      const products = JSON.parse(fs.readFileSync(dataPath, "utf8"));
-      if (res) {
-        res.json(products);
-      } else {
-        return products;
-      }
+    // Intentamos leer el archivo
+    const products = JSON.parse(fs.readFileSync(dataPath, "utf8"));
+    if (res) {
+      res.json(products);
     } else {
+      return products;
+    }
+  } catch (error) {
+    if (error.code === "ENOENT") {
       if (res) {
         res.json([]);
       } else {
         return [];
       }
-    }
-  } catch (error) {
-    if (res) {
-      res.status(500).json({ message: "Error interno al obtener productos" });
     } else {
-      throw new Error("Error interno al obtener productos");
+      if (res) {
+        res.status(500).json({ message: "Error interno al obtener los productos" });
+      } else {
+        throw new Error("Error interno al obtener los productos");
+      }
     }
   }
 }
@@ -44,6 +45,8 @@ export function getProduct(req, res) {
     }
   } catch (error) {
     if (error.code === "ENOENT") {
+      res.status(404).json({ message: "Archivo de productos no encontrado" });
+    } else {
       res.status(500).json({ message: "Error interno al obtener el producto" });
     }
   }
@@ -51,60 +54,45 @@ export function getProduct(req, res) {
 
 export function createProduct(req, res = null) {
   try {
-    if (!fs.existsSync(dataPath)) {
-      const {
-        title,
-        description,
-        code,
-        price,
-        status = true,
-        stock,
-        category,
-        thumbnails = [],
-      } = req.body;
-      const newId = 1;
-      const newProduct = {
-        id: newId,
-        title,
-        description,
-        code,
-        price,
-        status,
-        stock,
-        category,
-        thumbnails,
-      };
-      fs.writeFileSync(dataPath, JSON.stringify([newProduct], null, 2));
-    } else {
-      const products = getAllProducts();
-      const {
-        title,
-        description,
-        code,
-        price,
-        status = true,
-        stock,
-        category,
-        thumbnails = [],
-      } = req.body;
-      const newId =
-        products.length > 0 ? Math.max(...products.map((p) => p.id)) + 1 : 1;
+    const {
+      title,
+      description,
+      code,
+      price,
+      status = true,
+      stock,
+      category,
+      thumbnails = [],
+    } = req.body;
 
-      const newProduct = {
-        id: newId,
-        title,
-        description,
-        code,
-        price,
-        status,
-        stock,
-        category,
-        thumbnails,
-      };
+    const priceAsNumber = Number(price);
+    const stockAsNumber = Number(stock);
 
-      products.push(newProduct);
-      fs.writeFileSync(dataPath, JSON.stringify(products, null, 2));
+    if (isNaN(priceAsNumber) || isNaN(stockAsNumber)) {
+      throw new Error("El precio y el stock deben ser números válidos");
     }
+
+    let products = [];
+    if (fs.existsSync(dataPath)) {
+      products = getAllProducts();
+    }
+
+    const newId = products.length > 0 ? Math.max(...products.map((p) => p.id)) + 1 : 1;
+
+    const newProduct = {
+      id: newId,
+      title,
+      description,
+      code,
+      price: priceAsNumber,
+      status,
+      stock: stockAsNumber, 
+      category,
+      thumbnails,
+    };
+
+    products.push(newProduct);
+    fs.writeFileSync(dataPath, JSON.stringify(products, null, 2));
 
     if (res) {
       res.status(201).json(newProduct);
@@ -144,41 +132,44 @@ export function updateProduct(req, res) {
   }
 }
 
-export function deleteProduct(req, res = null) {
+export function deleteProduct(req, res) {
   try {
-    let products = getAllProducts();
-    const productId = req.body
-      ? parseInt(req.body.id)
-      : parseInt(req.params.pid);
+    const products = getAllProducts();
+    const productId = parseInt(req.params.pid);
     const productIndex = products.findIndex((p) => p.id === productId);
 
     if (productIndex !== -1) {
       products.splice(productIndex, 1);
       fs.writeFileSync(dataPath, JSON.stringify(products, null, 2));
-
-      if (res) {
-        res.status(204).json();
-      }
+      res.status(204).json();
     } else {
-      if (res) {
-        res.status(404).json({ message: "Producto no encontrado" });
-      } else {
-        console.error("Producto no encontrado para eliminar.");
-      }
+      res.status(404).json({ message: "Producto no encontrado" });
     }
   } catch (error) {
-    if (res) {
-      res.status(500).json({ message: "Error al eliminar producto" });
-    } else {
-      throw new Error("Error al eliminar producto");
-    }
+    res.status(500).json({ message: "Error al eliminar producto" });
   }
 }
 
-export function createProductSocket(product) {
-  createProduct({ body: product });
+export function deleteProductForSocket(productId) {
+  try {
+    const products = getAllProducts();
+    const productIndex = products.findIndex((p) => p.id === productId);
+
+    if (productIndex !== -1) {
+      products.splice(productIndex, 1);
+      fs.writeFileSync(dataPath, JSON.stringify(products, null, 2));
+    } else {
+      console.error("Producto no encontrado para eliminar.");
+    }
+  } catch (error) {
+    console.error("Error al eliminar producto:", error.message);
+  }
 }
 
 export function deleteProductSocket(productId) {
-  deleteProduct({ body: { id: productId } });
+  deleteProductForSocket(parseInt(productId));
+}
+
+export function createProductSocket(product) {
+createProduct({ body: product });
 }
