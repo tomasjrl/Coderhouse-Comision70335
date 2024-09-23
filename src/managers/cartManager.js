@@ -1,72 +1,85 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const dataPath = path.join(__dirname, "..", "..", "data", "carts.json");
 
+class CartManager {
+  constructor() {
+    this.carts = this.loadCarts();
+  }
 
-export function getCart(req, res) {
-  try {
-    const carts = JSON.parse(fs.readFileSync(dataPath, "utf8"));
-    const cartId = req.params.cid;
-    const cart = carts.find((cart) => cart.id === parseInt(cartId));
-    if (cart) {
-      res.json(cart);
+  loadCarts() {
+    try {
+      const data = fs.readFileSync(dataPath, "utf8");
+      return JSON.parse(data);
+    } catch (error) {
+      if (error.code === "ENOENT") {
+        return [];
       } else {
-        res.status(404).json({ message: "Carrito no encontrado" });
+        console.error("Error al cargar carts.json. Se utilizará un array vacío.", error);
+        return [];
       }
-  } catch (error) {
-    if (error.code === "ENOENT") {
-      res.status(404).json({ message: "Archivo de carritos no encontrado" });
-    } else {
-      res.status(500).json({ message: "Error interno al obtener el carrito" });
     }
+  }
+
+  saveCarts() {
+    fs.writeFileSync(dataPath, JSON.stringify(this.carts, null, 2));
+  }
+
+  getCart(id) {
+    const cart = this.carts.find((cart) => cart.id === id);
+    if (!cart) {
+      throw new Error(`Carrito no encontrado con ID ${id}`);
+    }
+    return cart;
+  }
+
+  createCart() {
+    const newId = this.carts.length > 0 ? Math.max(...this.carts.map((c) => c.id)) + 1 : 1;
+    const newCart = {
+      id: newId,
+      products: [],
+    };
+    this.carts.push(newCart);
+    this.saveCarts();
+    return newCart;
+  }
+
+  addProductToCart(cartId, productId) {
+    const cart = this.getCart(cartId);
+    const product = cart.products.find((product) => product.product === productId);
+    if (product) {
+      product.quantity++;
+    } else {
+      cart.products.push({ product: productId, quantity: 1 });
+    }
+    this.saveCarts();
+    return cart;
+  }
+
+  deleteProductFromCart(cartId, productId) {
+    const cart = this.getCart(cartId);
+    const productIndex = cart.products.findIndex((product) => product.product === productId);
+    if (productIndex === -1) {
+      throw new Error(`Producto no encontrado en el carrito con ID ${cartId}`);
+    }
+    cart.products.splice(productIndex, 1);
+    this.saveCarts();
+    return cart;
+  }
+
+  deleteCart(id) {
+    const cartIndex = this.carts.findIndex((cart) => cart.id === id);
+    if (cartIndex === -1) {
+      throw new Error(`Carrito no encontrado con ID ${id}`);
+    }
+    this.carts.splice(cartIndex, 1);
+    this.saveCarts();
+    return true;
   }
 }
 
-export function createCart(req, res) {
-  try {
-  const carts = JSON.parse(fs.readFileSync(dataPath, "utf8"));
-  const newId =
-  carts.length > 0 ? Math.max(...carts.map((c) => c.id)) + 1 : 1;
-  const newCart = {
-  id: newId,
-  products: [],
-  };
-  carts.push(newCart);
-  fs.writeFileSync(dataPath, JSON.stringify(carts, null, 2));
-  res.status(201).json(newCart);
-  } catch (error) {
-  res.status(500).json({ message: "Error interno al crear el carrito" });
-  }
-  }
-
-  export function addProductToCart(req, res) {
-    try {
-      const carts = JSON.parse(fs.readFileSync(dataPath, "utf8"));
-      const cartId = req.params.cid;
-      const productId = req.params.pid;
-  
-      if (!/^\d+$/.test(productId) || parseInt(productId) <= 0) {
-        res.status(400).json({ message: "ID del producto inválido" });
-        return;
-      }
-  
-      const cart = carts.find((cart) => cart.id === parseInt(cartId));
-      if (!cart) {
-        res.status(404).json({ message: "Carrito no encontrado" });
-        return;
-      }
-      const product = cart.products.find((product) => product.product === parseInt(productId));
-      if (product) {
-        product.quantity++;
-      } else {
-        cart.products.push({ product: parseInt(productId), quantity: 1 });
-      }
-      fs.writeFileSync(dataPath, JSON.stringify(carts, null, 2));
-      res.json(cart);
-    } catch (error) {
-      res.status(500).json({ message: "Error interno al agregar producto al carrito" });
-    }
-  }
+export default CartManager;

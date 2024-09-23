@@ -26,40 +26,5 @@
       "ruta/imagen3.jpg",
       "ruta/imagen4.jpg"
     ]
-  },
-  {
-    "id": 3,
-    "title": "Producto-actualizado-3",
-    "description": "Descripción actualizada-3",
-    "code": "P003",
-    "price": 30.99,
-    "status": false,
-    "stock": 200,
-    "category": "Tercero",
-    "thumbnails": [
-      "ruta/imagen5.jpg",
-      "ruta/imagen6.jpg"
-    ]
-  },
-  {
-    "id": 4,
-    "title": "Nuevo Producto 4",
-    "description": "Descripción del nuevo producto 4",
-    "code": "NP005",
-    "price": 29.99,
-    "status": true,
-    "stock": 50,
-    "category": "Cuarto",
-    "thumbnails": []
-  },
-  {
-    "id": 5,
-    "title": "Nuevo Producto 5",
-    "description": "Descripción del nuevo producto 5",
-    "code": "NP005",
-    "price": 29.99,
-    "status": true,
-    "stock": 50,
-    "category": "Quinto"
   }
 ]
