@@ -19,7 +19,10 @@ class CartManager {
       if (error.code === "ENOENT") {
         return [];
       } else {
-        console.error("Error al cargar carts.json. Se utilizará un array vacío.", error);
+        console.error(
+          "Error al cargar carts.json. Se utilizará un array vacío.",
+          error
+        );
         return [];
       }
     }
@@ -38,7 +41,8 @@ class CartManager {
   }
 
   createCart() {
-    const newId = this.carts.length > 0 ? Math.max(...this.carts.map((c) => c.id)) + 1 : 1;
+    const newId =
+      this.carts.length > 0 ? Math.max(...this.carts.map((c) => c.id)) + 1 : 1;
     const newCart = {
       id: newId,
       products: [],
@@ -50,7 +54,9 @@ class CartManager {
 
   addProductToCart(cartId, productId) {
     const cart = this.getCart(cartId);
-    const product = cart.products.find((product) => product.product === productId);
+    const product = cart.products.find(
+      (product) => product.product === productId
+    );
     if (product) {
       product.quantity++;
     } else {
@@ -58,27 +64,6 @@ class CartManager {
     }
     this.saveCarts();
     return cart;
-  }
-
-  deleteProductFromCart(cartId, productId) {
-    const cart = this.getCart(cartId);
-    const productIndex = cart.products.findIndex((product) => product.product === productId);
-    if (productIndex === -1) {
-      throw new Error(`Producto no encontrado en el carrito con ID ${cartId}`);
-    }
-    cart.products.splice(productIndex, 1);
-    this.saveCarts();
-    return cart;
-  }
-
-  deleteCart(id) {
-    const cartIndex = this.carts.findIndex((cart) => cart.id === id);
-    if (cartIndex === -1) {
-      throw new Error(`Carrito no encontrado con ID ${id}`);
-    }
-    this.carts.splice(cartIndex, 1);
-    this.saveCarts();
-    return true;
   }
 }
 

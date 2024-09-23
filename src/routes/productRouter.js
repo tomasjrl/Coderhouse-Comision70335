@@ -1,12 +1,9 @@
-// routes.js
-
-import express from 'express';
-import ProductManager from '../managers/productManager.js'; // Asegúrate de que la ruta sea correcta
+import express from "express";
+import ProductManager from "../managers/productManager.js";
 
 const productRouter = express.Router();
-const productManager = new ProductManager(); // Crear una instancia de ProductManager
+const productManager = new ProductManager();
 
-// Controlador para obtener todos los productos
 const getAllProducts = (req, res) => {
   try {
     const products = productManager.getAllProducts();
@@ -16,7 +13,6 @@ const getAllProducts = (req, res) => {
   }
 };
 
-// Controlador para obtener un producto por ID
 const getProduct = (req, res) => {
   const productId = parseInt(req.params.pid);
   try {
@@ -27,18 +23,34 @@ const getProduct = (req, res) => {
   }
 };
 
-// Controlador para crear un nuevo producto
 const createProduct = (req, res) => {
-  const { title, description, code, price, status, stock, category, thumbnails } = req.body;
+  const {
+    title,
+    description,
+    code,
+    price,
+    status,
+    stock,
+    category,
+    thumbnails,
+  } = req.body;
   try {
-    const newProduct = productManager.addProduct(title, description, code, price, status, stock, category, thumbnails);
+    const newProduct = productManager.addProduct(
+      title,
+      description,
+      code,
+      price,
+      status,
+      stock,
+      category,
+      thumbnails
+    );
     res.status(201).json(newProduct);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
-// Controlador para actualizar un producto existente
 const updateProduct = (req, res) => {
   const productId = parseInt(req.params.pid);
   const updates = req.body;
@@ -50,7 +62,6 @@ const updateProduct = (req, res) => {
   }
 };
 
-// Controlador para eliminar un producto
 const deleteProduct = (req, res) => {
   const productId = parseInt(req.params.pid);
   try {
@@ -61,11 +72,10 @@ const deleteProduct = (req, res) => {
   }
 };
 
-// Asignar los controladores a las rutas
-productRouter.get('/', getAllProducts);
-productRouter.get('/:pid', getProduct);
-productRouter.post('/', createProduct);
-productRouter.put('/:pid', updateProduct);
-productRouter.delete('/:pid', deleteProduct);
+productRouter.get("/", getAllProducts);
+productRouter.get("/:pid", getProduct);
+productRouter.post("/", createProduct);
+productRouter.put("/:pid", updateProduct);
+productRouter.delete("/:pid", deleteProduct);
 
 export default productRouter;

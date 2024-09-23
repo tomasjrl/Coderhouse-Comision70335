@@ -14,13 +14,16 @@ class ProductManager {
   loadProducts() {
     try {
       const data = fs.readFileSync(dataPath, "utf8");
-      return JSON.parse(data); 
+      return JSON.parse(data);
     } catch (error) {
       if (error.code === "ENOENT") {
-        return []; 
+        return [];
       } else {
-        console.error("Error al cargar products.json. Se utilizará un array vacío.", error);
-        return []; 
+        console.error(
+          "Error al cargar products.json. Se utilizará un array vacío.",
+          error
+        );
+        return [];
       }
     }
   }
@@ -41,39 +44,74 @@ class ProductManager {
     return product;
   }
 
-  addProduct(title, description, code, price, status, stock, category, thumbnails) {
-    const requiredFields = ["title", "description", "code", "price", "status", "stock", "category", "thumbnails"];
-    const missingFields = requiredFields.filter(field => !eval(field));
-  
-    if (missingFields.length > 0) {
-      throw new Error(`Todos los campos son obligatorios. Campos faltantes: ${missingFields.join(", ")}`);
+  addProduct(productData) {
+    const requiredLabels = [
+      "title",
+      "description",
+      "code",
+      "price",
+      "status",
+      "stock",
+      "category",
+      "thumbnails",
+    ];
+
+    const missingLabels = requiredLabels.filter(
+      (Label) => !(Label in productData)
+    );
+    if (missingLabels.length > 0) {
+      throw new Error(
+        `Faltan los siguientes campos requeridos: ${missingLabels.join(", ")}`
+      );
     }
-  
+
+    const {
+      title,
+      description,
+      code,
+      price,
+      status,
+      stock,
+      category,
+      thumbnails,
+    } = productData;
+
     if (typeof code !== "string") {
       throw new Error("El código debe ser de tipo string");
     }
-    
-    if (this.products.some(product => product.code === code)) {
+
+    if (this.products.some((product) => product.code === code)) {
       throw new Error(`Ya existe un producto con el código ${code}`);
     }
-  
+
     if (typeof status !== "boolean") {
-      throw new Error("El estado (status) debe ser un valor booleano (true/false)");
+      throw new Error(
+        "El estado (status) debe ser un valor booleano (true/false)"
+      );
     }
-  
+
     if (!Number.isInteger(stock) || stock < 0) {
       throw new Error("El stock debe ser un número entero no negativo");
     }
-  
+
     if (typeof price !== "number" || price <= 0) {
       throw new Error("El precio debe ser un número positivo");
     }
 
-    if (!Array.isArray(thumbnails) || thumbnails.length === 0 || !thumbnails.every(thumbnail => typeof thumbnail === "string")) {
-      throw new Error("El campo thumbnails debe ser un arreglo no vacío de strings");
+    if (
+      !Array.isArray(thumbnails) ||
+      thumbnails.length === 0 ||
+      !thumbnails.every((thumbnail) => typeof thumbnail === "string")
+    ) {
+      throw new Error(
+        "El campo thumbnails debe ser un arreglo no vacío de strings"
+      );
     }
-  
-    const newId = this.products.length > 0 ? Math.max(...this.products.map((p) => p.id)) + 1 : 1;
+
+    const newId =
+      this.products.length > 0
+        ? Math.max(...this.products.map((p) => p.id)) + 1
+        : 1;
     const newProduct = {
       id: newId,
       title,
@@ -91,22 +129,25 @@ class ProductManager {
   }
 
   updateProduct(id, updates) {
-
     if (updates.id !== undefined) {
       throw new Error("No se permite actualizar el ID del producto");
     }
 
-    const productIndex = this.products.findIndex((product) => product.id === id);
+    const productIndex = this.products.findIndex(
+      (product) => product.id === id
+    );
 
     if (productIndex === -1) {
-      throw new Error(`No se puede actualizar. Producto no encontrado con ID ${id}`);
+      throw new Error(
+        `No se puede actualizar. Producto no encontrado con ID ${id}`
+      );
     }
 
     if (updates.code !== undefined) {
       if (typeof updates.code !== "string") {
         throw new Error("El código debe ser un string");
       }
-      if (this.products.some(p => p.code === updates.code && p.id !== id)) {
+      if (this.products.some((p) => p.code === updates.code && p.id !== id)) {
         throw new Error(`Ya existe un producto con el código ${updates.code}`);
       }
     }
@@ -115,28 +156,48 @@ class ProductManager {
       throw new Error("El status debe ser un valor booleano (true/false)");
     }
 
-    if (updates.stock !== undefined && (!Number.isInteger(updates.stock) || updates.stock < 0)) {
+    if (
+      updates.stock !== undefined &&
+      (!Number.isInteger(updates.stock) || updates.stock < 0)
+    ) {
       throw new Error("El stock debe ser un número entero no negativo");
     }
 
-    if (updates.price !== undefined && (typeof updates.price !== "number" || updates.price <= 0)) {
+    if (
+      updates.price !== undefined &&
+      (typeof updates.price !== "number" || updates.price <= 0)
+    ) {
       throw new Error("El precio debe ser un número positivo");
     }
 
-    if (updates.thumbnails && (!Array.isArray(updates.thumbnails) || updates.thumbnails.length === 0 || !updates.thumbnails.every(thumbnail => typeof thumbnail === "string"))) {
-      throw new Error("El campo thumbnails debe ser un arreglo no vacío de strings");
+    if (
+      updates.thumbnails &&
+      (!Array.isArray(updates.thumbnails) ||
+        updates.thumbnails.length === 0 ||
+        !updates.thumbnails.every((thumbnail) => typeof thumbnail === "string"))
+    ) {
+      throw new Error(
+        "El campo thumbnails debe ser un arreglo no vacío de strings"
+      );
     }
 
-    this.products[productIndex] = { ...this.products[productIndex], ...updates };
+    this.products[productIndex] = {
+      ...this.products[productIndex],
+      ...updates,
+    };
     this.saveProducts();
     return this.products[productIndex];
   }
 
   deleteProduct(id) {
-    const productIndex = this.products.findIndex((product) => product.id === id);
+    const productIndex = this.products.findIndex(
+      (product) => product.id === id
+    );
 
     if (productIndex === -1) {
-      throw new Error(`No se puede eliminar. Producto no encontrado con ID ${id}`);
+      throw new Error(
+        `No se puede eliminar. Producto no encontrado con ID ${id}`
+      );
     }
 
     const deletedProduct = this.products.splice(productIndex, 1)[0];

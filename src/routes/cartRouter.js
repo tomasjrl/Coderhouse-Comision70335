@@ -1,22 +1,22 @@
-import express from 'express';
-import CartManager from '../managers/cartManager.js'; 
+import express from "express";
+import CartManager from "../managers/cartManager.js";
 
 const cartRouter = express();
 const cartManager = new CartManager();
 
-cartRouter.post('/', (req, res) => {
+cartRouter.post("/", (req, res) => {
   try {
-    const newCart = cartManager.createCart(); 
+    const newCart = cartManager.createCart();
     res.status(201).json(newCart);
   } catch (error) {
     res.status(500).json({ message: "Error interno al crear el carrito" });
   }
 });
 
-cartRouter.get('/:cid', (req, res) => {
+cartRouter.get("/:cid", (req, res) => {
   try {
     const cartId = parseInt(req.params.cid);
-    const cart = cartManager.getCart(cartId); 
+    const cart = cartManager.getCart(cartId);
     res.json(cart);
   } catch (error) {
     if (error.message.includes("Carrito no encontrado")) {
@@ -27,7 +27,7 @@ cartRouter.get('/:cid', (req, res) => {
   }
 });
 
-cartRouter.post('/:cid/product/:pid', (req, res) => {
+cartRouter.post("/:cid/product/:pid", (req, res) => {
   try {
     const cartId = parseInt(req.params.cid);
     const productId = parseInt(req.params.pid);
@@ -37,7 +37,9 @@ cartRouter.post('/:cid/product/:pid', (req, res) => {
     if (error.message.includes("Carrito no encontrado")) {
       res.status(404).json({ message: "Carrito no encontrado" });
     } else {
-      res.status(500).json({ message: "Error interno al agregar producto al carrito" });
+      res
+        .status(500)
+        .json({ message: "Error interno al agregar producto al carrito" });
     }
   }
 });
