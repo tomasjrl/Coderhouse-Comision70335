@@ -2,7 +2,7 @@ import express from 'express';
 import CartManager from '../managers/cartManager.js'; 
 
 const cartRouter = express();
-const cartManager = new CartManager(); // Crea una instancia de CartManager
+const cartManager = new CartManager();
 
 cartRouter.post('/', (req, res) => {
   try {
