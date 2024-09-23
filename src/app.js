@@ -12,7 +12,7 @@ import {
   getAllProducts,
   createProductSocket,
   deleteProductSocket,
-} from "./managers/productManager.js";
+} from "./controllers/productManager.js";
 
 const app = express();
 const PORT = process.env.PORT || 8080;

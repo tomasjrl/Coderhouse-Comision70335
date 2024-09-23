@@ -1,5 +1,5 @@
 import express from "express";
-import { getAllProducts } from "../managers/productManager.js";
+import { getAllProducts } from "../controllers/productManager.js";
 
 const viewsRouter = express.Router();
 const viewsRealTimeRouter = express.Router();
