@@ -11,4 +11,4 @@ cartRouter.post("/", createCart);
 cartRouter.get("/:cid", getCart);
 cartRouter.post("/:cid/product/:pid", addProductToCart);
 
-export default cartRouter;
+export { cartRouter };

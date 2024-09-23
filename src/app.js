@@ -1,18 +1,18 @@
-import express from "express";
-import handlebars from "express-handlebars";
-import "dotenv/config";
-import { Server } from "socket.io";
-import http from "http";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
-import cartRouter from "./routes/cartRouter.js";
-import productRouter from "./routes/productRouter.js";
-import { viewsRouter, viewsRealTimeRouter } from "./routes/viewsRouter.js";
 import {
+  express,
+  handlebars,
+  http,
+  Server,
+  fileURLToPath,
+  dirname,
+  cartRouter,
+  productRouter,
+  viewsRouter,
+  viewsRealTimeRouter,
   getAllProducts,
   createProductForSocket,
   deleteProductForSocket,
-} from "./controllers/productManager.js";
+} from "./appImports.js";
 
 const app = express();
 const PORT = process.env.PORT || 8080;

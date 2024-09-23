@@ -15,4 +15,4 @@ productRouter.post("/", createProduct);
 productRouter.put("/:pid", updateProduct);
 productRouter.delete("/:pid", deleteProduct);
 
-export default productRouter;
+export { productRouter };
