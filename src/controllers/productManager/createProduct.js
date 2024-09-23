@@ -68,6 +68,6 @@ export function createProduct(req, res = null) {
   }
 }
 
-export function createProductSocket(product) {
+export function createProductForSocket(product) {
   createProduct({ body: product });
 }

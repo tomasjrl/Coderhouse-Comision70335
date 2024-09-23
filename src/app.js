@@ -10,8 +10,8 @@ import productRouter from "./routes/productRouter.js";
 import { viewsRouter, viewsRealTimeRouter } from "./routes/viewsRouter.js";
 import {
   getAllProducts,
-  createProductSocket,
-  deleteProductSocket,
+  createProductForSocket,
+  deleteProductForSocket,
 } from "./controllers/productManager.js";
 
 const app = express();
@@ -35,12 +35,12 @@ io.on("connection", (socket) => {
   socket.emit("products", getAllProducts());
 
   socket.on("newProduct", (product) => {
-    createProductSocket(product);
+    createProductForSocket(product);
     io.emit("products", getAllProducts());
   });
 
   socket.on("deleteProduct", (productId) => {
-    deleteProductSocket(productId);
+    deleteProductForSocket(productId);
     socket.emit("products", getAllProducts());
   });
 
