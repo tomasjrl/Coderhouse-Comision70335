@@ -57,7 +57,7 @@ class ProductManager {
     ];
 
     const missingLabels = requiredLabels.filter(
-      (Label) => !(Label in productData)
+      (label) => !(label in productData)
     );
     if (missingLabels.length > 0) {
       throw new Error(

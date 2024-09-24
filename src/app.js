@@ -5,9 +5,9 @@ import http from "http";
 import { Server } from "socket.io";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import { viewsRouter, viewsRealTimeRouter } from "./routes/viewsRouter.js";
 import cartRouter from "./routes/cartRouter.js";
 import productRouter from "./routes/productRouter.js";
-import { viewsRouter, viewsRealTimeRouter } from "./routes/viewsRouter.js";
 import ProductManager from "./controllers/productManager.js";
 
 const app = express();
@@ -26,8 +26,6 @@ app.use(express.static(__dirname + "/public"));
 app.use(express.json());
 
 const productManager = new ProductManager();
-
-// Pasa la instancia de ProductManager a productRouter
 const productRouterInstance = productRouter(productManager);
 
 io.on("connection", (socket) => {
@@ -35,7 +33,7 @@ io.on("connection", (socket) => {
 
   socket.emit("products", productManager.getAllProducts());
 
-  socket.on("newProduct", (product) => {
+  socket.on("addProduct", (product) => {
     productManager.addProductForSocket(product);
     io.emit("products", productManager.getAllProducts());
   });
