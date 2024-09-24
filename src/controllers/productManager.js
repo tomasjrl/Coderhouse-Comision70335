@@ -90,14 +90,6 @@ class ProductManager {
       );
     }
 
-    // if (!Number.isInteger(stock) || stock < 0) {
-    //   throw new Error("El stock debe ser un número entero no negativo");
-    // }
-
-    // if (typeof price !== "number" || price <= 0) {
-    //   throw new Error("El precio debe ser un número positivo");
-    // }
-
     if (typeof stock === "string") {
       stock = parseInt(stock);
     }
