@@ -1,12 +1,14 @@
 import express from "express";
-import { getAllProducts } from "../controllers/productManager.js";
+import ProductManager from "../controllers/productManager.js";
 
 const viewsRouter = express.Router();
 const viewsRealTimeRouter = express.Router();
 
+const productManager = new ProductManager();
+
 const renderProductsView = async (req, res, viewName) => {
   try {
-    const products = await getAllProducts();
+    const products = await productManager.getAllProducts();
     res.render(viewName, { products });
   } catch (error) {
     console.error(error);

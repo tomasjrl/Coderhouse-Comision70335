@@ -6,9 +6,9 @@ import { Server } from "socket.io";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import cartRouter from "./routes/cartRouter.js";
-import { productRouter } from "./routes/productRouter.js";
+import productRouter from "./routes/productRouter.js";
 import { viewsRouter, viewsRealTimeRouter } from "./routes/viewsRouter.js";
-import { getAllProducts, createProductForSocket, deleteProductForSocket } from "./controllers/productManager.js";
+import ProductManager from "./controllers/productManager.js";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -25,23 +25,28 @@ app.set("view engine", "handlebars");
 app.use(express.static(__dirname + "/public"));
 app.use(express.json());
 
+const productManager = new ProductManager();
+
+// Pasa la instancia de ProductManager a productRouter
+const productRouterInstance = productRouter(productManager);
+
 io.on("connection", (socket) => {
   console.log("Un cliente se ha conectado");
 
-  socket.emit("products", getAllProducts());
+  socket.emit("products", productManager.getAllProducts());
 
   socket.on("newProduct", (product) => {
-    createProductForSocket(product);
-    io.emit("products", getAllProducts());
+    productManager.addProductForSocket(product);
+    io.emit("products", productManager.getAllProducts());
   });
 
   socket.on("deleteProduct", (productId) => {
-    deleteProductForSocket(productId);
-    socket.emit("products", getAllProducts());
+    productManager.deleteProductForSocket(productId);
+    io.emit("products", productManager.getAllProducts());
   });
 
   socket.on("getProducts", () => {
-    socket.emit("products", getAllProducts());
+    socket.emit("products", productManager.getAllProducts());
   });
 
   socket.on("disconnect", () => {
@@ -52,7 +57,7 @@ io.on("connection", (socket) => {
 app.use("/products", viewsRouter);
 app.use("/realtimeproducts", viewsRealTimeRouter);
 
-app.use("/api/products", productRouter);
+app.use("/api/products", productRouterInstance);
 app.use("/api/carts", cartRouter);
 
 server.listen(PORT, () => {
