@@ -9,7 +9,7 @@ const productRouter = (productManager) => {
 
   router.get("/:pid", (req, res) => {
     try {
-      const pid = Number(req.params.pid); 
+      const pid = Number(req.params.pid);
       const product = productManager.getProductById(pid);
       res.json(product);
     } catch (error) {
@@ -20,8 +20,8 @@ const productRouter = (productManager) => {
 
   router.post("/", (req, res) => {
     try {
-      const newProduct = productManager.addProduct(req.body);
-      res.status(201).json(newProduct);
+      const addProduct = productManager.addProduct(req.body);
+      res.status(201).json(addProduct);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }

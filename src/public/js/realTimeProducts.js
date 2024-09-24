@@ -1,46 +1,46 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   const socket = io();
 
-  const productForm = document.getElementById('productForm');
-  const productsList = document.getElementById('productsList');
+  const productForm = document.getElementById("productForm");
+  const productsList = document.getElementById("productsList");
 
-  productForm.addEventListener('submit', (event) => {
+  productForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    const title = document.getElementById('title').value;
-    const description = document.getElementById('description').value;
-    const code = document.getElementById('code').value;
-    const price = document.getElementById('price').value;
-    const stock = document.getElementById('stock').value;
-    const category = document.getElementById('category').value;
+    const title = document.getElementById("title").value;
+    const description = document.getElementById("description").value;
+    const code = document.getElementById("code").value;
+    const price = document.getElementById("price").value;
+    const stock = document.getElementById("stock").value;
+    const category = document.getElementById("category").value;
 
-    const newProduct = {
+    const addProduct = {
       title,
       description,
       code,
       price,
       stock,
-      category
+      category,
     };
 
-    socket.emit('newProduct', newProduct);
+    socket.emit("addProduct", addProduct);
 
     productForm.reset();
   });
 
-  productsList.addEventListener('click', (event) => {
-    if (event.target.classList.contains('submit-btn-delete')) {
-      const productId = event.target.getAttribute('data-id');
-      socket.emit('deleteProduct', parseInt(productId));
+  productsList.addEventListener("click", (event) => {
+    if (event.target.classList.contains("submit-btn-delete")) {
+      const productId = event.target.getAttribute("data-id");
+      socket.emit("deleteProduct", parseInt(productId));
     }
   });
 
-  socket.on('products', (products) => {
-    productsList.innerHTML = '';
-    products.forEach(product => {
-      const productItem = document.createElement('li');
-      productItem.className = 'product';
-      productItem.setAttribute('id', `product-${product.id}`);
+  socket.on("products", (products) => {
+    productsList.innerHTML = "";
+    products.forEach((product) => {
+      const productItem = document.createElement("li");
+      productItem.className = "product";
+      productItem.setAttribute("id", `product-${product.id}`);
       productItem.innerHTML = `
         <h2>${product.title}</h2>
         <p>Descripción: ${product.description}</p>
@@ -54,5 +54,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  socket.emit('getProducts');
+  socket.emit("getProducts");
 });

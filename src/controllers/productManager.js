@@ -65,7 +65,7 @@ class ProductManager {
       );
     }
 
-      let {
+    let {
       title,
       description,
       code,
@@ -96,7 +96,7 @@ class ProductManager {
     if (!Number.isInteger(stock) || stock < 0) {
       throw new Error("El stock debe ser un número entero no negativo");
     }
-    
+
     if (typeof price === "string") {
       price = parseFloat(price);
     }
@@ -108,16 +108,14 @@ class ProductManager {
       !Array.isArray(thumbnails) ||
       !thumbnails.every((thumbnail) => typeof thumbnail === "string")
     ) {
-      throw new Error(
-        "El campo thumbnails debe ser un arreglo de strings"
-      );
+      throw new Error("El campo thumbnails debe ser un arreglo de strings");
     }
 
     const newId =
       this.products.length > 0
         ? Math.max(...this.products.map((p) => p.id)) + 1
         : 1;
-    const newProduct = {
+    const addProduct = {
       id: newId,
       title,
       description,
@@ -128,9 +126,9 @@ class ProductManager {
       category,
       thumbnails,
     };
-    this.products.push(newProduct);
+    this.products.push(addProduct);
     this.saveProducts();
-    return newProduct;
+    return addProduct;
   }
 
   addProductForSocket(product) {
@@ -235,4 +233,3 @@ class ProductManager {
 }
 
 export default ProductManager;
-
