@@ -57,7 +57,7 @@ class ProductManager {
     ];
 
     const missingLabels = requiredLabels.filter(
-      (Label) => !(Label in productData)
+      (label) => !(label in productData)
     );
     if (missingLabels.length > 0) {
       throw new Error(
@@ -65,7 +65,7 @@ class ProductManager {
       );
     }
 
-    const {
+      let {
       title,
       description,
       code,
@@ -90,21 +90,26 @@ class ProductManager {
       );
     }
 
+    if (typeof stock === "string") {
+      stock = parseInt(stock);
+    }
     if (!Number.isInteger(stock) || stock < 0) {
       throw new Error("El stock debe ser un número entero no negativo");
     }
-
+    
+    if (typeof price === "string") {
+      price = parseFloat(price);
+    }
     if (typeof price !== "number" || price <= 0) {
       throw new Error("El precio debe ser un número positivo");
     }
 
     if (
       !Array.isArray(thumbnails) ||
-      thumbnails.length === 0 ||
       !thumbnails.every((thumbnail) => typeof thumbnail === "string")
     ) {
       throw new Error(
-        "El campo thumbnails debe ser un arreglo no vacío de strings"
+        "El campo thumbnails debe ser un arreglo de strings"
       );
     }
 
@@ -207,3 +212,4 @@ class ProductManager {
 }
 
 export default ProductManager;
+

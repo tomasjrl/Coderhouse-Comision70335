@@ -23,7 +23,7 @@ const getProduct = (req, res) => {
   }
 };
 
-const createProduct = (req, res) => {
+const addProduct = (req, res) => {
   const {
     title,
     description,
@@ -35,7 +35,7 @@ const createProduct = (req, res) => {
     thumbnails,
   } = req.body;
   try {
-    const newProduct = productManager.addProduct(
+    const newProduct = productManager.addProduct({
       title,
       description,
       code,
@@ -43,8 +43,8 @@ const createProduct = (req, res) => {
       status,
       stock,
       category,
-      thumbnails
-    );
+      thumbnails,
+    });
     res.status(201).json(newProduct);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -74,7 +74,7 @@ const deleteProduct = (req, res) => {
 
 productRouter.get("/", getAllProducts);
 productRouter.get("/:pid", getProduct);
-productRouter.post("/", createProduct);
+productRouter.post("/", addProduct);
 productRouter.put("/:pid", updateProduct);
 productRouter.delete("/:pid", deleteProduct);
 
