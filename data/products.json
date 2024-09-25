@@ -1,0 +1,254 @@
+[
+  {
+    "id": 1,
+    "title": "Producto-actualizado",
+    "description": "Descripción actualizada",
+    "code": "P001",
+    "price": 90.99,
+    "status": true,
+    "stock": 100,
+    "category": "Primero",
+    "thumbnails": [
+      "ruta/imagen1.jpg",
+      "ruta/imagen2.jpg"
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Producto-2",
+    "description": "Descripción producto 2",
+    "code": "P002",
+    "price": 15.99,
+    "status": true,
+    "stock": 150,
+    "category": "Segundo",
+    "thumbnails": [
+      "ruta/imagen3.jpg",
+      "ruta/imagen4.jpg"
+    ]
+  } ,
+  {
+    "id": 3,
+    "title": "Producto-actualizado",
+    "description": "Descripción actualizada 3",
+    "code": "P003",
+    "price": 190.99,
+    "status": true,
+    "stock": 100,
+    "category": "Primero",
+    "thumbnails": [
+      "ruta/imagen1.jpg",
+      "ruta/imagen2.jpg"
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Producto-4",
+    "description": "Descripción producto 2",
+    "code": "P004",
+    "price": 45.99,
+    "status": true,
+    "stock": 150,
+    "category": "Segundo",
+    "thumbnails": [
+      "ruta/imagen3.jpg",
+      "ruta/imagen4.jpg"
+    ]
+  } ,
+  {
+    "id": 5,
+    "title": "Producto-actualizado",
+    "description": "Descripción actualizada",
+    "code": "P005",
+    "price": 590.99,
+    "status": true,
+    "stock": 100,
+    "category": "Primero",
+    "thumbnails": [
+      "ruta/imagen1.jpg",
+      "ruta/imagen2.jpg"
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Producto-6",
+    "description": "Descripción producto 6",
+    "code": "P006",
+    "price": 15.99,
+    "status": true,
+    "stock": 150,
+    "category": "Segundo",
+    "thumbnails": [
+      "ruta/imagen3.jpg",
+      "ruta/imagen4.jpg"
+    ]
+  } ,
+  {
+    "id": 7,
+    "title": "Producto-actualizado",
+    "description": "Descripción actualizada",
+    "code": "P007",
+    "price": 90.99,
+    "status": true,
+    "stock": 100,
+    "category": "Primero",
+    "thumbnails": [
+      "ruta/imagen1.jpg",
+      "ruta/imagen2.jpg"
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Producto-2",
+    "description": "Descripción producto 2",
+    "code": "P008",
+    "price": 85.99,
+    "status": true,
+    "stock": 150,
+    "category": "Segundo",
+    "thumbnails": [
+      "ruta/imagen3.jpg",
+      "ruta/imagen4.jpg"
+    ]
+  } ,
+  {
+    "id": 9,
+    "title": "Producto-actualizado",
+    "description": "Descripción actualizada",
+    "code": "P009",
+    "price": 90.99,
+    "status": true,
+    "stock": 100,
+    "category": "Primero",
+    "thumbnails": [
+      "ruta/imagen1.jpg",
+      "ruta/imagen2.jpg"
+    ]
+  },
+  {
+    "id": 10,
+    "title": "Producto-2",
+    "description": "Descripción producto 2",
+    "code": "P010",
+    "price": 105.99,
+    "status": true,
+    "stock": 150,
+    "category": "Segundo",
+    "thumbnails": [
+      "ruta/imagen3.jpg",
+      "ruta/imagen4.jpg"
+    ]
+  } ,
+  {
+    "id": 11,
+    "title": "Producto-actualizado",
+    "description": "Descripción actualizada",
+    "code": "P0011",
+    "price": 910.99,
+    "status": true,
+    "stock": 100,
+    "category": "Primero",
+    "thumbnails": [
+      "ruta/imagen1.jpg",
+      "ruta/imagen2.jpg"
+    ]
+  },
+  {
+    "id": 12,
+    "title": "Producto-2",
+    "description": "Descripción producto 2",
+    "code": "P012",
+    "price": 115.99,
+    "status": true,
+    "stock": 150,
+    "category": "Segundo",
+    "thumbnails": [
+      "ruta/imagen3.jpg",
+      "ruta/imagen4.jpg"
+    ]
+  } ,
+  {
+    "id": 13,
+    "title": "Producto-actualizado",
+    "description": "Descripción actualizada",
+    "code": "P013",
+    "price": 90.99,
+    "status": true,
+    "stock": 100,
+    "category": "Primero",
+    "thumbnails": [
+      "ruta/imagen1.jpg",
+      "ruta/imagen2.jpg"
+    ]
+  },
+  {
+    "id": 14,
+    "title": "Producto-2",
+    "description": "Descripción producto 2",
+    "code": "P014",
+    "price": 15.99,
+    "status": true,
+    "stock": 150,
+    "category": "Segundo",
+    "thumbnails": [
+      "ruta/imagen3.jpg",
+      "ruta/imagen4.jpg"
+    ]
+  } ,
+  {
+    "id": 15,
+    "title": "Producto-actualizado",
+    "description": "Descripción actualizada",
+    "code": "P015",
+    "price": 90.99,
+    "status": true,
+    "stock": 100,
+    "category": "Primero",
+    "thumbnails": [
+      "ruta/imagen1.jpg",
+      "ruta/imagen2.jpg"
+    ]
+  },
+  {
+    "id": 16,
+    "title": "Producto-2",
+    "description": "Descripción producto 2",
+    "code": "P016",
+    "price": 15.99,
+    "status": true,
+    "stock": 150,
+    "category": "Segundo",
+    "thumbnails": [
+      "ruta/imagen3.jpg",
+      "ruta/imagen4.jpg"
+    ]
+  } ,
+  {
+    "id": 17,
+    "title": "Producto-actualizado",
+    "description": "Descripción actualizada",
+    "code": "P017",
+    "price": 90.99,
+    "status": true,
+    "stock": 100,
+    "category": "Primero",
+    "thumbnails": [
+      "ruta/imagen1.jpg",
+      "ruta/imagen2.jpg"
+    ]
+  },
+  {
+    "id": 18,
+    "title": "Producto-2",
+    "description": "Descripción producto 2",
+    "code": "P018",
+    "price": 15.99,
+    "status": true,
+    "stock": 150,
+    "category": "Segundo",
+    "thumbnails": [
+      "ruta/imagen3.jpg",
+      "ruta/imagen4.jpg"
+    ]
+  }
+]

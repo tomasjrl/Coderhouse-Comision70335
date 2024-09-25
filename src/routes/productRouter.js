@@ -4,7 +4,9 @@ const productRouter = (productManager) => {
   const router = express.Router();
 
   router.get("/", (req, res) => {
-    res.json(productManager.getAllProducts());
+    const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+    const products = productManager.getAllProducts().slice(0, limit);
+    res.json(products);
   });
 
   router.get("/:pid", (req, res) => {
