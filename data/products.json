@@ -26,7 +26,7 @@
       "ruta/imagen3.jpg",
       "ruta/imagen4.jpg"
     ]
-  } ,
+  },
   {
     "id": 3,
     "title": "Producto-actualizado",
@@ -54,7 +54,7 @@
       "ruta/imagen3.jpg",
       "ruta/imagen4.jpg"
     ]
-  } ,
+  },
   {
     "id": 5,
     "title": "Producto-actualizado",
@@ -82,7 +82,7 @@
       "ruta/imagen3.jpg",
       "ruta/imagen4.jpg"
     ]
-  } ,
+  },
   {
     "id": 7,
     "title": "Producto-actualizado",
@@ -110,7 +110,7 @@
       "ruta/imagen3.jpg",
       "ruta/imagen4.jpg"
     ]
-  } ,
+  },
   {
     "id": 9,
     "title": "Producto-actualizado",
@@ -138,7 +138,7 @@
       "ruta/imagen3.jpg",
       "ruta/imagen4.jpg"
     ]
-  } ,
+  },
   {
     "id": 11,
     "title": "Producto-actualizado",
@@ -166,7 +166,7 @@
       "ruta/imagen3.jpg",
       "ruta/imagen4.jpg"
     ]
-  } ,
+  },
   {
     "id": 13,
     "title": "Producto-actualizado",
@@ -194,7 +194,7 @@
       "ruta/imagen3.jpg",
       "ruta/imagen4.jpg"
     ]
-  } ,
+  },
   {
     "id": 15,
     "title": "Producto-actualizado",
@@ -222,7 +222,7 @@
       "ruta/imagen3.jpg",
       "ruta/imagen4.jpg"
     ]
-  } ,
+  },
   {
     "id": 17,
     "title": "Producto-actualizado",
@@ -235,20 +235,6 @@
     "thumbnails": [
       "ruta/imagen1.jpg",
       "ruta/imagen2.jpg"
-    ]
-  },
-  {
-    "id": 18,
-    "title": "Producto-2",
-    "description": "Descripción producto 2",
-    "code": "P018",
-    "price": 15.99,
-    "status": true,
-    "stock": 150,
-    "category": "Primero",
-    "thumbnails": [
-      "ruta/imagen3.jpg",
-      "ruta/imagen4.jpg"
     ]
   }
 ]

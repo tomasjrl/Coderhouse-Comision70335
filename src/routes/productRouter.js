@@ -16,7 +16,7 @@ const productRouter = (productManager) => {
       res.status(400).json({ error: "Número de página inválido" });
       return;
     }
-    
+
     if (isNaN(limit) || limit < 1 || limit > 100) {
       res.status(400).json({ error: "Límite de productos inválido" });
       return;
@@ -97,15 +97,16 @@ const productRouter = (productManager) => {
         .toLowerCase()
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "");
-    
+
       products = products.filter((product) => {
         return (
           (product.title && product.title.includes(normalizedQuery)) ||
-          (product.description && product.description.includes(normalizedQuery)) ||
+          (product.description &&
+            product.description.includes(normalizedQuery)) ||
           (product.category && product.category.includes(normalizedQuery))
         );
       });
-    
+
       if (products.length === 0) {
         res.status(404).json({
           message: `No se encontraron productos con la búsqueda '${query}'`,
@@ -124,53 +125,177 @@ const productRouter = (productManager) => {
     const endIndex = startIndex + limit;
     const paginatedProducts = products.slice(startIndex, endIndex);
 
+    const totalPages = Math.ceil(products.length / limit);
+    const hasPrevPage = page > 1;
+    const hasNextPage = page < totalPages;
+    const prevLink = hasPrevPage ? `?page=${page - 1}&limit=${limit}` : null;
+    const nextLink = hasNextPage ? `?page=${page + 1}&limit=${limit}` : null;
+
+    const response = {
+      status: "success",
+      payload: paginatedProducts,
+      totalPages,
+      page,
+      hasPrevPage,
+      hasNextPage,
+      prevLink,
+      nextLink,
+    };
+
     if (paginatedProducts.length === 0) {
-      res.status(404).json({
-        message: `No se encontraron productos en la página ${page}`,
-      });
-      return;
+      response.status = "error";
+      response.payload = `No se encontraron productos en la página ${page}`;
     }
 
-    res.json(paginatedProducts);
+    res.json(response);
   });
 
   router.get("/:pid", (req, res) => {
     try {
       const pid = Number(req.params.pid);
       const product = productManager.getProductById(pid);
-      res.json(product);
+      if (!product) {
+        res.status(404).json({
+          status: "error",
+          message: "Producto no encontrado",
+        });
+        return;
+      }
+      res.json({
+        status: "success",
+        payload: product,
+      });
     } catch (error) {
       console.error(error);
-      res.status(404).json({ message: error.message });
+      res.status(500).json({
+        status: "error",
+        message: "Error al obtener producto",
+      });
     }
   });
 
   router.post("/", (req, res) => {
+    const requiredlabels = [
+      "title",
+      "description",
+      "code",
+      "price",
+      "status",
+      "stock",
+      "category"
+    ];
+  
+    for (const label of requiredlabels) {
+      if (!req.body[label]) {
+        res.status(400).json({
+          status: "error",
+          message: `El campo ${label} es requerido`,
+        });
+        return;
+      }
+    }
+  
     try {
-      const addProduct = productManager.addProduct(req.body);
-      res.status(201).json(addProduct);
+      const result = productManager.addProduct(req.body);
+      res.status(201).json({
+        status: "success",
+        payload: result,
+      });
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      if (error.message.startsWith("Ya existe un producto con el código")) {
+        res.status(400).json({
+          status: "error",
+          message: error.message,
+        });
+      } else {
+        console.error(error);
+        res.status(500).json({
+          status: "error",
+          message: "Error al crear producto",
+        });
+      }
     }
   });
 
   router.put("/:pid", (req, res) => {
     try {
       const pid = Number(req.params.pid);
+  
+      const productExists = productManager.getProductById(pid);
+      if (!productExists) {
+        res.status(404).json({
+          status: "error",
+          message: "Producto no encontrado",
+        });
+        return;
+      }
+  
+      const requiredFields = ["title", "description", "code", "price", "status", "stock", "category"];
+      for (const field of requiredFields) {
+        if (!req.body[field]) {
+          res.status(400).json({
+            status: "error",
+            message: `El campo ${field} es requerido`,
+          });
+          return;
+        }
+      }
+  
+      // Verificar si el código ya existe y es diferente al código actual
+      if (req.body.code !== productExists.code && productManager.products.some(p => p.code === req.body.code)) {
+        res.status(400).json({
+          status: "error",
+          message: `Ya existe un producto con el código ${req.body.code}`,
+        });
+        return;
+      }
+  
       const updatedProduct = productManager.updateProduct(pid, req.body);
-      res.json(updatedProduct);
+      res.json({
+        status: "success",
+        payload: updatedProduct,
+      });
     } catch (error) {
-      res.status(404).json({ message: error.message });
+      console.error(error);
+      res.status(500).json({
+        status: "error",
+        message: "Error al actualizar producto",
+      });
     }
   });
 
   router.delete("/:pid", (req, res) => {
     try {
       const pid = Number(req.params.pid);
+  
+      if (isNaN(pid)) {
+        res.status(400).json({
+          status: "error",
+          message: "ID de producto inválido",
+        });
+        return;
+      }
+  
+      const productExists = productManager.getProductById(pid);
+      if (!productExists) {
+        res.status(404).json({
+          status: "error",
+          message: "Producto no encontrado",
+        });
+        return;
+      }
+  
       productManager.deleteProductForSocket(pid);
-      res.status(204).json();
+      res.status(200).json({
+        status: "success",
+        message: "Producto eliminado con éxito",
+      });
     } catch (error) {
-      res.status(404).json({ message: error.message });
+      console.error(error);
+      res.status(500).json({
+        status: "error",
+        message: "Error al eliminar producto",
+      });
     }
   });
 
