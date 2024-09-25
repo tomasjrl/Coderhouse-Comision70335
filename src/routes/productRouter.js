@@ -4,8 +4,31 @@ const productRouter = (productManager) => {
   const router = express.Router();
 
   router.get("/", (req, res) => {
-    const products = productManager.getAllProducts();
+    let products = productManager.getAllProducts();
+    const category = req.query.category;
+    const stock = req.query.stock;
     const sort = req.query.sort;
+  
+    if (category) {
+      products = products.filter((product) => product.category === category);
+    }
+  
+    if (stock) {
+      if (stock === "true") {
+        products = products.filter((product) => product.stock > 0);
+      } else if (stock === "false") {
+        products = products.filter((product) => product.stock === 0);
+      } else if (!isNaN(parseInt(stock)) && parseInt(stock) >= 0) {
+        products = products.filter((product) => product.stock >= parseInt(stock));
+        if (products.length === 0) {
+          res.json({ message: "No se encontraron productos con stock suficiente", products: [] });
+          return;
+        }
+      } else {
+        res.status(400).json({ error: "Parámetro de stock inválido o negativo" });
+        return;
+      }
+    }
   
     if (sort === "asc") {
       products.sort((a, b) => a.price - b.price);
