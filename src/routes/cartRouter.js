@@ -46,6 +46,20 @@ cartRouter.put('/:cid', (req, res) => {
   }
 });
 
+cartRouter.delete('/:cid', (req, res) => {
+  try {
+    const cartId = parseInt(req.params.cid);
+    const clearedCart = cartManager.clearProductsInCart(cartId);
+    res.json(clearedCart);
+  } catch (error) {
+    if (error.message.includes("Carrito no encontrado")) {
+      res.status(404).json({ message: "Carrito no encontrado" });
+    } else {
+      res.status(500).json({ message: "Error interno al eliminar productos del carrito" });
+    }
+  }
+});
+
 cartRouter.post('/:cid/products/:pid', (req, res) => {
   try {
     const cartId = parseInt(req.params.cid);

@@ -55,6 +55,13 @@ class CartManager {
     return cart;
   }
 
+  clearProductsInCart(cartId) {
+    const cart = this.getCart(cartId);
+    cart.products = [];
+    this.saveCarts();
+    return cart;
+  }
+
   addProductToCart(cartId, productId) {
     const cart = this.getCart(cartId);
     const product = cart.products.find((product) => product.product === productId);
