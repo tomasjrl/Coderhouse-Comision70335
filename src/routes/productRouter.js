@@ -8,7 +8,19 @@ const productRouter = (productManager) => {
     const category = req.query.category;
     const stock = req.query.stock;
     const sort = req.query.sort;
+    const page = req.query.page ? parseInt(req.query.page) : 1;
     const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+    const query = req.query.query;
+
+    if (isNaN(page) || page < 1) {
+      res.status(400).json({ error: "Número de página inválido" });
+      return;
+    }
+    
+    if (isNaN(limit) || limit < 1 || limit > 100) {
+      res.status(400).json({ error: "Límite de productos inválido" });
+      return;
+    }
 
     if (
       stock &&
@@ -27,6 +39,11 @@ const productRouter = (productManager) => {
 
     if (limit && (limit < 1 || limit > 100)) {
       res.status(400).json({ error: "Límite de productos inválido" });
+      return;
+    }
+
+    if (page && page < 1) {
+      res.status(400).json({ error: "Número de página inválido" });
       return;
     }
 
@@ -75,15 +92,46 @@ const productRouter = (productManager) => {
       }
     }
 
+    if (query) {
+      const normalizedQuery = query
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+    
+      products = products.filter((product) => {
+        return (
+          (product.title && product.title.includes(normalizedQuery)) ||
+          (product.description && product.description.includes(normalizedQuery)) ||
+          (product.category && product.category.includes(normalizedQuery))
+        );
+      });
+    
+      if (products.length === 0) {
+        res.status(404).json({
+          message: `No se encontraron productos con la búsqueda '${query}'`,
+        });
+        return;
+      }
+    }
+
     if (sort === "asc") {
       products.sort((a, b) => a.price - b.price);
     } else if (sort === "desc") {
       products.sort((a, b) => b.price - a.price);
     }
 
-    const slicedProducts = products.slice(0, limit);
+    const startIndex = (page - 1) * limit;
+    const endIndex = startIndex + limit;
+    const paginatedProducts = products.slice(startIndex, endIndex);
 
-    res.json(slicedProducts);
+    if (paginatedProducts.length === 0) {
+      res.status(404).json({
+        message: `No se encontraron productos en la página ${page}`,
+      });
+      return;
+    }
+
+    res.json(paginatedProducts);
   });
 
   router.get("/:pid", (req, res) => {
