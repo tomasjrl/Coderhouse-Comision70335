@@ -48,6 +48,13 @@ class CartManager {
     return newCart;
   }
 
+  updateProductsInCart(cartId, products) {
+    const cart = this.getCart(cartId);
+    cart.products = products;
+    this.saveCarts();
+    return cart;
+  }
+
   addProductToCart(cartId, productId) {
     const cart = this.getCart(cartId);
     const product = cart.products.find((product) => product.product === productId);
@@ -59,6 +66,39 @@ class CartManager {
     this.saveCarts();
     return cart;
   }
+
+  updateProductQuantityInCart(cartId, productId, newQuantity) {
+    const cart = this.getCart(cartId);
+    const productIndex = cart.products.findIndex((product) => product.product === productId);
+    if (productIndex !== -1) {
+      if (newQuantity > 0) {
+        cart.products[productIndex].quantity = newQuantity;
+        this.saveCarts();
+        return cart;
+      } else {
+        throw new Error(`Cantidad inválida. Debe ser mayor a 0`);
+      }
+    } else {
+      throw new Error(`Producto no encontrado en el carrito ${cartId}`);
+    }
+  }
+
+  removeProductFromCart(cartId, productId) {
+    const cart = this.getCart(cartId);
+    const productIndex = cart.products.findIndex((product) => product.product === productId);
+    if (productIndex !== -1) {
+      if (cart.products[productIndex].quantity === 1) {
+        cart.products.splice(productIndex, 1);
+      } else {
+        cart.products[productIndex].quantity--;
+      }
+      this.saveCarts();
+      return cart;
+    } else {
+      throw new Error(`Producto no encontrado en el carrito ${cartId}`);
+    }
+  }
+
 }
 
 export default CartManager;
