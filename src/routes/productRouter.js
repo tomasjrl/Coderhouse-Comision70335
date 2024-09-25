@@ -4,9 +4,19 @@ const productRouter = (productManager) => {
   const router = express.Router();
 
   router.get("/", (req, res) => {
+    const products = productManager.getAllProducts();
+    const sort = req.query.sort;
+  
+    if (sort === "asc") {
+      products.sort((a, b) => a.price - b.price);
+    } else if (sort === "desc") {
+      products.sort((a, b) => b.price - a.price);
+    }
+  
     const limit = req.query.limit ? parseInt(req.query.limit) : 10;
-    const products = productManager.getAllProducts().slice(0, limit);
-    res.json(products);
+    const slicedProducts = products.slice(0, limit);
+  
+    res.json(slicedProducts);
   });
 
   router.get("/:pid", (req, res) => {
