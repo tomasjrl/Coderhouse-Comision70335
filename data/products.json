@@ -189,7 +189,7 @@
     "price": 15.99,
     "status": true,
     "stock": 150,
-    "category": "Segundo",
+    "category": "Primero",
     "thumbnails": [
       "ruta/imagen3.jpg",
       "ruta/imagen4.jpg"
@@ -217,7 +217,7 @@
     "price": 15.99,
     "status": true,
     "stock": 150,
-    "category": "Segundo",
+    "category": "Primero",
     "thumbnails": [
       "ruta/imagen3.jpg",
       "ruta/imagen4.jpg"
@@ -245,7 +245,7 @@
     "price": 15.99,
     "status": true,
     "stock": 150,
-    "category": "Segundo",
+    "category": "Primero",
     "thumbnails": [
       "ruta/imagen3.jpg",
       "ruta/imagen4.jpg"

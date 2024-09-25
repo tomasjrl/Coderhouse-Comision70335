@@ -8,37 +8,81 @@ const productRouter = (productManager) => {
     const category = req.query.category;
     const stock = req.query.stock;
     const sort = req.query.sort;
-  
-    if (category) {
-      products = products.filter((product) => product.category === category);
+    const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+
+    if (
+      stock &&
+      isNaN(parseInt(stock)) &&
+      stock !== "true" &&
+      stock !== "false"
+    ) {
+      res.status(400).json({ error: "Parámetro de stock inválido" });
+      return;
     }
-  
+
+    if (category && category.length > 50) {
+      res.status(400).json({ error: "Categoría demasiado larga" });
+      return;
+    }
+
+    if (limit && (limit < 1 || limit > 100)) {
+      res.status(400).json({ error: "Límite de productos inválido" });
+      return;
+    }
+
+    if (category) {
+      const normalizedCategory = category
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+
+      products = products.filter((product) => {
+        const normalizedProductCategory = product.category
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "");
+        return normalizedProductCategory.includes(normalizedCategory);
+      });
+
+      if (products.length === 0) {
+        res.status(404).json({
+          message: `No se encontraron productos con la categoría '${category}'`,
+        });
+        return;
+      }
+    }
+
     if (stock) {
       if (stock === "true") {
         products = products.filter((product) => product.stock > 0);
       } else if (stock === "false") {
         products = products.filter((product) => product.stock === 0);
       } else if (!isNaN(parseInt(stock)) && parseInt(stock) >= 0) {
-        products = products.filter((product) => product.stock >= parseInt(stock));
+        products = products.filter(
+          (product) => product.stock >= parseInt(stock)
+        );
         if (products.length === 0) {
-          res.json({ message: "No se encontraron productos con stock suficiente", products: [] });
+          res.status(404).json({
+            message: "No se encontraron productos con stock suficiente",
+          });
           return;
         }
       } else {
-        res.status(400).json({ error: "Parámetro de stock inválido o negativo" });
+        res
+          .status(400)
+          .json({ error: "Parámetro de stock inválido o negativo" });
         return;
       }
     }
-  
+
     if (sort === "asc") {
       products.sort((a, b) => a.price - b.price);
     } else if (sort === "desc") {
       products.sort((a, b) => b.price - a.price);
     }
-  
-    const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+
     const slicedProducts = products.slice(0, limit);
-  
+
     res.json(slicedProducts);
   });
 
