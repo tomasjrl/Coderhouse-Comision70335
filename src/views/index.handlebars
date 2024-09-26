@@ -1,15 +1,37 @@
 <div class="products-container">
-  <h1 class="title">Productos</h1>
-  <ul class="products-list">
-    {{#each products}}
-      <li class="product">
-        <h2>{{title}}</h2>
-        <p>Descripción: {{description}}</p>
-        <p>Código: {{code}}</p>
-        <p>Precio: ${{price}}</p>
-        <p>Stock: {{stock}}</p>
-        <p>Categoría: {{category}}</p>
-      </li>
-    {{/each}}
-  </ul>
+<h1 class="title">Productos</h1>
+<nav class="pagination">
+{{#if_gt page 1}}
+<a href="?page={{subtract page 1}}&limit={{limit}}" title="Ir a la página anterior" aria-label="Página anterior">
+Anterior
+</a>
+{{else}}
+<span aria-label="Primera página">Primera página</span>
+{{/if_gt}}
+{{#if_gt totalPages page}}
+<a href="?page={{add page 1}}&limit={{limit}}" title="Ir a la página siguiente" aria-label="Página siguiente">
+Siguiente
+</a>
+{{else}}
+<span aria-label="Última página">No hay más páginas</span>
+{{/if_gt}}
+</nav>
+<ul class="products-list">
+{{#each products}}
+<li class="product">
+<h2>{{title}}</h2>
+<p>Descripción: {{description}}</p>
+<p>Código: {{code}}</p>
+<p>Precio: ${{price}}</p>
+<p>Stock: {{stock}}</p>
+<p>Categoría: {{category}}</p>
+<button class="btn-link">
+<a href="/products/{{id}}">Ver detalles</a>
+</button>
+<button class="btn-primary">
+Agregar al carrito
+</button>
+</li>
+{{/each}}
+</ul>
 </div>

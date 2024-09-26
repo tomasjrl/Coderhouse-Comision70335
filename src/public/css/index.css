@@ -119,6 +119,65 @@ body {
   background-color: rgb(221, 15, 15);
 }
 
+/* Botones de enlace y primario */
+.btn-link {
+  background-color: transparent;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  color: rgb(232, 232, 232);
+  border: 1px solid rgb(232, 232, 232);
+  border-radius: 5px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-link:hover {
+  background-color: rgba(232, 232, 232, 0.1);
+}
+
+.btn-primary {
+  background-color: #4CAF50;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  color: #fff;
+  border-radius: 5px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #2f9733;
+}
+
+/* Paginación */
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+.pagination a {
+  background-color: #474646;
+  padding: 10px 20px;
+  border: 1px solid #d1d1d1;
+  border-radius: 5px;
+  color: rgb(232, 232, 232);
+  transition: background-color 0.2s ease;
+}
+
+.pagination a:hover {
+  background-color: #4CAF50;
+  color: #fff;
+}
+
+.pagination span {
+  color: rgb(232, 232, 232);
+  padding: 10px 20px;
+}
+
 /* Media queries para hacerlo responsive */
 @media (max-width: 768px) {
   .product-form {

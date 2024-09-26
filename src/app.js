@@ -9,6 +9,7 @@ import { viewsRouter, viewsRealTimeRouter } from "./routes/viewsRouter.js";
 import cartRouter from "./routes/cartRouter.js";
 import productRouter from "./routes/productRouter.js";
 import ProductManager from "./controllers/productManager.js";
+import helpers from "./utils/helpers.js";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -17,7 +18,7 @@ const io = new Server(server);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-app.engine("handlebars", handlebars.engine());
+app.engine("handlebars", handlebars.engine({  helpers: helpers }));
 
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
@@ -27,6 +28,8 @@ app.use(express.json());
 
 const productManager = new ProductManager();
 const productRouterInstance = productRouter(productManager);
+
+
 
 io.on("connection", (socket) => {
   console.log("Un cliente se ha conectado");
