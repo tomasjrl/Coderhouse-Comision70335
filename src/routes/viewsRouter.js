@@ -33,7 +33,8 @@ viewsRouter.get("/:id", async (req, res) => {
     if (!product) {
       res.status(404).json({ message: "Producto no encontrado" });
     } else {
-      res.render("product-details", { product });
+      const backUrl = req.headers.referer;
+      res.render("product-details", { product, backUrl }); 
     }
   } catch (error) {
     console.error(error);
