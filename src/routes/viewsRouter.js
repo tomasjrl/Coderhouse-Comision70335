@@ -1,10 +1,12 @@
 import express from "express";
 import ProductManager from "../controllers/productManager.js";
+import CartManager from "../controllers/cartManager.js";
 
 const viewsRouter = express.Router();
 const viewsRealTimeRouter = express.Router();
 
 const productManager = new ProductManager();
+const cartManager = new CartManager();
 
 const renderProductsView = async (req, res, viewName, page = 1, limit = 10) => {
   try {
@@ -39,6 +41,18 @@ viewsRouter.get("/:id", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error al obtener producto" });
+  }
+});
+
+viewsRouter.get("/:cid", async (req, res) => {
+  try {
+    const cartId = parseInt(req.params.cid);
+    const cart = await cartManager.getCart(cartId);
+    const products = await cartManager.getProductsInCart(cartId);
+    res.render("cart-details", { cart, products });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error al obtener carrito" });
   }
 });
 

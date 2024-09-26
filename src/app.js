@@ -18,7 +18,7 @@ const io = new Server(server);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-app.engine("handlebars", handlebars.engine({  helpers: helpers }));
+app.engine("handlebars", handlebars.engine({ helpers: helpers }));
 
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
@@ -28,8 +28,6 @@ app.use(express.json());
 
 const productManager = new ProductManager();
 const productRouterInstance = productRouter(productManager);
-
-
 
 io.on("connection", (socket) => {
   console.log("Un cliente se ha conectado");
@@ -55,6 +53,7 @@ io.on("connection", (socket) => {
   });
 });
 
+app.use('/carts', viewsRouter);
 app.use("/products", viewsRouter);
 app.use("/realtimeproducts", viewsRealTimeRouter);
 

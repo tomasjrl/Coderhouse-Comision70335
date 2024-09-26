@@ -1,6 +1,8 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import ProductManager from "./productManager.js";
+const productManager = new ProductManager();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -104,6 +106,17 @@ class CartManager {
     } else {
       throw new Error(`Producto no encontrado en el carrito ${cartId}`);
     }
+  }
+
+  async getProductsInCart(cartId) {
+    const cart = this.getCart(cartId);
+    const products = [];
+    for (const product of cart.products) {
+      const productId = product.product;
+      const productData = await productManager.getProductById(productId);
+      products.push({ ...productData, quantity: product.quantity });
+    }
+    return products;
   }
 
 }

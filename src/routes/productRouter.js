@@ -241,7 +241,6 @@ const productRouter = (productManager) => {
         }
       }
   
-      // Verificar si el código ya existe y es diferente al código actual
       if (req.body.code !== productExists.code && productManager.products.some(p => p.code === req.body.code)) {
         res.status(400).json({
           status: "error",

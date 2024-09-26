@@ -13,11 +13,12 @@ cartRouter.post('/', (req, res) => {
   }
 });
 
-cartRouter.get('/:cid', (req, res) => {
+cartRouter.get('/:cid', async (req, res) => {
   try {
     const cartId = parseInt(req.params.cid);
-    const cart = cartManager.getCart(cartId); 
-    res.json(cart);
+    const cart = await cartManager.getCart(cartId);
+    const products = await cartManager.getProductsInCart(cartId);
+    res.json({ cart, products });
   } catch (error) {
     if (error.message.includes("Carrito no encontrado")) {
       res.status(404).json({ message: "Carrito no encontrado" });
