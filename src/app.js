@@ -53,8 +53,7 @@ io.on("connection", (socket) => {
   });
 });
 
-app.use('/carts', viewsRouter);
-app.use("/products", viewsRouter);
+app.use("/", viewsRouter);
 app.use("/realtimeproducts", viewsRealTimeRouter);
 
 app.use("/api/products", productRouterInstance);
