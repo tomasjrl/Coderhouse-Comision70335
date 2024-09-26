@@ -209,6 +209,10 @@ body {
   padding: 10px 20px;
 }
 
+.pagination.single {
+  justify-content: center;
+}
+
 /* Media queries para hacerlo responsive */
 @media (max-width: 768px) {
   .product-form {
