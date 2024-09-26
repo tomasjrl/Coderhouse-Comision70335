@@ -43,15 +43,14 @@ document.addEventListener("DOMContentLoaded", () => {
       productItem.setAttribute("id", `product-${product.id}`);
       productItem.innerHTML = `
         <h2>${product.title}</h2>
-        <h3>Descripción</3>
+        <h3>Descripción</h3>
         <p>${product.description}</p>
-        <h3>Código:</3>
-        <p>${product.code}</p>
-        <h3>Precio:</3> 
-        <p>$${product.price}</p>
-        <h3>Stock:</3> 
-        <p>${product.stock}</p>
-        <h3>Categoría:</3> 
+        <h3>Código: ${product.code}</h3>
+        <h3>Precio: $${product.price}</h3> 
+
+        <h3>Stock: ${product.stock}</h3> 
+
+        <h3>Categoría:</h3> 
         <p>${product.category}</p>
         <button type="button" class="submit-btn-delete" data-id="${product.id}">Eliminar</button>
       `;

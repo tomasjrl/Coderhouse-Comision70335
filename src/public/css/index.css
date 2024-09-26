@@ -24,6 +24,8 @@ body {
   padding: 20px;
 }
 
+
+
 .title-form {
   color: rgb(232, 232, 232);
   text-align: center;
@@ -85,7 +87,7 @@ body {
 
 .products-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 16px;
 }
 
@@ -209,6 +211,11 @@ body {
 
 .pagination.single {
   justify-content: center;
+}
+
+h3 {
+  font-size: 1.1em;
+  padding: 6px 6px;
 }
 
 /* Media queries para hacerlo responsive */
