@@ -45,7 +45,7 @@ viewsRouter.get("/products", async (req, res) => {
     page, 
     limit, 
     totalPages,
-    sort: req.query.sort 
+    sort
   });
 });
 
