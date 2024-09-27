@@ -1,478 +1,422 @@
 [
   {
     "id": 1,
-    "title": "Producto-1",
-    "description": "Descripción actualizada",
-    "code": "P001",
-    "price": 90.99,
+    "title": "Smartphone Galaxy S21",
+    "description": "El último modelo de Samsung con pantalla AMOLED de 6.2 pulgadas.",
+    "code": "SMG-S21",
+    "price": 799.99,
     "status": true,
-    "stock": 100,
-    "category": "Primero",
+    "stock": 50,
+    "category": "Electrónica",
     "thumbnails": [
-      "ruta/imagen1.jpg",
-      "ruta/imagen2.jpg"
+      "ruta/galaxy_s21_1.jpg",
+      "ruta/galaxy_s21_2.jpg"
     ]
   },
   {
     "id": 2,
-    "title": "Producto-2",
-    "description": "Descripción producto 2",
-    "code": "P002",
-    "price": 15.99,
+    "title": "Laptop HP Pavilion",
+    "description": "Laptop con procesador Intel Core i5, 8GB de RAM y 512GB SSD.",
+    "code": "HP-Pavilion",
+    "price": 899.99,
     "status": true,
-    "stock": 150,
-    "category": "Segundo",
+    "stock": 30,
+    "category": "Electrónica",
     "thumbnails": [
-      "ruta/imagen3.jpg",
-      "ruta/imagen4.jpg"
+      "ruta/hp_pavilion_1.jpg",
+      "ruta/hp_pavilion_2.jpg"
     ]
   },
   {
     "id": 3,
-    "title": "Producto-actualizado",
-    "description": "Descripción actualizada 3",
-    "code": "P003",
-    "price": 190.99,
+    "title": "Zapatos Deportivos Nike Air Max",
+    "description": "Zapatos deportivos con tecnología Air Max para mayor comodidad.",
+    "code": "Nike-AirMax",
+    "price": 149.99,
     "status": true,
     "stock": 100,
-    "category": "Primero",
+    "category": "Calzado",
     "thumbnails": [
-      "ruta/imagen1.jpg",
-      "ruta/imagen2.jpg"
+      "ruta/nike_airmax_1.jpg",
+      "ruta/nike_airmax_2.jpg"
     ]
   },
   {
     "id": 4,
-    "title": "Producto-4",
-    "description": "Descripción producto 2",
-    "code": "P004",
-    "price": 45.99,
+    "title": "Reloj Inteligente Apple Watch Series 7",
+    "description": "El último modelo de Apple Watch con pantalla Retina siempre activa.",
+    "code": "Apple-Watch7",
+    "price": 399.99,
     "status": true,
-    "stock": 150,
-    "category": "Segundo",
+    "stock": 25,
+    "category": "Electrónica",
     "thumbnails": [
-      "ruta/imagen3.jpg",
-      "ruta/imagen4.jpg"
+      "ruta/apple_watch_1.jpg",
+      "ruta/apple_watch_2.jpg"
     ]
   },
   {
     "id": 5,
-    "title": "Producto-actualizado",
-    "description": "Descripción actualizada",
-    "code": "P005",
-    "price": 590.99,
+    "title": "Mochila Herschel Retreat",
+    "description": "Mochila resistente y espaciosa con múltiples compartimentos.",
+    "code": "Herschel-Retreat",
+    "price": 79.99,
     "status": true,
-    "stock": 100,
-    "category": "Primero",
+    "stock": 75,
+    "category": "Accesorios",
     "thumbnails": [
-      "ruta/imagen1.jpg",
-      "ruta/imagen2.jpg"
+      "ruta/herschel_retreat_1.jpg",
+      "ruta/herschel_retreat_2.jpg"
     ]
   },
   {
     "id": 6,
-    "title": "Producto-6",
-    "description": "Descripción producto 6",
-    "code": "P006",
-    "price": 15.99,
+    "title": "Auriculares Inalámbricos Sony WH-1000XM4",
+    "description": "Auriculares con cancelación de ruido de última generación.",
+    "code": "Sony-WH1000XM4",
+    "price": 349.99,
     "status": true,
-    "stock": 150,
-    "category": "Segundo",
+    "stock": 40,
+    "category": "Electrónica",
     "thumbnails": [
-      "ruta/imagen3.jpg",
-      "ruta/imagen4.jpg"
+      "ruta/sony_wh1000xm4_1.jpg",
+      "ruta/sony_wh1000xm4_2.jpg"
     ]
   },
   {
     "id": 7,
-    "title": "Producto-actualizado",
-    "description": "Descripción actualizada",
-    "code": "P007",
-    "price": 90.99,
+    "title": "Camiseta de Algodón Básica",
+    "description": "Camiseta de algodón 100% con corte clásico y manga corta.",
+    "code": "Camiseta-Algodón",
+    "price": 19.99,
     "status": true,
-    "stock": 100,
-    "category": "Primero",
+    "stock": 200,
+    "category": "Ropa",
     "thumbnails": [
-      "ruta/imagen1.jpg",
-      "ruta/imagen2.jpg"
+      "ruta/camiseta_algodon_1.jpg",
+      "ruta/camiseta_algodon_2.jpg"
     ]
   },
   {
     "id": 8,
-    "title": "Producto-2",
-    "description": "Descripción producto 2",
-    "code": "P008",
-    "price": 85.99,
+    "title": "Cámara Digital Canon EOS Rebel T7",
+    "description": "Cámara DSLR con sensor CMOS de 24.1MP y grabación Full HD.",
+    "code": "Canon-EOS-T7",
+    "price": 499.99,
     "status": true,
-    "stock": 150,
-    "category": "Segundo",
+    "stock": 20,
+    "category": "Electrónica",
     "thumbnails": [
-      "ruta/imagen3.jpg",
-      "ruta/imagen4.jpg"
+      "ruta/canon_eos_t7_1.jpg",
+      "ruta/canon_eos_t7_2.jpg"
     ]
   },
   {
     "id": 9,
-    "title": "Producto-actualizado",
-    "description": "Descripción actualizada",
-    "code": "P009",
-    "price": 90.99,
+    "title": "Silla de Oficina Ergonómica",
+    "description": "Silla ergonómica con respaldo ajustable y reposabrazos.",
+    "code": "Silla-Oficina",
+    "price": 199.99,
     "status": true,
-    "stock": 100,
-    "category": "Primero",
+    "stock": 60,
+    "category": "Muebles",
     "thumbnails": [
-      "ruta/imagen1.jpg",
-      "ruta/imagen2.jpg"
+      "ruta/silla_oficina_1.jpg",
+      "ruta/silla_oficina_2.jpg"
     ]
   },
   {
     "id": 10,
-    "title": "Producto-2",
-    "description": "Descripción producto 2",
-    "code": "P010",
-    "price": 105.99,
+    "title": "Tablet Samsung Galaxy Tab S7",
+    "description": "Tablet con pantalla de 11 pulgadas, S Pen incluido y potente rendimiento.",
+    "code": "SMG-TabS7",
+    "price": 649.99,
     "status": true,
-    "stock": 150,
-    "category": "Segundo",
+    "stock": 35,
+    "category": "Electrónica",
     "thumbnails": [
-      "ruta/imagen3.jpg",
-      "ruta/imagen4.jpg"
+      "ruta/galaxy_tab_s7_1.jpg",
+      "ruta/galaxy_tab_s7_2.jpg"
     ]
   },
   {
     "id": 11,
-    "title": "Producto-11",
-    "description": "Descripción actualizada",
-    "code": "P0011",
-    "price": 910.99,
+    "title": "Bicicleta de Montaña Trek Marlin 5",
+    "description": "Bicicleta de montaña con cuadro de aluminio y suspensión delantera.",
+    "code": "Trek-Marlin5",
+    "price": 599.99,
     "status": true,
-    "stock": 100,
-    "category": "Primero",
+    "stock": 15,
+    "category": "Deportes",
     "thumbnails": [
-      "ruta/imagen1.jpg",
-      "ruta/imagen2.jpg"
+      "ruta/trek_marlin5_1.jpg",
+      "ruta/trek_marlin5_2.jpg"
     ]
   },
   {
     "id": 12,
-    "title": "Producto-12",
-    "description": "Descripción producto 2",
-    "code": "P012",
-    "price": 115.99,
+    "title": "Aspiradora Robot iRobot Roomba",
+    "description": "Aspiradora robot con tecnología de limpieza avanzada y navegación inteligente.",
+    "code": "iRobot-Roomba",
+    "price": 399.99,
     "status": true,
-    "stock": 150,
-    "category": "Segundo",
+    "stock": 25,
+    "category": "Electrodomésticos",
     "thumbnails": [
-      "ruta/imagen3.jpg",
-      "ruta/imagen4.jpg"
+      "ruta/irobot_roomba_1.jpg",
+      "ruta/irobot_roomba_2.jpg"
     ]
   },
   {
     "id": 13,
-    "title": "Producto-13",
-    "description": "Descripción actualizada",
-    "code": "P013",
-    "price": 90.99,
+    "title": "Juego de Sartenes Antiadherentes",
+    "description": "Juego de sartenes antiadherentes con mango ergonómico y fácil de limpiar.",
+    "code": "Sartenes-Antiadherentes",
+    "price": 49.99,
     "status": true,
-    "stock": 100,
-    "category": "Primero",
+    "stock": 50,
+    "category": "Cocina",
     "thumbnails": [
-      "ruta/imagen1.jpg",
-      "ruta/imagen2.jpg"
+      "ruta/sartenes_antiadherentes_1.jpg",
+      "ruta/sartenes_antiadherentes_2.jpg"
     ]
   },
   {
     "id": 14,
-    "title": "Producto-14",
-    "description": "Descripción producto 2",
-    "code": "P014",
-    "price": 15.99,
+    "title": "Monitor Curvo Samsung Odyssey G7",
+    "description": "Monitor curvo de 27 pulgadas con resolución QHD y tasa de refresco de 240Hz.",
+    "code": "SMG-OdysseyG7",
+    "price": 799.99,
     "status": true,
-    "stock": 150,
-    "category": "Primero",
+    "stock": 10,
+    "category": "Electrónica",
     "thumbnails": [
-      "ruta/imagen3.jpg",
-      "ruta/imagen4.jpg"
+      "ruta/samsung_odyssey_g7_1.jpg",
+      "ruta/samsung_odyssey_g7_2.jpg"
     ]
   },
   {
     "id": 15,
-    "title": "Producto-15",
-    "description": "Descripción actualizada",
-    "code": "P015",
-    "price": 90.99,
+    "title": "Mesa de Centro de Vidrio",
+    "description": "Mesa de centro de vidrio templado con acabado en madera.",
+    "code": "Mesa-Centro-Vidrio",
+    "price": 149.99,
     "status": true,
-    "stock": 100,
-    "category": "Primero",
+    "stock": 40,
+    "category": "Muebles",
     "thumbnails": [
-      "ruta/imagen1.jpg",
-      "ruta/imagen2.jpg"
+      "ruta/mesa_centro_vidrio_1.jpg",
+      "ruta/mesa_centro_vidrio_2.jpg"
     ]
   },
   {
     "id": 16,
-    "title": "Producto-16",
-    "description": "Descripción producto 2",
-    "code": "P016",
-    "price": 15.99,
+    "title": "Set de Herramientas para Auto",
+    "description": "Set de herramientas profesionales para el mantenimiento de automóviles.",
+    "code": "Herramientas-Auto",
+    "price": 199.99,
     "status": true,
-    "stock": 150,
-    "category": "Primero",
+    "stock": 30,
+    "category": "Automotriz",
     "thumbnails": [
-      "ruta/imagen3.jpg",
-      "ruta/imagen4.jpg"
+      "ruta/herramientas_auto_1.jpg",
+      "ruta/herramientas_auto_2.jpg"
     ]
   },
   {
     "id": 17,
-    "title": "Producto-17",
-    "description": "Descripción actualizada",
-    "code": "P017",
-    "price": 90.99,
+    "title": "Juego de Sofá y Sillón",
+    "description": "Juego de sofá y sillón con diseño moderno y tapizado en tela.",
+    "code": "Sofá-Sillón",
+    "price": 899.99,
+    "status": true,
+    "stock": 20,
+    "category": "Muebles",
+    "thumbnails": [
+      "ruta/sofa_sillon_1.jpg",
+      "ruta/sofa_sillon_2.jpg"
+    ]
+  },
+  {
+    "id": 18,
+    "title": "Cafetera Automática DeLonghi",
+    "description": "Cafetera automática con sistema de molido y preparación de café expreso.",
+    "code": "DeLonghi-Cafetera",
+    "price": 299.99,
+    "status": true,
+    "stock": 45,
+    "category": "Electrodomésticos",
+    "thumbnails": [
+      "ruta/delonghi_cafetera_1.jpg",
+      "ruta/delonghi_cafetera_2.jpg"
+    ]
+  },
+  {
+    "id": 19,
+    "title": "Bicicleta Estática NordicTrack",
+    "description": "Bicicleta estática con pantalla táctil y programas de entrenamiento integrados.",
+    "code": "NordicTrack-Bicicleta",
+    "price": 499.99,
+    "status": true,
+    "stock": 20,
+    "category": "Deportes",
+    "thumbnails": [
+      "ruta/nordictrack_bicicleta_1.jpg",
+      "ruta/nordictrack_bicicleta_2.jpg"
+    ]
+  },
+  {
+    "id": 20,
+    "title": "Juego de Cuchillos de Cocina",
+    "description": "Juego de cuchillos de acero inoxidable con bloque de madera.",
+    "code": "Cuchillos-Cocina",
+    "price": 79.99,
+    "status": true,
+    "stock": 60,
+    "category": "Cocina",
+    "thumbnails": [
+      "ruta/cuchillos_cocina_1.jpg",
+      "ruta/cuchillos_cocina_2.jpg"
+    ]
+  },
+  {
+    "id": 21,
+    "title": "Auriculares Bluetooth JBL",
+    "description": "Auriculares inalámbricos con sonido JBL Pure Bass y duración de batería de 20 horas.",
+    "code": "JBL-Bluetooth",
+    "price": 99.99,
+    "status": true,
+    "stock": 50,
+    "category": "Electrónica",
+    "thumbnails": [
+      "ruta/jbl_bluetooth_1.jpg",
+      "ruta/jbl_bluetooth_2.jpg"
+    ]
+  },
+  {
+    "id": 22,
+    "title": "Mesa de Comedor de Madera",
+    "description": "Mesa de comedor de madera maciza con capacidad para 6 personas.",
+    "code": "Mesa-Comedor",
+    "price": 399.99,
+    "status": true,
+    "stock": 30,
+    "category": "Muebles",
+    "thumbnails": [
+      "ruta/mesa_comedor_1.jpg",
+      "ruta/mesa_comedor_2.jpg"
+    ]
+  },
+  {
+    "id": 23,
+    "title": "Smart TV LG 55 pulgadas",
+    "description": "Smart TV con resolución 4K, webOS y compatible con HDR10.",
+    "code": "LG-SmartTV",
+    "price": 699.99,
+    "status": true,
+    "stock": 25,
+    "category": "Electrónica",
+    "thumbnails": [
+      "ruta/lg_smarttv_1.jpg",
+      "ruta/lg_smarttv_2.jpg"
+    ]
+  },
+  {
+    "id": 24,
+    "title": "Juego de Tazas de Café",
+    "description": "Juego de 6 tazas de café de cerámica con diseño moderno.",
+    "code": "Tazas-Café",
+    "price": 29.99,
     "status": true,
     "stock": 100,
-    "category": "Primero",
+    "category": "Cocina",
     "thumbnails": [
-      "ruta/imagen1.jpg",
-      "ruta/imagen2.jpg"
+      "ruta/tazas_cafe_1.jpg",
+      "ruta/tazas_cafe_2.jpg"
     ]
   },
   {
-    "id": 1,
-    "title": "Producto-1",
-    "description": "Descripción actualizada",
-    "code": "P001",
-    "price": 90.99,
+    "id": 25,
+    "title": "Silla de Playa Portátil",
+    "description": "Silla de playa plegable y ligera con respaldo ajustable.",
+    "code": "Silla-Playa",
+    "price": 39.99,
     "status": true,
-    "stock": 100,
-    "category": "Primero",
+    "stock": 70,
+    "category": "Accesorios",
     "thumbnails": [
-      "ruta/imagen1.jpg",
-      "ruta/imagen2.jpg"
+      "ruta/silla_playa_1.jpg",
+      "ruta/silla_playa_2.jpg"
     ]
   },
   {
-    "id": 2,
-    "title": "Producto-2",
-    "description": "Descripción producto 2",
-    "code": "P002",
-    "price": 15.99,
+    "id": 26,
+    "title": "Cámara Instantánea Fujifilm",
+    "description": "Cámara instantánea con impresión de fotos en segundos y lente dual.",
+    "code": "Fujifilm-Instantánea",
+    "price": 149.99,
     "status": true,
-    "stock": 150,
-    "category": "Segundo",
+    "stock": 35,
+    "category": "Electrónica",
     "thumbnails": [
-      "ruta/imagen3.jpg",
-      "ruta/imagen4.jpg"
+      "ruta/fujifilm_instantanea_1.jpg",
+      "ruta/fujifilm_instantanea_2.jpg"
     ]
   },
   {
-    "id": 3,
-    "title": "Producto-actualizado",
-    "description": "Descripción actualizada 3",
-    "code": "P003",
-    "price": 190.99,
+    "id": 27,
+    "title": "Juego de Toallas de Baño",
+    "description": "Juego de toallas de baño de algodón egipcio, suaves y absorbentes.",
+    "code": "Toallas-Baño",
+    "price": 49.99,
     "status": true,
-    "stock": 100,
-    "category": "Primero",
+    "stock": 80,
+    "category": "Hogar",
     "thumbnails": [
-      "ruta/imagen1.jpg",
-      "ruta/imagen2.jpg"
+      "ruta/toallas_bano_1.jpg",
+      "ruta/toallas_bano_2.jpg"
     ]
   },
   {
-    "id": 4,
-    "title": "Producto-4",
-    "description": "Descripción producto 2",
-    "code": "P004",
-    "price": 45.99,
+    "id": 28,
+    "title": "Afeitadora Eléctrica Philips",
+    "description": "Afeitadora eléctrica con tecnología de recorte preciso y batería de larga duración.",
+    "code": "Philips-Afeitadora",
+    "price": 79.99,
     "status": true,
-    "stock": 150,
-    "category": "Segundo",
+    "stock": 40,
+    "category": "Electrodomésticos",
     "thumbnails": [
-      "ruta/imagen3.jpg",
-      "ruta/imagen4.jpg"
+      "ruta/philips_afeitadora_1.jpg",
+      "ruta/philips_afeitadora_2.jpg"
     ]
   },
   {
-    "id": 5,
-    "title": "Producto-actualizado",
-    "description": "Descripción actualizada",
-    "code": "P005",
-    "price": 590.99,
+    "id": 29,
+    "title": "Mochila para Portátil",
+    "description": "Mochila resistente con compartimento para portátil de hasta 15 pulgadas.",
+    "code": "Mochila-Portátil",
+    "price": 59.99,
     "status": true,
-    "stock": 100,
-    "category": "Primero",
+    "stock": 60,
+    "category": "Accesorios",
     "thumbnails": [
-      "ruta/imagen1.jpg",
-      "ruta/imagen2.jpg"
+      "ruta/mochila_portatil_1.jpg",
+      "ruta/mochila_portatil_2.jpg"
     ]
   },
   {
-    "id": 6,
-    "title": "Producto-6",
-    "description": "Descripción producto 6",
-    "code": "P006",
-    "price": 15.99,
+    "id": 30,
+    "title": "Juego de Sábanas de Algodón",
+    "description": "Juego de sábanas de algodón 100% con diseño estampado y suave al tacto.",
+    "code": "Sábanas-Algodón",
+    "price": 69.99,
     "status": true,
-    "stock": 150,
-    "category": "Segundo",
+    "stock": 90,
+    "category": "Hogar",
     "thumbnails": [
-      "ruta/imagen3.jpg",
-      "ruta/imagen4.jpg"
-    ]
-  },
-  {
-    "id": 7,
-    "title": "Producto-actualizado",
-    "description": "Descripción actualizada",
-    "code": "P007",
-    "price": 90.99,
-    "status": true,
-    "stock": 100,
-    "category": "Primero",
-    "thumbnails": [
-      "ruta/imagen1.jpg",
-      "ruta/imagen2.jpg"
-    ]
-  },
-  {
-    "id": 8,
-    "title": "Producto-2",
-    "description": "Descripción producto 2",
-    "code": "P008",
-    "price": 85.99,
-    "status": true,
-    "stock": 150,
-    "category": "Segundo",
-    "thumbnails": [
-      "ruta/imagen3.jpg",
-      "ruta/imagen4.jpg"
-    ]
-  },
-  {
-    "id": 9,
-    "title": "Producto-actualizado",
-    "description": "Descripción actualizada",
-    "code": "P009",
-    "price": 90.99,
-    "status": true,
-    "stock": 100,
-    "category": "Primero",
-    "thumbnails": [
-      "ruta/imagen1.jpg",
-      "ruta/imagen2.jpg"
-    ]
-  },
-  {
-    "id": 10,
-    "title": "Producto-2",
-    "description": "Descripción producto 2",
-    "code": "P010",
-    "price": 105.99,
-    "status": true,
-    "stock": 150,
-    "category": "Segundo",
-    "thumbnails": [
-      "ruta/imagen3.jpg",
-      "ruta/imagen4.jpg"
-    ]
-  },
-  {
-    "id": 11,
-    "title": "Producto-11",
-    "description": "Descripción actualizada",
-    "code": "P0011",
-    "price": 910.99,
-    "status": true,
-    "stock": 100,
-    "category": "Primero",
-    "thumbnails": [
-      "ruta/imagen1.jpg",
-      "ruta/imagen2.jpg"
-    ]
-  },
-  {
-    "id": 12,
-    "title": "Producto-12",
-    "description": "Descripción producto 2",
-    "code": "P012",
-    "price": 115.99,
-    "status": true,
-    "stock": 150,
-    "category": "Segundo",
-    "thumbnails": [
-      "ruta/imagen3.jpg",
-      "ruta/imagen4.jpg"
-    ]
-  },
-  {
-    "id": 13,
-    "title": "Producto-13",
-    "description": "Descripción actualizada",
-    "code": "P013",
-    "price": 90.99,
-    "status": true,
-    "stock": 100,
-    "category": "Primero",
-    "thumbnails": [
-      "ruta/imagen1.jpg",
-      "ruta/imagen2.jpg"
-    ]
-  },
-  {
-    "id": 14,
-    "title": "Producto-14",
-    "description": "Descripción producto 2",
-    "code": "P014",
-    "price": 15.99,
-    "status": true,
-    "stock": 150,
-    "category": "Primero",
-    "thumbnails": [
-      "ruta/imagen3.jpg",
-      "ruta/imagen4.jpg"
-    ]
-  },
-  {
-    "id": 15,
-    "title": "Producto-15",
-    "description": "Descripción actualizada",
-    "code": "P015",
-    "price": 90.99,
-    "status": true,
-    "stock": 100,
-    "category": "Primero",
-    "thumbnails": [
-      "ruta/imagen1.jpg",
-      "ruta/imagen2.jpg"
-    ]
-  },
-  {
-    "id": 16,
-    "title": "Producto-16",
-    "description": "Descripción producto 2",
-    "code": "P016",
-    "price": 15.99,
-    "status": true,
-    "stock": 150,
-    "category": "Primero",
-    "thumbnails": [
-      "ruta/imagen3.jpg",
-      "ruta/imagen4.jpg"
-    ]
-  },
-  {
-    "id": 17,
-    "title": "Producto-17",
-    "description": "Descripción actualizada",
-    "code": "P017",
-    "price": 90.99,
-    "status": true,
-    "stock": 100,
-    "category": "Primero",
-    "thumbnails": [
-      "ruta/imagen1.jpg",
-      "ruta/imagen2.jpg"
+      "ruta/sabanas_algodon_1.jpg",
+      "ruta/sabanas_algodon_2.jpg"
     ]
   }
 ]
