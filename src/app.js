@@ -18,7 +18,12 @@ const io = new Server(server);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-app.engine("handlebars", handlebars.engine({ helpers: helpers }));
+const newHelpers = { ...helpers };
+newHelpers.isSelected = function(value, sort) {
+  return value === sort ? 'selected' : '';
+};
+
+app.engine("handlebars", handlebars.engine({ helpers: newHelpers }));
 
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
