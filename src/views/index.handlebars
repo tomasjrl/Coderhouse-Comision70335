@@ -4,12 +4,19 @@
     <option value="desc" {{isSelected "desc" sort}}>Precio descendente</option>
   </select>
   
-  <!-- Agregar este select para cambiar de página -->
   <select id="page-select" onchange="window.location.href='?sort={{sort}}&page='+this.value+'&limit={{limit}}'">
     {{#forPages totalPages}}
       <option value="{{this}}" {{isSelected this page}}>{{this}} de {{totalPages}}</option>
     {{/forPages}}
   </select>
+  
+<select id="limit-select" onchange="window.location.href='?sort={{sort}}&page={{page}}&limit='+this.value">
+  <option value="" {{isSelected "" limit}}>Mostrar productos</option>
+  <option value="5" {{isSelected "5" limit}}>5 productos por página</option>
+  <option value="10" {{isSelected "10" limit}}>10 productos por página</option>
+  <option value="20" {{isSelected "20" limit}}>20 productos por página</option>
+  <option value="50" {{isSelected "50" limit}}>50 productos por página</option>
+</select>
   
   <h1 class="title">Productos</h1>
   <nav class="pagination">

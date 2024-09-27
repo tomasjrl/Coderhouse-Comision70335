@@ -18,8 +18,8 @@ const helpers = {
     }
     return pages;
   },
-  isSelected: function(value, currentPage) {
-    return (value == currentPage) ? 'selected' : '';
+  isSelected: function(value, limit) {
+    return (value === limit) ? 'selected' : '';
   }
 };
 
