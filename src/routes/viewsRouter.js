@@ -27,6 +27,7 @@ viewsRouter.get("/products", async (req, res) => {
   const limit = req.query.limit ? parseInt(req.query.limit) : 10;
   const sort = req.query.sort;
   const status = req.query.status;
+  const category = req.query.category;
 
   let products = await productManager.getAllProducts();
 
@@ -42,10 +43,16 @@ viewsRouter.get("/products", async (req, res) => {
     products = products.filter((product) => product.status === false);
   }
 
+  if (category) {
+    products = products.filter((product) => product.category === category);
+  }
+
   const startIndex = (page - 1) * limit;
   const endIndex = startIndex + limit;
   const paginatedProducts = products.slice(startIndex, endIndex);
   const totalPages = Math.ceil(products.length / limit);
+
+  const categories = await productManager.getCategories();
 
   res.render("index", { 
     products: paginatedProducts, 
@@ -53,7 +60,9 @@ viewsRouter.get("/products", async (req, res) => {
     limit, 
     totalPages,
     sort,
-    status
+    status,
+    category,
+    categories
   });
 });
 

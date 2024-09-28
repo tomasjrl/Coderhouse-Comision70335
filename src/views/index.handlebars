@@ -1,9 +1,10 @@
 <div class="products-container">
     <h1 class="title">Productos</h1>
   <div class="options">
-  <select id="sort" class="option-select" onchange="window.location.href='?sort='+this.value+'&page={{page}}&limit={{limit}}'">
-    <option value="asc" {{isSelected "asc" sort}}>Precio ascendente</option>
-    <option value="desc" {{isSelected "desc" sort}}>Precio descendente</option>
+<select id="sort-select" class="option-select" onchange="window.location.href='?{{#if category}}category={{category}}&{{/if}}{{#if page}}page={{page}}&{{/if}}{{#if limit}}limit={{limit}}&{{/if}}{{#if status}}status={{status}}&{{/if}}sort='+this.value">
+    <option value="">Ordenar por</option>
+    <option value="asc" {{isSelected "asc" sort}}">Menor precio</option>
+    <option value="desc" {{isSelected "desc" sort}}">Mayor precio</option>
   </select>
   
   <select id="page-select" class="option-select" onchange="window.location.href='?sort={{sort}}&page='+this.value+'&limit={{limit}}'">
@@ -12,19 +13,27 @@
     {{/forPages}}
   </select>
   
-<select id="limit-select" class="option-select" onchange="window.location.href='?sort={{sort}}&page=1&limit='+this.value">
-  <option value="" {{isSelected "" limit}}>Mostrar productos</option>
-  <option value="5" {{isSelected "5" limit}}>5 productos por página</option>
-  <option value="10" {{isSelected "10" limit}}>10 productos por página</option>
-  <option value="20" {{isSelected "20" limit}}>20 productos por página</option>
-  <option value="50" {{isSelected "50" limit}}>50 productos por página</option>
+  <select id="limit-select" class="option-select" onchange="window.location.href='?{{#if category}}category={{category}}&{{/if}}{{#if page}}page={{page}}&{{/if}}{{#if sort}}sort={{sort}}&{{/if}}{{#if status}}status={{status}}&{{/if}}limit='+this.value">
+  <option value="" {{isSelected "" limit}}>Mostrar por página</option>
+  <option value="5" {{isSelected "5" limit}}>5 productos</option>
+  <option value="10" {{isSelected "10" limit}}>10 productos</option>
+  <option value="20" {{isSelected "20" limit}}>20 productos</option>
+  <option value="50" {{isSelected "50" limit}}>50 productos</option>
 </select>
 
-<select id="status-select" class="option-select" onchange="window.location.href='?sort={{sort}}&page=' + (this.value !== '{{status}}' ? 1 : {{page}}) + '&limit={{limit}}&status='+this.value">
-  <option value="" {{isSelected "" status}}>Todos</option>
-  <option value="true" {{isSelected "true" status}}>Disponibles</option>
-  <option value="false" {{isSelected "false" status}}>No disponibles</option>
-</select>
+<select id="status-select" class="option-select" onchange="window.location.href='?{{#if sort}}sort={{sort}}&{{/if}}{{#if page}}page={{page}}&{{/if}}{{#if limit}}limit={{limit}}&{{/if}}{{#if category}}category={{category}}&{{/if}}status='+this.value">
+    <option value="">Todos</option>
+    <option value="true" {{isSelected "true" status}}>Disponibles</option>
+    <option value="false" {{isSelected "false" status}}>No disponibles</option>
+  </select>
+
+<select id="category-select" class="option-select" onchange="window.location.href='?{{#if sort}}sort={{sort}}&{{/if}}{{#if page}}page={{page}}&{{/if}}{{#if limit}}limit={{limit}}&{{/if}}{{#if status}}status={{status}}&{{/if}}category='+this.value">
+    <option value="">Elegir categoría</option>
+        <option value="">Todas las categoría</option>
+    {{#each categories}}
+      <option value="{{this}}" {{isSelected this category}}>{{this}}</option>
+    {{/each}}
+  </select>
   </div>  
 
   <nav class="pagination">

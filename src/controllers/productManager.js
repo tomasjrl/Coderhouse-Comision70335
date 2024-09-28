@@ -36,6 +36,12 @@ class ProductManager {
     return this.products;
   }
 
+  async getCategories() {
+    const products = this.getAllProducts();
+    const categories = [...new Set(products.map((product) => product.category))];
+    return categories;
+  }
+
   getProductById(id) {
     const product = this.products.find((product) => product.id === id);
     if (!product) {
