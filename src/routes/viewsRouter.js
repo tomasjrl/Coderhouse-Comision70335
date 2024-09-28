@@ -28,6 +28,7 @@ viewsRouter.get("/products", async (req, res) => {
   const sort = req.query.sort;
   const status = req.query.status;
   const category = req.query.category;
+  const query = req.query.query;
 
   let products = await productManager.getAllProducts();
 
@@ -45,6 +46,17 @@ viewsRouter.get("/products", async (req, res) => {
 
   if (category) {
     products = products.filter((product) => product.category === category);
+  }
+
+  if (query) {
+    products = products.filter((product) => {
+      return (
+        product.title.toLowerCase().includes(query.toLowerCase()) ||
+        product.description.toLowerCase().includes(query.toLowerCase()) ||
+        product.category.toLowerCase().includes(query.toLowerCase()) ||
+        product.price.toString().includes(query)
+      );
+    });
   }
 
   const startIndex = (page - 1) * limit;

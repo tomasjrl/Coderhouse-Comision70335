@@ -32,6 +32,19 @@ header {
   justify-content: center;
 }
 
+.search {
+  padding: 4px;
+}
+
+.search-button {
+  width: 60px;
+  height: 30px;
+
+}
+#search-input {
+  min-width: 300px;
+}
+
 nav ul {
   list-style: none;
   margin: 0;
@@ -53,12 +66,22 @@ nav a:hover {
   color: #ccc;
 }
 
-.option-select {
+.search-button:hover {
+  cursor: pointer;
+  background-color: #371ef4;
+  color: #fff;
+}
+
+.option-select,
+#search-input,
+.search-button {
   border-radius: 6px;
-  padding: 4px;
+  padding: 6px;
   margin: 4px;
   outline: none;
   box-shadow: none;
+  border: none;
+  transition: 0.2s ease; 
 }
 
 .title {
