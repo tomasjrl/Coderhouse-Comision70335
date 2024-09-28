@@ -66,7 +66,7 @@ cartRouter.post('/:cid/products/:pid', (req, res) => {
     const cartId = parseInt(req.params.cid);
     const productId = parseInt(req.params.pid);
     const updatedCart = cartManager.addProductToCart(cartId, productId);
-    res.json(updatedCart);
+    res.status(200).json(updatedCart); // Aquí se devuelve la respuesta en formato JSON
   } catch (error) {
     if (error.message.includes("Carrito no encontrado")) {
       res.status(404).json({ message: "Carrito no encontrado" });
@@ -89,7 +89,7 @@ cartRouter.put('/:cid/products/:pid', (req, res) => {
         res.status(400).json({ message: "La cantidad debe ser un número" });
       } else {
         const updatedCart = cartManager.updateProductQuantityInCart(cartId, productId, newQuantity);
-        res.json(updatedCart);
+        res.status(200).json(updatedCart);
       }
     }
   } catch (error) {

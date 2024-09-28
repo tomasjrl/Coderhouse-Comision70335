@@ -66,10 +66,14 @@
       <button class="btn-link">
         <a href="/products/{{id}}">Ver detalles</a>
       </button>
-      <button class="btn-primary">
-        Agregar al carrito
-      </button>
+      <div class="btn-container">
+        <button class="btn-primary" data-product-id="{{this.id}}" id="add-to-cart-btn-{{this.id}}">
+          Agregar al carrito
+        </button>
+      </div>
     </li>
     {{/each}}
   </ul>
 </div>
+
+<script src="/js/products.js"></script>

@@ -418,5 +418,16 @@
       "ruta/sabanas_algodon_1.webp",
       "ruta/sabanas_algodon_2.webp"
     ]
+  },
+  {
+    "id": 31,
+    "title": "Prueba",
+    "description": "Prueba",
+    "code": "1",
+    "price": 1,
+    "status": true,
+    "stock": 1,
+    "category": "1",
+    "thumbnails": []
   }
 ]
