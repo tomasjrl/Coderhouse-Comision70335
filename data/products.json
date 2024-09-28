@@ -5,7 +5,7 @@
     "description": "El último modelo de Samsung con pantalla AMOLED de 6.2 pulgadas.",
     "code": "SMG-S21",
     "price": 799.99,
-    "status": true,
+    "status": false,
     "stock": 50,
     "category": "Electrónica",
     "thumbnails": [

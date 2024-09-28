@@ -20,6 +20,16 @@ const helpers = {
   },
   isSelected: function(value, limit) {
     return (value === limit) ? 'selected' : '';
+  },
+
+  showProductsByStatus: function(status, products) {
+    if (status === "true") {
+      return products.filter((product) => product.status === true);
+    } else if (status === "false") {
+      return products.filter((product) => product.status === false);
+    } else {
+      return products;
+    }
   }
 };
 

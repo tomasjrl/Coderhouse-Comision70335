@@ -26,13 +26,20 @@ viewsRouter.get("/products", async (req, res) => {
   const page = req.query.page ? parseInt(req.query.page) : 1;
   const limit = req.query.limit ? parseInt(req.query.limit) : 10;
   const sort = req.query.sort;
+  const status = req.query.status;
 
-  const products = await productManager.getAllProducts();
+  let products = await productManager.getAllProducts();
 
   if (sort === "asc") {
     products.sort((a, b) => a.price - b.price);
   } else if (sort === "desc") {
     products.sort((a, b) => b.price - a.price);
+  }
+
+  if (status === "true") {
+    products = products.filter((product) => product.status === true);
+  } else if (status === "false") {
+    products = products.filter((product) => product.status === false);
   }
 
   const startIndex = (page - 1) * limit;
@@ -45,7 +52,8 @@ viewsRouter.get("/products", async (req, res) => {
     page, 
     limit, 
     totalPages,
-    sort
+    sort,
+    status
   });
 });
 
