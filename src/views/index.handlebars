@@ -1,4 +1,6 @@
 <div class="products-container">
+    <h1 class="title">Productos</h1>
+  <div class="options">
   <select id="sort" class="option-select" onchange="window.location.href='?sort='+this.value+'&page={{page}}&limit={{limit}}'">
     <option value="asc" {{isSelected "asc" sort}}>Precio ascendente</option>
     <option value="desc" {{isSelected "desc" sort}}>Precio descendente</option>
@@ -10,7 +12,7 @@
     {{/forPages}}
   </select>
   
-<select id="limit-select" class="option-select" onchange="window.location.href='?sort={{sort}}&page={{page}}&limit='+this.value">
+<select id="limit-select" class="option-select" onchange="window.location.href='?sort={{sort}}&page=1&limit='+this.value">
   <option value="" {{isSelected "" limit}}>Mostrar productos</option>
   <option value="5" {{isSelected "5" limit}}>5 productos por página</option>
   <option value="10" {{isSelected "10" limit}}>10 productos por página</option>
@@ -23,8 +25,8 @@
   <option value="true" {{isSelected "true" status}}>Disponibles</option>
   <option value="false" {{isSelected "false" status}}>No disponibles</option>
 </select>
-  
-  <h1 class="title">Productos</h1>
+  </div>  
+
   <nav class="pagination">
   {{#if_gt page 1}}
     <a href="?sort={{sort}}&page={{subtract page 1}}&limit={{limit}}&status={{status}}" title="Ir a la página anterior" aria-label="Página anterior">
