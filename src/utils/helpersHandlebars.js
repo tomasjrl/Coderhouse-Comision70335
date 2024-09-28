@@ -22,6 +22,13 @@ const helpers = {
     return (value === limit) ? 'selected' : '';
   },
 
+  isSelected: function(value, selected) {
+    if (value === selected) {
+      return 'selected';
+    }
+    return '';
+  },
+
   showProductsByStatus: function(status, products) {
     if (status === "true") {
       return products.filter((product) => product.status === true);

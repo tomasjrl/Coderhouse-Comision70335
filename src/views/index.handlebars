@@ -28,10 +28,9 @@
 </select>
 
 <select id="category-select" class="option-select" onchange="window.location.href='?{{#if sort}}sort={{sort}}&{{/if}}page=1&{{#if limit}}limit={{limit}}&{{/if}}{{#if status}}status={{status}}&{{/if}}category='+this.value">
-  <option value="">Elegir categoría</option>
   <option value="">Todas las categorías</option>
   {{#each categories}}
-    <option value="{{this}}" {{isSelected this category}}>{{this}}</option>
+    <option value="{{this}}" {{isSelected this ../category}}>{{this}}</option>
   {{/each}}
 </select>
   </div>  
