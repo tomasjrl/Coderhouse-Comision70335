@@ -9,7 +9,7 @@ import { viewsRouter, viewsRealTimeRouter } from "./routes/viewsRouter.js";
 import cartRouter from "./routes/cartRouter.js";
 import productRouter from "./routes/productRouter.js";
 import ProductManager from "./controllers/productManager.js";
-import helpers from "./utils/helpers.js";
+import helpers from "./utils/helpersHandlebars.js";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
