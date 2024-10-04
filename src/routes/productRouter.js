@@ -94,28 +94,70 @@ const productRouter = (productManager) => {
   });
   
 
-    router.post("/", async (req, res) => {
-        try {
-            const requiredLabels = ["title", "description", "code", "price", "status", "stock", "category"];
-            
-            for (const label of requiredLabels) {
-                if (!req.body[label]) {
-                    return res.status(400).json({ status: "error", message: `El campo ${label} es requerido` });
-                }
+  router.post("/", async (req, res) => {
+    try {
+        const requiredLabels = ["title", "description", "code", "price", "status", "stock", "category"];
+        
+        // Verifica si faltan campos requeridos
+        for (const label of requiredLabels) {
+            if (!req.body[label]) {
+                return res.status(400).json({ status: "error", message: `El campo ${label} es requerido` });
             }
-
-            const result = await productManager.addProduct(req.body);
-            res.status(201).json({ status: "success", payload: result });
-        } catch (error) {
-            console.error(error);
-            
-            if (error.message.startsWith("Ya existe un producto con el código")) {
-                return res.status(400).json({ status: "error", message: error.message });
-            }
-            
-            res.status(500).json({ status: "error", message: "Error al crear producto" });
         }
-    });
+
+        // Validación del tipo de datos
+        if (typeof req.body.title !== "string") {
+            return res.status(400).json({ status: "error", message: "El título debe ser un string" });
+        }
+        if (typeof req.body.description !== "string") {
+            return res.status(400).json({ status: "error", message: "La descripción debe ser un string" });
+        }
+        if (typeof req.body.code !== "string") {
+            return res.status(400).json({ status: "error", message: "El código debe ser un string" });
+        }
+        if (typeof req.body.price !== "number" || req.body.price <= 0) {
+            return res.status(400).json({ status: "error", message: "El precio debe ser un número positivo" });
+        }
+        if (typeof req.body.status !== "boolean") {
+            return res.status(400).json({ status: "error", message: "El estado (status) debe ser un valor booleano" });
+        }
+
+        // Validación del stock
+        if (typeof req.body.stock !== 'number') {
+            return res.status(400).json({ status: "error", message: "El campo stock debe ser un número" });
+        }
+
+        if (!Number.isInteger(req.body.stock) || req.body.stock < 0) {
+            return res.status(400).json({ status: "error", message: "El stock debe ser un número entero no negativo" });
+        }
+
+        if (typeof req.body.category !== 'string') {
+            return res.status(400).json({ status: 'error', message: 'La categoría debe ser un string' });
+        }
+
+        // Llama al método para agregar el producto
+        const result = await productManager.addProduct(req.body);
+        
+        // Respuesta exitosa
+        res.status(201).json({ status: 'success', payload: result });
+    } catch (error) {
+        // Manejo específico de errores
+        if (error.message.startsWith("Ya existe un producto con el código")) {
+            // Solo devuelve el error sin imprimirlo en la consola
+            return res.status(400).json({ status: 'error', message: error.message });
+        }
+
+        console.error("Error al crear producto:", error); // Solo imprime otros errores inesperados
+
+        // Para otros errores, devuelve un error 500
+        res.status(500).json({ status: 'error', message: 'Error al crear producto' });
+    }
+});
+
+
+
+
+
 
     router.put("/:pid", async (req, res) => {
       try {

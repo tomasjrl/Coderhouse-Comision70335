@@ -25,85 +25,100 @@ class ProductManager {
     }
 
     async addProduct(productData) {
-        const requiredLabels = [
-            "title",
-            "description",
-            "code",
-            "price",
-            "status",
-            "stock",
-            "category",
-            // "thumbnails",
-        ];
-
-        const missingLabels = requiredLabels.filter(
-            (label) => !(label in productData)
-        );
-        if (missingLabels.length > 0) {
-            throw new Error(
-                `Faltan los siguientes campos requeridos: ${missingLabels.join(", ")}`
-            );
-        }
-
-        let {
-            title,
-            description,
-            code,
-            price,
-            status = true, // Valor por defecto para status
-            stock,
-            category,
-            // thumbnails = [], // Valor por defecto para thumbnails
-        } = productData;
-
-        if (typeof code !== "string") {
-            throw new Error("El código debe ser de tipo string");
-        }
-
-        const existingProduct = await this.collection.findOne({ code });
-        if (existingProduct) {
-            throw new Error(`Ya existe un producto con el código ${code}`);
-        }
-
-        if (typeof status !== "boolean") {
-            throw new Error("El estado (status) debe ser un valor booleano (true/false)");
-        }
-
-        if (typeof stock === "string") {
-            stock = parseInt(stock);
-        }
-        if (!Number.isInteger(stock) || stock < 0) {
-            throw new Error("El stock debe ser un número entero no negativo");
-        }
-
-        if (typeof price === "string") {
-            price = parseFloat(price);
-        }
-        if (typeof price !== "number" || price <= 0) {
-            throw new Error("El precio debe ser un número positivo");
-        }
-
-        if (
-            !Array.isArray(thumbnails) ||
-            !thumbnails.every((thumbnail) => typeof thumbnail === "string")
-        ) {
-            throw new Error("El campo thumbnails debe ser un arreglo de strings");
-        }
-
-        const newProduct = {
-            title,
-            description,
-            code,
-            price,
-            status,
-            stock,
-            category,
-            // thumbnails,
-        };
-
-        const result = await this.collection.insertOne(newProduct); // Inserta el nuevo producto en la colección
-        return { id: result.insertedId, ...newProduct }; // Retorna el nuevo producto con su ID
-    }
+      const requiredLabels = [
+          "title",
+          "description",
+          "code",
+          "price",
+          "status",
+          "stock",
+          "category",
+          // "thumbnails", // Si decides usar thumbnails, asegúrate de descomentar esta línea
+      ];
+  
+      // Verifica si faltan campos requeridos
+      const missingLabels = requiredLabels.filter(
+          (label) => !(label in productData)
+      );
+      if (missingLabels.length > 0) {
+          throw new Error(
+              `Faltan los siguientes campos requeridos: ${missingLabels.join(", ")}`
+          );
+      }
+  
+      let {
+          title,
+          description,
+          code,
+          price,
+          status = true, // Valor por defecto para status
+          stock,
+          category,
+          // thumbnails = [], // Valor por defecto para thumbnails
+      } = productData;
+  
+      // Validación del tipo de datos
+      if (typeof title !== "string") {
+          throw new Error("El título debe ser un string");
+      }
+      if (typeof description !== "string") {
+          throw new Error("La descripción debe ser un string");
+      }
+      if (typeof code !== "string") {
+          throw new Error("El código debe ser un string");
+      }
+  
+      // Verifica si el código ya existe
+      const existingProduct = await this.collection.findOne({ code });
+      if (existingProduct) {
+          throw new Error(`Ya existe un producto con el código ${code}`);
+      }
+  
+      if (typeof status !== "boolean") {
+          throw new Error("El estado (status) debe ser un valor booleano (true/false)");
+      }
+  
+      if (typeof stock === "string") {
+          stock = parseInt(stock);
+      }
+      if (!Number.isInteger(stock) || stock < 0) {
+          throw new Error("El stock debe ser un número entero no negativo");
+      }
+  
+      if (typeof price === "string") {
+          price = parseFloat(price);
+      }
+      if (typeof price !== "number" || price <= 0) {
+          throw new Error("El precio debe ser un número positivo");
+      }
+  
+      // Validación de thumbnails si decides usarlo
+      /*
+      if (
+          updates.thumbnails &&
+          (!Array.isArray(updates.thumbnails) ||
+              updates.thumbnails.length === 0 ||
+              !updates.thumbnails.every((thumbnail) => typeof thumbnail === "string"))
+      ) {
+          throw new Error("El campo thumbnails debe ser un arreglo no vacío de strings");
+      }
+      */
+  
+      const newProduct = {
+          title,
+          description,
+          code,
+          price,
+          status,
+          stock,
+          category,
+          // thumbnails, // Asegúrate de incluir esto si decides usar thumbnails
+      };
+  
+      const result = await this.collection.insertOne(newProduct); // Inserta el nuevo producto en la colección
+      return { id: result.insertedId, ...newProduct }; // Retorna el nuevo producto con su ID
+  }
+  
 
     async addProductForSocket(product) {
         try {
