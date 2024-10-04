@@ -69,15 +69,30 @@ const productRouter = (productManager) => {
     router.get("/:pid", async (req, res) => {
       try {
           const productId = req.params.pid;
-
+  
+          // Validar si el ID es un ObjectId válido
+          if (!ObjectId.isValid(productId)) {
+              return res.status(400).json({ status: "error", message: "ID inválido. Debe ser una cadena hexadecimal de 24 caracteres." });
+          }
+  
           // Convierte el ID a ObjectId antes de buscarlo
-          const product = await productManager.getProductById(new ObjectId(productId)); // Usa 'new' aquí
+          const product = await productManager.getProductById(new ObjectId(productId));
+          
+          if (!product) {
+              throw new Error(`Producto no encontrado con ID ${productId}`);
+          }
+  
           res.json({ status: "success", payload: product });
       } catch (error) {
-          console.error("Error al obtener producto:", error);
-          res.status(404).json({ status: "error", message: error.message });
+          if (error.message.startsWith("Producto no encontrado")) {
+              return res.status(404).json({ status: "error", message: error.message });
+          }
+          
+          console.error("Error al obtener producto:", error); // Solo imprime errores internos
+          res.status(500).json({ status: "error", message: "Error interno del servidor" });
       }
   });
+  
 
     router.post("/", async (req, res) => {
         try {
@@ -103,25 +118,40 @@ const productRouter = (productManager) => {
     });
 
     router.put("/:pid", async (req, res) => {
-        try {
-            const productId = req.params.pid;
-
-            // Verifica si el producto existe
-            await productManager.getProductById(productId);
-
-            const updatedProduct = await productManager.updateProduct(productId, req.body);
-            
-            res.json({ status: "success", payload: updatedProduct });
-        } catch (error) {
-            console.error(error);
-            
-            if (error.message.startsWith("Producto no encontrado")) {
-                return res.status(404).json({ status: "error", message: error.message });
-            }
-            
-            res.status(500).json({ status: "error", message: "Error al actualizar producto" });
-        }
-    });
+      try {
+          const productId = req.params.pid;
+  
+          // Verifica si el producto existe usando ObjectId
+          await productManager.getProductById(new ObjectId(productId)); // Usa 'new' aquí
+  
+          // Actualiza el producto
+          const updatedProduct = await productManager.updateProduct(new ObjectId(productId), req.body); // Asegúrate de pasar el ObjectId
+  
+          res.json({ status: "success", payload: updatedProduct });
+      } catch (error) {
+          console.error("Error al actualizar producto:", error);
+          
+          // Manejo específico de errores para validaciones
+          if (
+              error.message.startsWith("El precio debe ser un número positivo") ||
+              error.message.startsWith("El stock debe ser un número entero no negativo") ||
+              error.message.startsWith("El status debe ser un valor booleano (true/false)") ||
+              error.message.startsWith("El código debe ser un string") ||
+              error.message.startsWith("Ya existe un producto con el código") ||
+              error.message.startsWith("El campo thumbnails debe ser un arreglo no vacío de strings")
+          ) {
+              return res.status(400).json({ status: "error", message: error.message });
+          }
+          
+          if (error.message.startsWith("Producto no encontrado")) {
+              return res.status(404).json({ status: "error", message: error.message });
+          }
+  
+          // Para otros errores, devuelve un error 500
+          res.status(500).json({ status: "error", message: "Error al actualizar producto" });
+      }
+  });
+  
 
     router.delete("/:pid", async (req, res) => {
         try {

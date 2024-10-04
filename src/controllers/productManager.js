@@ -115,42 +115,47 @@ class ProductManager {
     }
 
     async updateProduct(id, updates) {
-        if (updates.id !== undefined) {
-            throw new Error("No se permite actualizar el ID del producto");
-        }
-
-        const product = await this.getProductById(id); // Verifica si el producto existe
-
-        if (updates.code !== undefined) {
-            if (typeof updates.code !== "string") {
-                throw new Error("El código debe ser un string");
-            }
-            
-            const existingProduct = await this.collection.findOne({ code: updates.code });
-            
-            if (existingProduct && existingProduct._id.toString() !== id) {
-                throw new Error(`Ya existe un producto con el código ${updates.code}`);
-            }
-        }
-
-        if (updates.status !== undefined && typeof updates.status !== "boolean") {
-            throw new Error("El status debe ser un valor booleano (true/false)");
-        }
-
-        if (
-          updates.stock !== undefined &&
-          (!Number.isInteger(updates.stock) || updates.stock < 0)
+      if (updates.id !== undefined) {
+          throw new Error("No se permite actualizar el ID del producto");
+      }
+  
+      const product = await this.getProductById(id); // Verifica si el producto existe
+  
+      // Validación del código
+      if (updates.code !== undefined) {
+          if (typeof updates.code !== "string") {
+              throw new Error("El código debe ser un string");
+          }
+          
+          const existingProduct = await this.collection.findOne({ code: updates.code });
+          
+          if (existingProduct && existingProduct._id.toString() !== id) {
+              throw new Error(`Ya existe un producto con el código ${updates.code}`);
+          }
+      }
+  
+      // Validación del estado
+      if (updates.status !== undefined && typeof updates.status !== "boolean") {
+          throw new Error("El status debe ser un valor booleano (true/false)");
+      }
+  
+      // Validación del stock
+      if (
+        updates.stock !== undefined &&
+        (!Number.isInteger(updates.stock) || updates.stock < 0)
       ) {
           throw new Error("El stock debe ser un número entero no negativo");
       }
-
+  
+      // Validación del precio
       if (
           updates.price !== undefined &&
           (typeof updates.price !== "number" || updates.price <= 0)
       ) {
           throw new Error("El precio debe ser un número positivo");
       }
-
+  
+      // Validación de thumbnails
       if (
           updates.thumbnails &&
           (!Array.isArray(updates.thumbnails) ||
@@ -161,11 +166,16 @@ class ProductManager {
               "El campo thumbnails debe ser un arreglo no vacío de strings"
           );
       }
-
+  
+      // Combina el producto existente con las actualizaciones
       const updatedProduct = { ...product, ...updates };
-      await this.collection.updateOne({ _id: new ObjectId(id) }, { $set: updatedProduct }); // Actualiza el producto en la colección
-      return updatedProduct;
+      
+      // Actualiza el producto en la colección
+      await this.collection.updateOne({ _id: new ObjectId(id) }, { $set: updatedProduct });
+      
+      return updatedProduct; // Retorna el producto actualizado
   }
+  
 
   async deleteProduct(id) {
       const result = await this.collection.deleteOne({ _id: new ObjectId(id) }); // Elimina el producto por ID
