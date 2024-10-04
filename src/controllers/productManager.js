@@ -193,14 +193,19 @@ class ProductManager {
   
 
   async deleteProduct(id) {
-      const result = await this.collection.deleteOne({ _id: new ObjectId(id) }); // Elimina el producto por ID
+    // Validar si el ID es un ObjectId válido
+    if (!ObjectId.isValid(id)) {
+        throw new Error("ID inválido. Debe ser una cadena hexadecimal de 24 caracteres.");
+    }
 
-      if (result.deletedCount === 0) {
-          throw new Error(`No se puede eliminar. Producto no encontrado con ID ${id}`);
-      }
-      
-      return { message: `Producto con ID ${id} eliminado` }; // Retorna un mensaje de éxito
-  }
+    const result = await this.collection.deleteOne({ _id: new ObjectId(id) }); // Elimina el producto por ID
+
+    if (result.deletedCount === 0) {
+        throw new Error(`No se puede eliminar. Producto no encontrado con ID ${id}`);
+    }
+    
+    return { message: `Producto con ID ${id} eliminado` }; // Retorna un mensaje de éxito
+}
 
   async deleteProductForSocket(productId) {
       try {
