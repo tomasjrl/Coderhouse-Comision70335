@@ -8,9 +8,9 @@ import { dirname } from "path";
 import { viewsRouter, viewsRealTimeRouter } from "./routes/viewsRouter.js";
 import cartRouter, { initializeCartRouter } from "./routes/cartRouter.js"; // Importa ambas
 import productRouter from "./routes/productRouter.js";
-import ProductManager from "./controllers/productManager.js"; // Asegúrate de que este archivo esté configurado correctamente
+import ProductManager from "./controllers/productManager.js"; 
 import helpers from "./utils/helpersHandlebars.js";
-import { MongoClient, ObjectId } from "mongodb"; // Importar MongoClient y ObjectId
+import { MongoClient, ObjectId } from "mongodb"; 
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -47,14 +47,13 @@ async function connectToDatabase() {
     cartsCollection = db.collection("carritos"); // Guarda la colección de carritos en una variable
 }
 
-// Conectar a la base de datos y luego inicializar el ProductManager
+// Conectar a la base de datos y luego inicializar el ProductManager y CartManager
 connectToDatabase().then(() => {
+    // Crear una instancia del ProductManager
+    const productManager = new ProductManager(productsCollection); 
 
-    // Crear una instancia del ProductManager **dentro del bloque .then()**
-    const productManager = new ProductManager(productsCollection); // Asegúrate de que tu ProductManager acepte la colección
-
-    // Inicializar el CartManager con la colección de carritos
-    initializeCartRouter(cartsCollection); // Inicializa el router aquí
+    // Inicializar el CartManager con la colección de carritos y productos
+    initializeCartRouter(cartsCollection, productsCollection); // Inicializa el router aquí
 
     // Configuración de Socket.io
     io.on("connection", (socket) => {
@@ -62,21 +61,21 @@ connectToDatabase().then(() => {
 
         socket.on("getProducts", async () => {
             const products = await productManager.getAllProducts();
-            console.log("Productos obtenidos en Socket:", products); // Verifica los productos obtenidos
+            console.log("Productos obtenidos en Socket:", products); 
             socket.emit("products", products);
         });
 
         socket.on("addProduct", async (product) => {
             await productManager.addProduct(product);
             const products = await productManager.getAllProducts();
-            console.log("Productos después de agregar:", products); // Verifica los productos después de agregar
+            console.log("Productos después de agregar:", products); 
             io.emit("products", products);
         });
 
         socket.on("deleteProduct", async (productId) => {
             await productManager.deleteProduct(productId);
             const products = await productManager.getAllProducts();
-            console.log("Productos después de eliminar:", products); // Verifica los productos después de eliminar
+            console.log("Productos después de eliminar:", products); 
             io.emit("products", products);
         });
 

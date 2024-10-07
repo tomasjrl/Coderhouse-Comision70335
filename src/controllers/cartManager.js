@@ -1,9 +1,9 @@
 import { ObjectId } from "mongodb";
 
 class CartManager {
-    constructor(collection) {
-        this.collection = collection; // Asigna la colección de MongoDB
-    }
+  constructor(collection) {
+      this.collection = collection; // Asigna la colección de MongoDB
+  }
 
     async createCart(products) {
         const newCart = { products: [] }; // Inicializa el carrito vacío
@@ -37,36 +37,44 @@ class CartManager {
   }
 
   async addProductToCart(cartId, productId) {
-    const cart = await this.getCart(cartId);
+    const cart = await this.getCart(cartId); // Obtiene el carrito existente
+
+    // Convierte productId a ObjectId
+    const productObjectId = new ObjectId(productId);
     
-    const productIndex = cart.products.findIndex((p) => p.product === productId);
+    const productIndex = cart.products.findIndex((p) => p.product.equals(productObjectId)); // Busca si el producto ya está en el carrito
+
     if (productIndex !== -1) {
-      cart.products[productIndex].quantity++;
+        // Si el producto ya existe, incrementa su cantidad
+        cart.products[productIndex].quantity++;
     } else {
-      cart.products.push({ product: productId, quantity: 1 });
+        // Si no existe, agrega el nuevo producto con cantidad 1
+        cart.products.push({ product: productObjectId, quantity: 1 }); // Asegúrate de usar productObjectId aquí
     }
 
-    await this.collection.updateOne({ _id: new ObjectId(cartId) }, { $set: { products: cart.products } });
+    await this.collection.updateOne({ _id: new ObjectId(cartId) }, { $set: { products: cart.products } }); // Actualiza el carrito en la base de datos
     return cart; // Retorna el carrito actualizado
-  }
+}
 
-  async updateProductQuantityInCart(cartId, productId, newQuantity) {
-    const cart = await this.getCart(cartId);
-    
-    const productIndex = cart.products.findIndex((p) => p.product === productId);
-    if (productIndex !== -1) {
+async updateProductQuantityInCart(cartId, productId, newQuantity) {
+  const cart = await this.getCart(cartId); // Obtiene el carrito existente
+  const productObjectId = new ObjectId(productId); // Convierte productId a ObjectId
+
+  const productIndex = cart.products.findIndex((p) => p.product.equals(productObjectId)); // Busca si el producto está en el carrito
+
+  if (productIndex !== -1) {
       if (newQuantity > 0) {
-        cart.products[productIndex].quantity = newQuantity;
+          cart.products[productIndex].quantity = newQuantity; // Actualiza la cantidad
       } else {
-        throw new Error("La cantidad debe ser mayor a 0");
+          throw new Error("La cantidad debe ser mayor a 0"); // Maneja el caso donde la cantidad es 0 o negativa
       }
-      
-      await this.collection.updateOne({ _id: new ObjectId(cartId) }, { $set: { products: cart.products } });
+
+      await this.collection.updateOne({ _id: new ObjectId(cartId) }, { $set: { products: cart.products } }); // Actualiza el carrito en la base de datos
       return cart; // Retorna el carrito actualizado
-    } else {
-      throw new Error(`Producto no encontrado en el carrito ${cartId}`);
-    }
+  } else {
+      throw new Error(`Producto no encontrado en el carrito ${cartId}`); // Maneja el caso donde el producto no está en el carrito
   }
+}
 
   async clearProductsInCart(cartId) {
     await this.collection.updateOne({ _id: new ObjectId(cartId) }, { $set: { products: [] } });
