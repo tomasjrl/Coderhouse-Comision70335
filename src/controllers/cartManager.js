@@ -56,6 +56,34 @@ class CartManager {
     return cart; // Retorna el carrito actualizado
 }
 
+async updateProductsInCart(cartId, products) {
+  const cart = await this.getCart(cartId); // Obtiene el carrito existente
+
+  // Valida que los productos sean un arreglo
+  if (!Array.isArray(products)) {
+      throw new Error("Los productos deben ser un arreglo.");
+  }
+
+  // Crea un nuevo arreglo de productos con ObjectId
+  const updatedProducts = products.map(item => {
+      if (!item.product || typeof item.quantity !== 'number' || item.quantity <= 0) {
+          throw new Error("Cada producto debe tener un ID y una cantidad válida mayor a 0.");
+      }
+      return {
+          product: new ObjectId(item.product), // Convierte a ObjectId
+          quantity: item.quantity
+      };
+  });
+
+  // Actualiza el carrito en la base de datos
+  await this.collection.updateOne(
+      { _id: new ObjectId(cartId) },
+      { $set: { products: updatedProducts } }
+  );
+
+  return { _id: cartId, products: updatedProducts }; // Retorna el carrito actualizado
+}
+
 async updateProductQuantityInCart(cartId, productId, newQuantity) {
   const cart = await this.getCart(cartId); // Obtiene el carrito existente
   const productObjectId = new ObjectId(productId); // Convierte productId a ObjectId
@@ -82,17 +110,24 @@ async updateProductQuantityInCart(cartId, productId, newQuantity) {
   }
 
   async removeProductFromCart(cartId, productId) {
-    const cart = await this.getCart(cartId);
-    
-    const productIndex = cart.products.findIndex((p) => p.product === productId);
-    if (productIndex !== -1) {
-      cart.products.splice(productIndex, 1); // Elimina el producto del carrito
-      await this.collection.updateOne({ _id: new ObjectId(cartId) }, { $set: { products: cart.products } });
-      return cart; // Retorna el carrito actualizado
-    } else {
-      throw new Error(`Producto no encontrado en el carrito ${cartId}`);
+    const cart = await this.getCart(cartId); // Obtiene el carrito existente
+
+    // Verifica si el ID del producto es válido
+    if (!ObjectId.isValid(productId)) {
+        throw new Error("ID inválido para el producto.");
     }
-  }
+
+    const productIndex = cart.products.findIndex((p) => p.product.equals(new ObjectId(productId))); // Busca si el producto está en el carrito
+
+    if (productIndex !== -1) {
+        cart.products.splice(productIndex, 1); // Elimina el producto del carrito
+        await this.collection.updateOne({ _id: new ObjectId(cartId) }, { $set: { products: cart.products } }); // Actualiza el carrito en la base de datos
+        return cart; // Retorna el carrito actualizado
+    } else {
+        throw new Error(`Producto no encontrado en el carrito ${cartId}`); // Maneja el caso donde el producto no está en el carrito
+    }
+}
+
 }
 
 export default CartManager;
