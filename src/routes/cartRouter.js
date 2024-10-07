@@ -35,7 +35,13 @@ cartRouter.post("/:cid/products/:pid", (req, res) => {
     res.json(updatedCart);
   } catch (error) {
     if (error.message.includes("Carrito no encontrado")) {
-      res.status(404).json({ message: "Carrito no encontrado" });
+      res
+        .status(404)
+        .json({ message: `Carrito no encontrado con ID ${req.params.cid}` });
+    } else if (error.message.includes("Producto no encontrado")) {
+      res
+        .status(404)
+        .json({ message: `Producto no encontrado con ID ${req.params.pid}` });
     } else {
       res
         .status(500)
