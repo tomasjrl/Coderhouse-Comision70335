@@ -6,7 +6,7 @@ import { Server } from "socket.io";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import { viewsRouter, viewsRealTimeRouter } from "./routes/viewsRouter.js";
-import cartRouter from "./routes/cartRouter.js";
+import cartRouter, { initializeCartRouter } from "./routes/cartRouter.js"; // Importa ambas
 import productRouter from "./routes/productRouter.js";
 import ProductManager from "./controllers/productManager.js"; // Asegúrate de que este archivo esté configurado correctamente
 import helpers from "./utils/helpersHandlebars.js";
@@ -36,13 +36,15 @@ app.use(express.json());
 const url = process.env.MONGODB_URI || "mongodb://localhost:27017";
 const dbName = "e-commerce";
 let productsCollection;
+let cartsCollection;
 
 async function connectToDatabase() {
     const client = new MongoClient(url);
     await client.connect();
     console.log("Conectado a la base de datos");
     const db = client.db(dbName);
-    productsCollection = db.collection("productos"); // Guarda la colección en una variable
+    productsCollection = db.collection("productos"); // Guarda la colección de productos en una variable
+    cartsCollection = db.collection("carritos"); // Guarda la colección de carritos en una variable
 }
 
 // Conectar a la base de datos y luego inicializar el ProductManager
@@ -50,6 +52,9 @@ connectToDatabase().then(() => {
 
     // Crear una instancia del ProductManager **dentro del bloque .then()**
     const productManager = new ProductManager(productsCollection); // Asegúrate de que tu ProductManager acepte la colección
+
+    // Inicializar el CartManager con la colección de carritos
+    initializeCartRouter(cartsCollection); // Inicializa el router aquí
 
     // Configuración de Socket.io
     io.on("connection", (socket) => {
@@ -84,10 +89,10 @@ connectToDatabase().then(() => {
     app.use("/", viewsRouter);
     app.use("/realtimeproducts", viewsRealTimeRouter);
     app.use("/api/products", productRouter(productManager)); // Asegúrate de que tu router acepte el ProductManager
-    app.use("/api/carts", cartRouter);
+    app.use("/api/carts", cartRouter); // Usa el router aquí
 
     // Iniciar el servidor
     server.listen(PORT, () => {
-        console.log(`Servidor escuchando en PORT ${PORT}`);
-    });
+       console.log(`Servidor escuchando en PORT ${PORT}`);
+   });
 }).catch(err => console.error("Error al conectar a la base de datos:", err));
