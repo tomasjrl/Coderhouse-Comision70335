@@ -8,7 +8,7 @@ const productoSchema = new Schema({
   status: { type: Boolean, required: true },
   stock: { type: Number, required: true },
   category: { type: String, required: true }
-});
+}, { versionKey: false }); // Desactivar el campo __v
 
 const Producto = mongoose.model('Producto', productoSchema);
 

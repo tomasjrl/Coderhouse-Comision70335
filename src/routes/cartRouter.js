@@ -1,19 +1,21 @@
 import express from 'express';
 import CartManager from '../controllers/cartManager.js'; 
-import { ObjectId } from 'mongodb'; // Asegúrate de importar ObjectId
+import { ObjectId } from 'mongodb'; 
 
 const cartRouter = express.Router();
-let cartManager; // Definimos cartManager aquí
+let cartManager; 
 
-// Asignar la colección de carritos al CartManager
 const initializeCartRouter = (collection) => {
     cartManager = new CartManager(collection);
 };
 
 cartRouter.post('/', async (req, res) => {
     try {
-        const newCart = await cartManager.createCart(); 
-        res.status(201).json(newCart);
+        const { products } = req.body; // Obtén los productos del cuerpo de la solicitud
+        const newCart = await cartManager.createCart(products); // Pasa los productos al método
+        
+        // Devuelve el carrito con la estructura deseada
+        res.status(201).json({ cart: newCart });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Error interno al crear el carrito" });

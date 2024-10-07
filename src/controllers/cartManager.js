@@ -1,15 +1,27 @@
 import { ObjectId } from "mongodb";
 
 class CartManager {
-  constructor(collection) {
-    this.collection = collection; // Asigna la colección de MongoDB
-  }
+    constructor(collection) {
+        this.collection = collection; // Asigna la colección de MongoDB
+    }
 
-  async createCart() {
-    const newCart = { products: [] }; // Carrito vacío al inicio
-    const result = await this.collection.insertOne(newCart);
-    return { id: result.insertedId, ...newCart }; // Retorna el nuevo carrito con su ID
-  }
+    async createCart(products) {
+        const newCart = { products: [] }; // Inicializa el carrito vacío
+
+        // Si se envían productos en la solicitud, agrégales
+        if (products && Array.isArray(products)) {
+            newCart.products = products.map(item => ({
+                product: item.product,
+                quantity: item.quantity
+            }));
+        }
+
+        const result = await this.collection.insertOne(newCart); // Inserta el nuevo carrito en la colección
+        return { _id: result.insertedId, ...newCart }; // Retorna el nuevo carrito con su ID
+    }
+
+
+
 
   async getCart(cartId) {
     const cart = await this.collection.findOne({ _id: new ObjectId(cartId) });

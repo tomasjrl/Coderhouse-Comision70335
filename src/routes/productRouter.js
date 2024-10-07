@@ -7,7 +7,7 @@ const productRouter = (productManager) => {
     router.get("/", async (req, res) => {
         try {
             let products = await productManager.getAllProducts();
-            console.log("Productos obtenidos desde /api/products:", products); // Confirmación de que la ruta funciona y muestra los productos
+            // console.log("Productos obtenidos desde /api/products:", products); // Confirmación de que la ruta funciona y muestra los productos
             const category = req.query.category;
             const stock = req.query.stock;
             const sort = req.query.sort;

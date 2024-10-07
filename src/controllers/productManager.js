@@ -6,7 +6,6 @@ class ProductManager {
     }
 
     async getAllProducts() {
-      console.log("Colección:", this.collection);
         return await this.collection.find().toArray(); // Obtiene todos los productos de la colección
     }
 

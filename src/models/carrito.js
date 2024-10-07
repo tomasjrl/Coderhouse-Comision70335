@@ -9,7 +9,7 @@ const productoSchema = new Schema({
 // Definición del esquema para el carrito
 const carritoSchema = new Schema({
     products: [productoSchema] // Arreglo de productos
-});
+}, { versionKey: false }); // Desactivar el campo __v
 
 // Crear el modelo Carrito
 const Carrito = mongoose.model('Carrito', carritoSchema);
