@@ -3,7 +3,7 @@
 
 SOBRE MI:
 
-Hola, mi nombre es Tomás Stabilini. Tengo 37 años y actualmente estoy cursando un Bootcamp Backend en la plataforma Coderhouse, en búsqueda de nuevos horizontes y oportunidades laborales. La programación web es una hermosa faceta que eh encontrado para mi vida y me ha llevado al deseo de aprender y mejorar mis habilidades en Frontend y Backend, por lo cual estoy emocionado de compartir mis proyectos a medida que vaya ganando mayor experiencia.
+Hola, mi nombre es Tomás Stabilini. Tengo 38 años y actualmente estoy cursando un Bootcamp Backend en la plataforma Coderhouse, en búsqueda de nuevos horizontes y oportunidades laborales. La programación web es una hermosa faceta que eh encontrado para mi vida y me ha llevado al deseo de aprender y mejorar mis habilidades en Frontend y Backend, por lo cual estoy emocionado de compartir mis proyectos a medida que vaya ganando mayor experiencia.
 
 
 ## Proyecto: Curso de Coderhouse: Comisión 70335: ##
