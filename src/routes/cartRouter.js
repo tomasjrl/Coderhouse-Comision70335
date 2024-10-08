@@ -88,6 +88,11 @@ cartRouter.post('/:cid/products/:pid', async (req, res) => {
         const cartId = req.params.cid; // ID del carrito
         const productId = req.params.pid; // ID del producto
 
+        // Validar si el productId es un ObjectId válido
+        if (!ObjectId.isValid(productId) || productId.length !== 24) {
+            return res.status(400).json({ message: "ID del producto inválido. Debe ser una cadena hexadecimal de 24 caracteres." });
+        }
+
         // Verificar si el producto existe en la colección
         await productManager.getProductById(productId); // Llama al método para verificar existencia
 
@@ -100,7 +105,7 @@ cartRouter.post('/:cid/products/:pid', async (req, res) => {
         } else if (error.message.includes("Producto no encontrado")) {
             res.status(404).json({ message: "Producto no encontrado" });
         } else {
-            console.error(error);
+            console.error(error); // Solo se imprime si es un error inesperado
             res.status(500).json({ message: "Error interno al agregar producto al carrito" });
         }
     }
