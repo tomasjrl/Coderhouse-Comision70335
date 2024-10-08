@@ -83,27 +83,27 @@ cartRouter.delete('/:cid', async (req, res) => {
     }
 });
 
-cartRouter.post('/:cid/product/:pid', async (req, res) => {
-  try {
-      const cartId = req.params.cid; // ID del carrito
-      const productId = req.params.pid; // ID del producto
+cartRouter.post('/:cid/products/:pid', async (req, res) => {
+    try {
+        const cartId = req.params.cid; // ID del carrito
+        const productId = req.params.pid; // ID del producto
 
-      // Verificar si el producto existe en la colección
-      await productManager.getProductById(productId); // Llama al método para verificar existencia
+        // Verificar si el producto existe en la colección
+        await productManager.getProductById(productId); // Llama al método para verificar existencia
 
-      // Lógica para agregar el producto al carrito
-      const updatedCart = await cartManager.addProductToCart(cartId, productId);
-      res.status(200).json(updatedCart); // Devuelve el carrito actualizado
-  } catch (error) {
-      if (error.message.includes("Carrito no encontrado")) {
-          res.status(404).json({ message: "Carrito no encontrado" });
-      } else if (error.message.includes("Producto no encontrado")) {
-          res.status(404).json({ message: "Producto no encontrado" });
-      } else {
-          console.error(error);
-          res.status(500).json({ message: "Error interno al agregar producto al carrito" });
-      }
-  }
+        // Lógica para agregar el producto al carrito
+        const updatedCart = await cartManager.addProductToCart(cartId, productId);
+        res.status(200).json(updatedCart); // Devuelve el carrito actualizado
+    } catch (error) {
+        if (error.message.includes("Carrito no encontrado")) {
+            res.status(404).json({ message: "Carrito no encontrado" });
+        } else if (error.message.includes("Producto no encontrado")) {
+            res.status(404).json({ message: "Producto no encontrado" });
+        } else {
+            console.error(error);
+            res.status(500).json({ message: "Error interno al agregar producto al carrito" });
+        }
+    }
 });
 
 cartRouter.put('/:cid/products/:pid', async (req, res) => {

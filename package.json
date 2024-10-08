@@ -7,6 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "nodemon ./src/app.js",
+    "start": "node ./src/app.js",
     "migrate": "node ./src/utils/migrate-fs-to-mongo.js"
   },
   "author": "Tomas Stabilini",

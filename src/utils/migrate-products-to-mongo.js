@@ -9,7 +9,7 @@ import Producto from '../models/producto.js';
 const DB_URL = 'mongodb://localhost:27017/e-commerce';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const FS_DATA_FILE = path.join(__dirname, '../../data/products.json');
+const FS_DATA_FILE = path.join(__dirname, '../data/products.json');
 
 // Conectar a MongoDB
 mongoose.connect(DB_URL);

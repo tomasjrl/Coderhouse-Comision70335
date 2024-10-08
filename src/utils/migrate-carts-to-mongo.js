@@ -9,7 +9,7 @@ import Carrito from '../models/carrito.js'; // Importa el modelo Carrito
 const DB_URL = 'mongodb://localhost:27017/e-commerce';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const FS_DATA_FILE = path.join(__dirname, '../../data/carts.json');
+const FS_DATA_FILE = path.join(__dirname, '../data/carts.json');
 
 // Conectar a MongoDB
 mongoose.connect(DB_URL);

@@ -10,7 +10,7 @@ import cartRouter, { initializeCartRouter } from "./routes/cartRouter.js"; // Im
 import productRouter from "./routes/productRouter.js";
 import ProductManager from "./controllers/productManager.js"; 
 import helpers from "./utils/helpersHandlebars.js";
-import { MongoClient, ObjectId } from "mongodb"; 
+import { MongoClient } from "mongodb"; 
 
 const app = express();
 const PORT = process.env.PORT || 8080;
