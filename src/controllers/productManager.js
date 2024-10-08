@@ -1,12 +1,13 @@
-import { ObjectId } from "mongodb"; // Importar ObjectId para manejar IDs de MongoDB
+import mongoose from 'mongoose'; // Importa mongoose para manejar ObjectId
+import Producto from '../models/producto.js'; // Asegúrate de que la ruta sea correcta
 
 class ProductManager {
-    constructor(collection) {
-        this.collection = collection; // Asigna la colección de MongoDB
+    constructor() {
+        this.collection = Producto; // Usa el modelo Producto aquí
     }
 
     async getAllProducts() {
-        return await this.collection.find().toArray(); // Obtiene todos los productos de la colección
+        return await this.collection.find(); // Obtiene todos los productos de la colección
     }
 
     async getCategories() {
@@ -16,116 +17,95 @@ class ProductManager {
     }
 
     async getProductById(id) {
-        const product = await this.collection.findOne({ _id: new ObjectId(id) }); // Busca el producto por ID
+        const product = await this.collection.findById(id); // Busca el producto por ID usando Mongoose
         if (!product) {
-            throw new Error(`Producto no encontrado con ID ${id}`);
+            // En lugar de lanzar un error, simplemente retorna null o un objeto vacío
+            return null; // O puedes lanzar un error con un mensaje más genérico si prefieres
         }
         return product;
     }
 
     async addProduct(productData) {
-      const requiredLabels = [
-          "title",
-          "description",
-          "code",
-          "price",
-          "status",
-          "stock",
-          "category",
-          // "thumbnails", // Si decides usar thumbnails, asegúrate de descomentar esta línea
-      ];
-  
-      // Verifica si faltan campos requeridos
-      const missingLabels = requiredLabels.filter(
-          (label) => !(label in productData)
-      );
-      if (missingLabels.length > 0) {
-          throw new Error(
-              `Faltan los siguientes campos requeridos: ${missingLabels.join(", ")}`
-          );
-      }
-  
-      let {
-          title,
-          description,
-          code,
-          price,
-          status = true, // Valor por defecto para status
-          stock,
-          category,
-          // thumbnails = [], // Valor por defecto para thumbnails
-      } = productData;
-  
-      // Validación del tipo de datos
-      if (typeof title !== "string") {
-          throw new Error("El título debe ser un string");
-      }
-      if (typeof description !== "string") {
-          throw new Error("La descripción debe ser un string");
-      }
-      if (typeof code !== "string") {
-          throw new Error("El código debe ser un string");
-      }
-  
-      // Verifica si el código ya existe
-      const existingProduct = await this.collection.findOne({ code });
-      if (existingProduct) {
-          throw new Error(`Ya existe un producto con el código ${code}`);
-      }
-  
-      if (typeof status !== "boolean") {
-          throw new Error("El estado (status) debe ser un valor booleano (true/false)");
-      }
-  
-      if (typeof stock === "string") {
-          stock = parseInt(stock);
-      }
-      if (!Number.isInteger(stock) || stock < 0) {
-          throw new Error("El stock debe ser un número entero no negativo");
-      }
-  
-      if (typeof price === "string") {
-          price = parseFloat(price);
-      }
-      if (typeof price !== "number" || price <= 0) {
-          throw new Error("El precio debe ser un número positivo");
-      }
-  
-      // Validación de thumbnails si decides usarlo
-      /*
-      if (
-          updates.thumbnails &&
-          (!Array.isArray(updates.thumbnails) ||
-              updates.thumbnails.length === 0 ||
-              !updates.thumbnails.every((thumbnail) => typeof thumbnail === "string"))
-      ) {
-          throw new Error("El campo thumbnails debe ser un arreglo no vacío de strings");
-      }
-      */
-  
-      const newProduct = {
-          title,
-          description,
-          code,
-          price,
-          status,
-          stock,
-          category,
-          // thumbnails, // Asegúrate de incluir esto si decides usar thumbnails
-      };
-  
-      const result = await this.collection.insertOne(newProduct); // Inserta el nuevo producto en la colección
-      return { id: result.insertedId, ...newProduct }; // Retorna el nuevo producto con su ID
-  }
-  
+        const requiredLabels = [
+            "title",
+            "description",
+            "code",
+            "price",
+            "status",
+            "stock",
+            "category",
+            // "thumbnails", // Si decides usar thumbnails, asegúrate de descomentar esta línea
+        ];
 
-    async addProductForSocket(product) {
-        try {
-            return await this.addProduct(product);
-        } catch (error) {
-            console.error("Error al crear producto mediante socket:", error);
-            throw new Error("Error interno al crear el producto");
+        // Verifica si faltan campos requeridos
+        const missingLabels = requiredLabels.filter(
+            (label) => !(label in productData)
+        );
+        if (missingLabels.length > 0) {
+            throw new Error(
+                `Faltan los siguientes campos requeridos: ${missingLabels.join(", ")}`
+            );
         }
+
+        let {
+            title,
+            description,
+            code,
+            price,
+            status = true, // Valor por defecto para status
+            stock,
+            category,
+            // thumbnails = [], // Valor por defecto para thumbnails
+        } = productData;
+
+        // Validación del tipo de datos
+        if (typeof title !== "string") {
+            throw new Error("El título debe ser un string");
+        }
+        if (typeof description !== "string") {
+            throw new Error("La descripción debe ser un string");
+        }
+        if (typeof code !== "string") {
+            throw new Error("El código debe ser un string");
+        }
+
+        // Verifica si el código ya existe
+        const existingProduct = await this.collection.findOne({ code });
+        if (existingProduct) {
+            throw new Error(`Ya existe un producto con el código ${code}`);
+        }
+
+        if (typeof status !== "boolean") {
+            throw new Error("El estado (status) debe ser un valor booleano (true/false)");
+        }
+
+        if (typeof stock === "string") {
+            stock = parseInt(stock);
+        }
+        if (!Number.isInteger(stock) || stock < 0) {
+            throw new Error("El stock debe ser un número entero no negativo");
+        }
+
+        if (typeof price === "string") {
+            price = parseFloat(price);
+        }
+        if (typeof price !== "number" || price <= 0) {
+            throw new Error("El precio debe ser un número positivo");
+        }
+
+        const newProduct = {
+            title,
+            description,
+            code,
+            price,
+            status,
+            stock,
+            category,
+            // thumbnails, // Asegúrate de incluir esto si decides usar thumbnails
+        };
+
+        const result = await this.collection.create(newProduct); // Inserta el nuevo producto en la colección
+        return { id: result._id, ...newProduct }; // Retorna el nuevo producto con su ID
     }
 
     async updateProduct(id, updates) {
@@ -155,8 +135,8 @@ class ProductManager {
   
       // Validación del stock
       if (
-        updates.stock !== undefined &&
-        (!Number.isInteger(updates.stock) || updates.stock < 0)
+          updates.stock !== undefined &&
+          (!Number.isInteger(updates.stock) || updates.stock < 0)
       ) {
           throw new Error("El stock debe ser un número entero no negativo");
       }
@@ -169,51 +149,27 @@ class ProductManager {
           throw new Error("El precio debe ser un número positivo");
       }
   
-      // Validación de thumbnails
-      if (
-          updates.thumbnails &&
-          (!Array.isArray(updates.thumbnails) ||
-              updates.thumbnails.length === 0 ||
-              !updates.thumbnails.every((thumbnail) => typeof thumbnail === "string"))
-      ) {
-          throw new Error(
-              "El campo thumbnails debe ser un arreglo no vacío de strings"
-          );
-      }
-  
-      // Combina el producto existente con las actualizaciones
       const updatedProduct = { ...product, ...updates };
       
-      // Actualiza el producto en la colección
-      await this.collection.updateOne({ _id: new ObjectId(id) }, { $set: updatedProduct });
+      await this.collection.updateOne({ _id: id }, { $set: updatedProduct }); // Actualiza el producto en la colección
       
       return updatedProduct; // Retorna el producto actualizado
   }
-  
 
-  async deleteProduct(id) {
-    // Validar si el ID es un ObjectId válido
-    if (!ObjectId.isValid(id)) {
-        throw new Error("ID inválido. Debe ser una cadena hexadecimal de 24 caracteres.");
+    async deleteProduct(id) {
+        // Validar si el ID es un ObjectId válido
+        if (!mongoose.Types.ObjectId.isValid(id)) { 
+            throw new Error("ID inválido. Debe ser una cadena hexadecimal de 24 caracteres.");
+        }
+
+        const result = await this.collection.deleteOne({ _id: new mongoose.Types.ObjectId(id) }); 
+
+        if (result.deletedCount === 0) {
+            throw new Error(`No se puede eliminar. Producto no encontrado con ID ${id}`);
+        }
+        
+        return { message: `Producto con ID ${id} eliminado` }; 
     }
-
-    const result = await this.collection.deleteOne({ _id: new ObjectId(id) }); // Elimina el producto por ID
-
-    if (result.deletedCount === 0) {
-        throw new Error(`No se puede eliminar. Producto no encontrado con ID ${id}`);
-    }
-    
-    return { message: `Producto con ID ${id} eliminado` }; // Retorna un mensaje de éxito
-}
-
-  async deleteProductForSocket(productId) {
-      try {
-          return await this.deleteProduct(productId);
-      } catch (error) {
-          console.error("Error al eliminar producto mediante socket:", error);
-          throw new Error("Error interno al eliminar el producto");
-      }
-  }
 }
 
 export default ProductManager;

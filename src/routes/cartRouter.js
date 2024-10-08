@@ -1,16 +1,19 @@
 import express from 'express';
 import CartManager from '../controllers/cartManager.js'; 
 import ProductManager from '../controllers/productManager.js'; 
-import { ObjectId } from 'mongodb'; 
+import Cart from '../models/carrito.js';
+import mongoose from 'mongoose'; // Importa mongoose para usar ObjectId
+
+const { Types: { ObjectId } } = mongoose; // Extrae ObjectId de mongoose
 
 const cartRouter = express.Router();
 let cartManager; 
-let productManager; // Define la variable aquí
+let productManager;
 
 // Función para inicializar el router con las colecciones
 const initializeCartRouter = (cartCollection, productCollection) => {
     cartManager = new CartManager(cartCollection);
-    productManager = new ProductManager(productCollection); // Asegúrate de pasar la colección de productos
+    productManager = new ProductManager(productCollection);
 };
 
 // Rutas para manejar carritos
@@ -29,23 +32,20 @@ cartRouter.get('/:cid', async (req, res) => {
     try {
         const cartId = req.params.cid;
 
-        // Verificar si el ID es un ObjectId válido
         if (!ObjectId.isValid(cartId)) {
-            return res.status(404).json({ message: "ID inválido. Debe ser una cadena hexadecimal de 24 caracteres." });
+            return res.status(400).json({ message: "ID inválido." });
         }
 
-        const cart = await cartManager.getCart(cartId);
-        const products = await cartManager.getProductsInCart(cartId);
+        const cart = await Cart.findById(cartId).populate('products.product'); // Usa populate aquí
 
-        // Combina el carrito con sus productos para evitar duplicación
-        res.json({ cart: { ...cart, products } });
+        if (!cart) {
+            return res.status(404).json({ message: "Carrito no encontrado" });
+        }
+
+        res.json(cart);
     } catch (error) {
-        if (error.message.includes("Carrito no encontrado")) {
-            res.status(404).json({ message: "Carrito no encontrado" });
-        } else {
-            console.error(error);
-            res.status(500).json({ message: "Error interno al obtener el carrito" });
-        }
+        console.error(error);
+        res.status(500).json({ message: "Error interno al obtener el carrito" });
     }
 });
 
@@ -98,7 +98,11 @@ cartRouter.post('/:cid/products/:pid', async (req, res) => {
 
         // Lógica para agregar el producto al carrito
         const updatedCart = await cartManager.addProductToCart(cartId, productId);
-        res.status(200).json(updatedCart); // Devuelve el carrito actualizado
+        
+        // Obtener el carrito actualizado con populate
+        const populatedCart = await cartManager.getCart(cartId); // Asegúrate de que este método use populate
+
+        res.status(200).json(populatedCart); // Devuelve el carrito actualizado con productos poblados
     } catch (error) {
         if (error.message.includes("Carrito no encontrado")) {
             res.status(404).json({ message: "Carrito no encontrado" });

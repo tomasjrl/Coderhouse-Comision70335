@@ -5,7 +5,7 @@ const DB_URL = 'mongodb://localhost:27017/e-commerce';
 mongoose.connect(DB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 10000, // 30 segundos
+  serverSelectionTimeoutMS: 30000, // 30 segundos
 });
 
 const db = mongoose.connection;

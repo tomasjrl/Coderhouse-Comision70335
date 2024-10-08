@@ -6,11 +6,11 @@ import { Server } from "socket.io";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import { viewsRouter, viewsRealTimeRouter } from "./routes/viewsRouter.js";
-import cartRouter, { initializeCartRouter } from "./routes/cartRouter.js"; // Importa ambas
+import cartRouter, { initializeCartRouter } from "./routes/cartRouter.js"; 
 import productRouter from "./routes/productRouter.js";
 import ProductManager from "./controllers/productManager.js"; 
 import helpers from "./utils/helpersHandlebars.js";
-import { MongoClient } from "mongodb"; 
+import mongoose from 'mongoose'; // Importa mongoose
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -32,28 +32,26 @@ app.set("view engine", "handlebars");
 app.use(express.static(__dirname + "/public"));
 app.use(express.json());
 
-// Conexión a MongoDB
-const url = process.env.MONGODB_URI || "mongodb://localhost:27017";
-const dbName = "e-commerce";
-let productsCollection;
-let cartsCollection;
+// Conexión a MongoDB usando Mongoose
+const DB_URL = process.env.MONGODB_URI || "mongodb://localhost:27017/e-commerce";
 
 async function connectToDatabase() {
-    const client = new MongoClient(url);
-    await client.connect();
-    console.log("Conectado a la base de datos");
-    const db = client.db(dbName);
-    productsCollection = db.collection("productos"); // Guarda la colección de productos en una variable
-    cartsCollection = db.collection("carritos"); // Guarda la colección de carritos en una variable
+    try {
+        await mongoose.connect(DB_URL);
+        console.log("Conectado a MongoDB");
+    } catch (error) {
+        console.error("Error al conectar a MongoDB:", error);
+        process.exit(1); // Salir si no se puede conectar
+    }
 }
 
 // Conectar a la base de datos y luego inicializar el ProductManager y CartManager
 connectToDatabase().then(() => {
     // Crear una instancia del ProductManager
-    const productManager = new ProductManager(productsCollection); 
+    const productManager = new ProductManager(); // No necesitas pasar la colección aquí
 
-    // Inicializar el CartManager con la colección de carritos y productos
-    initializeCartRouter(cartsCollection, productsCollection); // Inicializa el router aquí
+    // Inicializar el CartManager con el modelo Cart
+    initializeCartRouter(); // Inicializa el router aquí
 
     // Configuración de Socket.io
     io.on("connection", (socket) => {

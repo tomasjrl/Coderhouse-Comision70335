@@ -67,37 +67,37 @@ const productRouter = (productManager) => {
     });
 
     router.get("/:pid", async (req, res) => {
-      try {
-          const productId = req.params.pid;
-  
-          // Validar si el ID es un ObjectId válido
-          if (!ObjectId.isValid(productId)) {
-              return res.status(400).json({ status: "error", message: "ID inválido. Debe ser una cadena hexadecimal de 24 caracteres." });
-          }
-  
-          // Usar createFromHexString para crear el ObjectId
-          const id = ObjectId.createFromHexString(productId);
-  
-          // Llama al método para obtener el producto
-          const product = await productManager.getProductById(id);
-          
-          if (!product) {
-              return res.status(404).json({ status: "error", message: "Producto no encontrado" });
-          }
-  
-          res.json({ status: "success", payload: product });
-      } catch (error) {
-          console.error("Error al obtener producto:", error);
-          
-          // Manejo específico de errores
-          if (error.message.startsWith("Producto no encontrado")) {
-              return res.status(404).json({ status: "error", message: error.message });
-          }
-          
-          // Para otros errores, devuelve un error 500
-          res.status(500).json({ status: "error", message: "Error interno del servidor" });
-      }
-  });
+        try {
+            const productId = req.params.pid;
+    
+            // Validar si el ID es un ObjectId válido
+            if (!ObjectId.isValid(productId)) {
+                return res.status(400).json({ status: "error", message: "ID inválido. Debe ser una cadena hexadecimal de 24 caracteres." });
+            }
+    
+            // Usar createFromHexString para crear el ObjectId
+            const id = ObjectId.createFromHexString(productId);
+    
+            // Llama al método para obtener el producto
+            const product = await productManager.getProductById(id);
+    
+            if (!product) {
+                return res.status(404).json({ status: "error", message: `Producto con ID ${productId} no encontrado` }); // Mensaje personalizado
+            }
+    
+            res.json({ status: "success", payload: product });
+        } catch (error) {
+            console.error("Error al obtener producto:", error);
+            
+            // Manejo específico de errores
+            if (error.message.startsWith("Producto no encontrado")) {
+                return res.status(404).json({ status: "error", message: error.message });
+            }
+            
+            // Para otros errores, devuelve un error 500
+            res.status(500).json({ status: "error", message: "Error interno del servidor" });
+        }
+    });
   
 
   router.post("/", async (req, res) => {
