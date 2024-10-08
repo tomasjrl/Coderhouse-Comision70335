@@ -116,29 +116,46 @@ cartRouter.post('/:cid/products/:pid', async (req, res) => {
 });
 
 cartRouter.put('/:cid/products/:pid', async (req, res) => {
-  try {
-      const cartId = req.params.cid; // ID del carrito
-      const productId = req.params.pid; // ID del producto
-      
-      const { quantity } = req.body; // Obtén la nueva cantidad del cuerpo de la solicitud
-      
-      if (!quantity || typeof quantity !== 'number') { // Verifica que se proporcione una cantidad válida
-          return res.status(400).json({ message: "Debe proporcionar una cantidad válida en el cuerpo de la solicitud" });
-      }
+    try {
+        const cartId = req.params.cid; // ID del carrito
+        const productId = req.params.pid; // ID del producto
+        
+        const { quantity } = req.body; // Obtén la nueva cantidad del cuerpo de la solicitud
+        
+        // Verifica que se proporcione una cantidad válida
+        if (!quantity || typeof quantity !== 'number') {
+            return res.status(400).json({ message: "Debe proporcionar una cantidad válida en el cuerpo de la solicitud" });
+        }
 
-      const updatedCart = await cartManager.updateProductQuantityInCart(cartId, productId, quantity); // Llama al método para actualizar la cantidad
-      
-      res.status(200).json(updatedCart); // Devuelve el carrito actualizado
-  } catch (error) {
-      if (error.message.includes("Carrito no encontrado")) {
-          res.status(404).json({ message: "Carrito no encontrado" });
-      } else if (error.message.includes("Producto no encontrado")) {
-          res.status(404).json({ message: "Producto no encontrado en el carrito" });
-      } else {
-          console.error(error);
-          res.status(500).json({ message: "Error interno al actualizar cantidad del producto en el carrito" });
-      }
-  }
+        // Validar que la cantidad no sea negativa
+        if (quantity < 0) {
+            return res.status(400).json({ message: "La cantidad no puede ser un número negativo." });
+        }
+
+        // Verifica que no se estén enviando otros parámetros en el cuerpo
+        const allowedFields = ['quantity'];
+        const receivedFields = Object.keys(req.body);
+        
+        const invalidFields = receivedFields.filter(field => !allowedFields.includes(field));
+        
+        if (invalidFields.length > 0) {
+            return res.status(400).json({ message: `Los siguientes campos no son permitidos: ${invalidFields.join(', ')}` });
+        }
+
+        // Llama al método para actualizar la cantidad
+        const updatedCart = await cartManager.updateProductQuantityInCart(cartId, productId, quantity);
+        
+        res.status(200).json(updatedCart); // Devuelve el carrito actualizado
+    } catch (error) {
+        if (error.message.includes("Carrito no encontrado")) {
+            res.status(404).json({ message: "Carrito no encontrado" });
+        } else if (error.message.includes("Producto no encontrado")) {
+            res.status(404).json({ message: "Producto no encontrado en el carrito" });
+        } else {
+            // Manejo de errores inesperados
+            res.status(500).json({ message: "Error interno al actualizar cantidad del producto en el carrito" });
+        }
+    }
 });
 
 cartRouter.delete('/:cid/products/:pid', async (req, res) => {
