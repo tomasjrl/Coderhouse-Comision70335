@@ -19,6 +19,12 @@
     <div class="form-group">
       <input type="text" id="category" placeholder="Categoría" required />
     </div>
+    <div class="form-group">
+      <select name="status" id="status" class="status-select" required>
+        <option value="true">Disponible</option>
+        <option value="false">No disponible</option>
+      </select>
+    </div>
     <button type="submit" class="submit-btn">Crear Producto</button>
   </form>
 
@@ -27,21 +33,17 @@
     <ul class="products-list" id="productsList">
       {{#each products}}
         <li class="product" id="product-{{id}}">
-        <h3>Descripción:</h3>
-        <p>{{description}}</p>
-        <h3>Código:</h3>
-        <p>{{code}}</p>
-        <h3>Precio:</h3>
-        <p>${{price}}</p>
-        <h3>Stock:</h3>
-        <p>{{stock}}</p>
-        <h3>Categoría:</h3>
-        <p>{{category}}</p>
-          <button
-            type="button"
-            class="submit-btn-delete"
-            data-id="{{id}}"
-          >Eliminar</button>
+          <h3>Descripción:</h3>
+          <p>{{description}}</p>
+          <h3>Código:</h3>
+          <p>{{code}}</p>
+          <h3>Precio:</h3>
+          <p>${{price}}</p>
+          <h3>Stock:</h3>
+          <p>{{stock}}</p>
+          <h3>Categoría:</h3>
+          <p>{{category}}</p>
+          <button type="button" class="submit-btn-delete" data-id="{{id}}">Eliminar</button>
         </li>
       {{/each}}
     </ul>

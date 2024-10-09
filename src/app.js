@@ -48,33 +48,34 @@ async function connectToDatabase() {
 // Conectar a la base de datos y luego inicializar el ProductManager y CartManager
 connectToDatabase().then(() => {
     // Crear una instancia del ProductManager
-    const productManager = new ProductManager(); // No necesitas pasar la colección aquí
+    const productManager = new ProductManager();
 
     // Inicializar el CartManager con el modelo Cart
     initializeCartRouter(); // Inicializa el router aquí
 
     // Configuración de Socket.io
-    io.on("connection", (socket) => {
+    io.on("connection", async (socket) => {
         console.log("Un cliente se ha conectado");
+
+        // Emitir productos al conectarse
+        const products = await productManager.getAllProducts();
+        socket.emit("products", products);
 
         socket.on("getProducts", async () => {
             const products = await productManager.getAllProducts();
-            console.log("Productos obtenidos en Socket:", products); 
             socket.emit("products", products);
         });
 
         socket.on("addProduct", async (product) => {
             await productManager.addProduct(product);
             const products = await productManager.getAllProducts();
-            console.log("Productos después de agregar:", products); 
-            io.emit("products", products);
+            io.emit("products", products); // Emitir a todos los clientes
         });
 
         socket.on("deleteProduct", async (productId) => {
             await productManager.deleteProduct(productId);
             const products = await productManager.getAllProducts();
-            console.log("Productos después de eliminar:", products); 
-            io.emit("products", products);
+            io.emit("products", products); // Emitir a todos los clientes
         });
 
         socket.on("disconnect", () => {
@@ -85,8 +86,8 @@ connectToDatabase().then(() => {
     // Rutas de la aplicación
     app.use("/", viewsRouter);
     app.use("/realtimeproducts", viewsRealTimeRouter);
-    app.use("/api/products", productRouter(productManager)); // Asegúrate de que tu router acepte el ProductManager
-    app.use("/api/carts", cartRouter); // Usa el router aquí
+    app.use("/api/products", productRouter(productManager)); 
+    app.use("/api/carts", cartRouter); 
 
     // Iniciar el servidor
     server.listen(PORT, () => {
