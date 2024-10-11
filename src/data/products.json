@@ -9,6 +9,8 @@
     "stock": 50,
     "category": "Electrónica",
     "thumbnails": [
+      "ruta/galaxy_s21_1.webp",
+      "ruta/galaxy_s21_2.webp"
     ]
   },
   {
@@ -21,6 +23,22 @@
     "stock": 30,
     "category": "Electrónica",
     "thumbnails": [
+      "ruta/hp_pavilion_1.webp",
+      "ruta/hp_pavilion_2.webp"
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Zapatos Deportivos Nike Air Max",
+    "description": "Zapatos deportivos con tecnología Air Max para mayor comodidad.",
+    "code": "Nike-AirMax",
+    "price": 149.99,
+    "status": true,
+    "stock": 100,
+    "category": "Calzado",
+    "thumbnails": [
+      "ruta/nike_airmax_1.webp",
+      "ruta/nike_airmax_2.webp"
     ]
   }
 ]
