@@ -26,5 +26,19 @@
       "ruta/imagen3.jpg",
       "ruta/imagen4.jpg"
     ]
+  },
+  {
+    "id": 3,
+    "title": "Producto-3",
+    "description": "Descripción producto 3",
+    "code": "P003",
+    "price": 25.99,
+    "status": true,
+    "stock": 125,
+    "category": "Tercero",
+    "thumbnails": [
+      "ruta/imagen5.jpg",
+      "ruta/imagen6.jpg"
+    ]
   }
 ]
