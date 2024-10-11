@@ -30,6 +30,22 @@ cartRouter.post("/", async (req, res) => {
   }
 });
 
+cartRouter.get("/", async (req, res) => {
+  try {
+    const carts = await cartManager.getAllCarts();
+    
+    // Envía el ID del primer carrito como respuesta JSON
+    if (carts.length > 0) {
+      res.json({ cartId: carts[0]._id });
+    } else {
+      res.json({ cartId: null });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error interno al obtener carritos" });
+  }
+});
+
 cartRouter.get("/:cid", async (req, res) => {
   try {
     const cartId = req.params.cid;

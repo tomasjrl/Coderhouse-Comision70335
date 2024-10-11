@@ -154,35 +154,28 @@ viewsRouter.get("/products/:id", async (req, res) => {
 
 viewsRouter.get("/carts/:cid", async (req, res) => {
   try {
-    const cartId = parseInt(req.params.cid);
+    const cartId = req.params.cid;
     const cart = await cartManager.getCart(cartId);
 
     if (!cart) {
       return res.status(404).json({ message: "Carrito no encontrado" });
     }
 
-    const products = await cartManager.getProductsInCart(cartId);
-
-    // Crear un nuevo objeto con propiedades propias
-    const cartDetails = {
-      id: cart.id,
-      // Agrega cualquier otra propiedad que necesites
-    };
-
-    const productDetails = products.map((product) => {
+    // Accede a los productos del carrito
+    const products = cart.products.map((product) => {
       return {
-        id: product._id.toString(), // Convertir ObjectId a string
-        title: product.title,
-        description: product.description,
-        code: product.code,
-        price: product.price,
-        stock: product.stock,
-        category: product.category,
-        // Agrega cualquier otra propiedad que necesites
+        id: product.product._id.toString(),
+        title: product.product.title,
+        description: product.product.description,
+        code: product.product.code,
+        price: product.product.price,
+        stock: product.product.stock,
+        category: product.product.category,
+        quantity: product.quantity,
       };
     });
 
-    res.render("cart-details", { cart: cartDetails, products: productDetails });
+    res.render("cart-details", { cart: cart._id, products });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error al obtener carrito" });

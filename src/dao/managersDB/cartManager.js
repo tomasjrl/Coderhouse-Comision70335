@@ -29,6 +29,15 @@ class CartManager {
     return await this.collection.findById(cartId).populate("products.product"); // Usa populate aquí
   }
 
+  async getAllCarts() {
+    try {
+      const carts = await Cart.find().populate("products.product");
+      return carts;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async addProductToCart(cartId, productId) {
     const cart = await this.getCart(cartId); // Obtiene el carrito existente
 
