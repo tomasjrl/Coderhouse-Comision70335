@@ -34,38 +34,36 @@ class CartManager {
 
     // Verifica si el productId es un ObjectId válido
     if (!ObjectId.isValid(productId)) {
-        throw new Error(`ID de producto inválido: ${productId}`);
+      throw new Error(`ID de producto inválido: ${productId}`);
     }
 
     // Busca el producto por ID en la colección de productos
-    const productExists = await Product.findById(productId); 
+    const productExists = await Product.findById(productId);
     if (!productExists) {
-        throw new Error(`Producto con ID ${productId} no encontrado.`);
+      throw new Error(`Producto con ID ${productId} no encontrado.`);
     }
 
     // Convierte productId a ObjectId
     const productObjectId = new mongoose.Types.ObjectId(productId);
 
     const productIndex = cart.products.findIndex((p) =>
-        p.product.equals(productObjectId)
+      p.product.equals(productObjectId)
     ); // Busca si el producto ya está en el carrito
 
     if (productIndex !== -1) {
-        // Si el producto ya existe, incrementa su cantidad
-        cart.products[productIndex].quantity++;
+      // Si el producto ya existe, incrementa su cantidad
+      cart.products[productIndex].quantity++;
     } else {
-        // Si no existe, agrega el nuevo producto con cantidad 1
-        cart.products.push({ product: productObjectId, quantity: 1 });
+      // Si no existe, agrega el nuevo producto con cantidad 1
+      cart.products.push({ product: productObjectId, quantity: 1 });
     }
 
     await this.collection.updateOne(
-        { _id: new mongoose.Types.ObjectId(cartId) },
-        { $set: { products: cart.products } }
+      { _id: new mongoose.Types.ObjectId(cartId) },
+      { $set: { products: cart.products } }
     ); // Actualiza el carrito en la base de datos
     return cart; // Retorna el carrito actualizado
-}
-
-
+  }
 
   async updateProductsInCart(cartId, products) {
     const cart = await this.getCart(cartId); // Obtiene el carrito existente

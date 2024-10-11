@@ -1,6 +1,6 @@
 import express from "express";
-import ProductManager from "../controllers/productManager.js";
-import CartManager from "../controllers/cartManager.js";
+import ProductManager from "../dao/managersDB/productManager.js";
+import CartManager from "../dao/managersDB/cartManager.js";
 
 const viewsRouter = express.Router();
 const viewsRealTimeRouter = express.Router();
@@ -14,23 +14,30 @@ const renderProductsView = async (req, res, viewName, page = 1, limit = 10) => {
     const products = await productManager.getAllProducts();
     const startIndex = (page - 1) * limit;
     const endIndex = startIndex + limit;
-    
+
     // Crear un nuevo objeto con propiedades propias
-    const paginatedProducts = products.slice(startIndex, endIndex).map(product => {
-      return {
-        id: product._id.toString(), // Convertir ObjectId a string
-        title: product.title,
-        description: product.description,
-        code: product.code,
-        price: product.price,
-        stock: product.stock,
-        category: product.category,
-        // Agrega cualquier otra propiedad que necesites
-      };
-    });
-    
+    const paginatedProducts = products
+      .slice(startIndex, endIndex)
+      .map((product) => {
+        return {
+          id: product._id.toString(), // Convertir ObjectId a string
+          title: product.title,
+          description: product.description,
+          code: product.code,
+          price: product.price,
+          stock: product.stock,
+          category: product.category,
+          // Agrega cualquier otra propiedad que necesites
+        };
+      });
+
     const totalPages = Math.ceil(products.length / limit);
-    res.render(viewName, { products: paginatedProducts, page, limit, totalPages });
+    res.render(viewName, {
+      products: paginatedProducts,
+      page,
+      limit,
+      totalPages,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error al obtener productos" });
@@ -79,35 +86,37 @@ viewsRouter.get("/products", async (req, res) => {
     // Paginación
     const startIndex = (page - 1) * limit;
     const endIndex = startIndex + limit;
-    
+
     // Crear un nuevo objeto con propiedades propias
-    const paginatedProducts = products.slice(startIndex, endIndex).map(product => {
-      return {
-        id: product._id.toString(), // Convertir ObjectId a string
-        title: product.title,
-        description: product.description,
-        code: product.code,
-        price: product.price,
-        stock: product.stock,
-        category: product.category,
-        // Agrega cualquier otra propiedad que necesites
-      };
-    });
+    const paginatedProducts = products
+      .slice(startIndex, endIndex)
+      .map((product) => {
+        return {
+          id: product._id.toString(), // Convertir ObjectId a string
+          title: product.title,
+          description: product.description,
+          code: product.code,
+          price: product.price,
+          stock: product.stock,
+          category: product.category,
+          // Agrega cualquier otra propiedad que necesites
+        };
+      });
 
     const totalPages = Math.ceil(products.length / limit);
 
     // Obtener categorías
     const categories = await productManager.getCategories();
 
-    res.render("index", { 
-      products: paginatedProducts, 
-      page, 
-      limit, 
+    res.render("index", {
+      products: paginatedProducts,
+      page,
+      limit,
       totalPages,
       sort,
       status,
       category,
-      categories
+      categories,
     });
   } catch (error) {
     console.error(error);
@@ -122,7 +131,7 @@ viewsRouter.get("/products/:id", async (req, res) => {
     if (!product) {
       return res.status(404).json({ message: "Producto no encontrado" });
     }
-    
+
     // Crear un nuevo objeto con propiedades propias
     const productDetails = {
       id: product._id.toString(), // Convertir ObjectId a string
@@ -136,7 +145,7 @@ viewsRouter.get("/products/:id", async (req, res) => {
     };
 
     const backUrl = req.headers.referer;
-    res.render("product-details", { product: productDetails, backUrl }); 
+    res.render("product-details", { product: productDetails, backUrl });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error al obtener producto" });
@@ -147,20 +156,20 @@ viewsRouter.get("/carts/:cid", async (req, res) => {
   try {
     const cartId = parseInt(req.params.cid);
     const cart = await cartManager.getCart(cartId);
-    
+
     if (!cart) {
       return res.status(404).json({ message: "Carrito no encontrado" });
     }
 
     const products = await cartManager.getProductsInCart(cartId);
-    
+
     // Crear un nuevo objeto con propiedades propias
     const cartDetails = {
       id: cart.id,
       // Agrega cualquier otra propiedad que necesites
     };
 
-    const productDetails = products.map(product => {
+    const productDetails = products.map((product) => {
       return {
         id: product._id.toString(), // Convertir ObjectId a string
         title: product.title,

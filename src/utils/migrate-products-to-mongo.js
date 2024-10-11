@@ -1,21 +1,21 @@
 // Importaciones
-import fs from 'fs';
-import { fileURLToPath } from 'url';
-import path, { dirname } from 'path';
-import mongoose from 'mongoose';
-import Product from '../models/productModel.js';
+import fs from "fs";
+import { fileURLToPath } from "url";
+import path, { dirname } from "path";
+import mongoose from "mongoose";
+import Product from "../dao/models/productModel.js";
 
 // Configuración
-const DB_URL = 'mongodb://localhost:27017/e-commerce';
+const DB_URL = "mongodb://localhost:27017/e-commerce";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const FS_DATA_FILE = path.join(__dirname, '../data/products.json');
+const FS_DATA_FILE = path.join(__dirname, "../data/products.json");
 
 // Conectar a MongoDB
 mongoose.connect(DB_URL);
 
 // Leer datos de FS
-const dataFS = fs.readFileSync(FS_DATA_FILE, 'utf8');
+const dataFS = fs.readFileSync(FS_DATA_FILE, "utf8");
 const productsFS = JSON.parse(dataFS);
 
 // Función para migrar datos

@@ -1,7 +1,7 @@
 import express from "express";
-import CartManager from "../controllers/cartManager.js";
-import ProductManager from "../controllers/productManager.js";
-import Cart from "../models/cartModel.js";
+import CartManager from "../dao/managersDB/cartManager.js";
+import ProductManager from "../dao/managersDB/productManager.js";
+import Cart from "../dao/models/cartModel.js";
 import mongoose from "mongoose"; // Importa mongoose para usar ObjectId
 
 const {
@@ -92,35 +92,39 @@ cartRouter.delete("/:cid", async (req, res) => {
   }
 });
 
-cartRouter.post('/:cid/products/:pid', async (req, res) => {
+cartRouter.post("/:cid/products/:pid", async (req, res) => {
   try {
-      const cartId = req.params.cid; // ID del carrito
-      const productId = req.params.pid; // ID del producto
+    const cartId = req.params.cid; // ID del carrito
+    const productId = req.params.pid; // ID del producto
 
-      // Validar si el productId es un ObjectId válido
-      if (!ObjectId.isValid(productId) || productId.length !== 24) {
-          return res.status(400).json({ message: "ID del producto inválido. Debe ser una cadena hexadecimal de 24 caracteres." });
-      }
+    // Validar si el productId es un ObjectId válido
+    if (!ObjectId.isValid(productId) || productId.length !== 24) {
+      return res.status(400).json({
+        message:
+          "ID del producto inválido. Debe ser una cadena hexadecimal de 24 caracteres.",
+      });
+    }
 
-      // Lógica para agregar el producto al carrito
-      const updatedCart = await cartManager.addProductToCart(cartId, productId);
-      
-      // Obtener el carrito actualizado con populate
-      const populatedCart = await cartManager.getCart(cartId); 
+    // Lógica para agregar el producto al carrito
+    const updatedCart = await cartManager.addProductToCart(cartId, productId);
 
-      res.status(200).json(populatedCart); // Devuelve el carrito actualizado con productos poblados
+    // Obtener el carrito actualizado con populate
+    const populatedCart = await cartManager.getCart(cartId);
+
+    res.status(200).json(populatedCart); // Devuelve el carrito actualizado con productos poblados
   } catch (error) {
-      if (error.message.includes("Carrito no encontrado")) {
-          return res.status(404).json({ message: "Carrito no encontrado" });
-      } else if (error.message.includes("Producto con ID")) {
-          return res.status(404).json({ message: error.message }); // Mensaje claro sobre el producto no encontrado
-      } else {
-          // Evita imprimir el error en la consola
-          res.status(500).json({ message: "Error interno al agregar producto al carrito" });
-      }
+    if (error.message.includes("Carrito no encontrado")) {
+      return res.status(404).json({ message: "Carrito no encontrado" });
+    } else if (error.message.includes("Producto con ID")) {
+      return res.status(404).json({ message: error.message }); // Mensaje claro sobre el producto no encontrado
+    } else {
+      // Evita imprimir el error en la consola
+      res
+        .status(500)
+        .json({ message: "Error interno al agregar producto al carrito" });
+    }
   }
 });
-
 
 cartRouter.put("/:cid/products/:pid", async (req, res) => {
   try {
