@@ -1,17 +1,17 @@
 import mongoose, { Schema } from 'mongoose';
 
 // Definición del esquema para los productos dentro del carrito
-const productoSchema = new Schema({
-    product: { type: Schema.Types.ObjectId, ref: 'Producto', required: true }, // Referencia a Producto
+const productSchema = new Schema({
+    product: { type: Schema.Types.ObjectId, ref: 'Product', required: true }, // Referencia a Producto
     quantity: { type: Number, required: true }
 }, { _id: false }); // Deshabilitar el _id para este subdocumento
 
 // Definición del esquema para el carrito
-const carritoSchema = new Schema({
-    products: [productoSchema] // Arreglo de productos
+const cartSchema = new Schema({
+    products: [productSchema] // Arreglo de productos
 }, { versionKey: false }); // Desactivar el campo __v
 
 // Crear el modelo Carrito
-const Carrito = mongoose.model('Carrito', carritoSchema);
+const Cart = mongoose.model('Cart', cartSchema);
 
-export default Carrito;
+export default Cart;

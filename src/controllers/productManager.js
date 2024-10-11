@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'; // Importa mongoose para manejar ObjectId
-import Producto from '../models/producto.js'; // Asegúrate de que la ruta sea correcta
+import Producto from '../models/productModel.js'; // Asegúrate de que la ruta sea correcta
 
 class ProductManager {
     constructor() {

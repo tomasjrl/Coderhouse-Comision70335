@@ -10,28 +10,5 @@
         "quantity": 3
       }
     ]
-  },
-  {
-    "products": [
-      {
-        "product": "66fdda85aadc5abc82abc8b0", 
-        "quantity": 5
-      },
-      {
-        "product": "66fdda85aadc5abc82abc8b0", 
-        "quantity": 3
-      },
-      {
-        "product": "66fdda85aadc5abc82abc8b2", 
-        "quantity": 15
-      },
-      {
-        "product": "66fdda85aadc5abc82abc8b2", 
-        "quantity": 3
-      }
-    ]
-  },
-  {
-    "products": []
   }
 ]

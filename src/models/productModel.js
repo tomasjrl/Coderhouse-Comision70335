@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
-const productoSchema = new Schema({
+const productSchema = new Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
   code: { type: String, required: true },
@@ -10,6 +10,6 @@ const productoSchema = new Schema({
   category: { type: String, required: true }
 }, { versionKey: false }); // Desactivar el campo __v
 
-const Producto = mongoose.model('Producto', productoSchema);
+const Product = mongoose.model('Product', productSchema);
 
-export default Producto;
+export default Product;

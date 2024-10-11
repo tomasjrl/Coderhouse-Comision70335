@@ -1,6 +1,5 @@
 [
   {
-    "id": 1,
     "title": "Smartphone Galaxy S21",
     "description": "El último modelo de Samsung con pantalla AMOLED de 6.2 pulgadas.",
     "code": "SMG-S21",
@@ -14,7 +13,6 @@
     ]
   },
   {
-    "id": 2,
     "title": "Laptop HP Pavilion",
     "description": "Laptop con procesador Intel Core i5, 8GB de RAM y 512GB SSD.",
     "code": "HP-Pavilion",
@@ -28,7 +26,6 @@
     ]
   },
   {
-    "id": 3,
     "title": "Zapatos Deportivos Nike Air Max",
     "description": "Zapatos deportivos con tecnología Air Max para mayor comodidad.",
     "code": "Nike-AirMax",
@@ -42,7 +39,6 @@
     ]
   },
   {
-    "id": 4,
     "title": "Reloj Inteligente Apple Watch Series 7",
     "description": "El último modelo de Apple Watch con pantalla Retina siempre activa.",
     "code": "Apple-Watch7",
@@ -56,7 +52,6 @@
     ]
   },
   {
-    "id": 5,
     "title": "Mochila Herschel Retreat",
     "description": "Mochila resistente y espaciosa con múltiples compartimentos.",
     "code": "Herschel-Retreat",
@@ -70,7 +65,6 @@
     ]
   },
   {
-    "id": 6,
     "title": "Auriculares Inalámbricos Sony WH-1000XM4",
     "description": "Auriculares con cancelación de ruido de última generación.",
     "code": "Sony-WH1000XM4",
@@ -84,7 +78,6 @@
     ]
   },
   {
-    "id": 7,
     "title": "Camiseta de Algodón Básica",
     "description": "Camiseta de algodón 100% con corte clásico y manga corta.",
     "code": "Camiseta-Algodón",
@@ -98,7 +91,6 @@
     ]
   },
   {
-    "id": 8,
     "title": "Cámara Digital Canon EOS Rebel T7",
     "description": "Cámara DSLR con sensor CMOS de 24.1MP y grabación Full HD.",
     "code": "Canon-EOS-T7",
@@ -112,7 +104,6 @@
     ]
   },
   {
-    "id": 9,
     "title": "Silla de Oficina Ergonómica",
     "description": "Silla ergonómica con respaldo ajustable y reposabrazos.",
     "code": "Silla-Oficina",
@@ -126,7 +117,6 @@
     ]
   },
   {
-    "id": 10,
     "title": "Tablet Samsung Galaxy Tab S7",
     "description": "Tablet con pantalla de 11 pulgadas, S Pen incluido y potente rendimiento.",
     "code": "SMG-TabS7",
@@ -140,7 +130,6 @@
     ]
   },
   {
-    "id": 11,
     "title": "Bicicleta de Montaña Trek Marlin 5",
     "description": "Bicicleta de montaña con cuadro de aluminio y suspensión delantera.",
     "code": "Trek-Marlin5",
@@ -154,7 +143,6 @@
     ]
   },
   {
-    "id": 12,
     "title": "Aspiradora Robot iRobot Roomba",
     "description": "Aspiradora robot con tecnología de limpieza avanzada y navegación inteligente.",
     "code": "iRobot-Roomba",
@@ -168,7 +156,6 @@
     ]
   },
   {
-    "id": 13,
     "title": "Juego de Sartenes Antiadherentes",
     "description": "Juego de sartenes antiadherentes con mango ergonómico y fácil de limpiar.",
     "code": "Sartenes-Antiadherentes",
@@ -182,7 +169,6 @@
     ]
   },
   {
-    "id": 14,
     "title": "Monitor Curvo Samsung Odyssey G7",
     "description": "Monitor curvo de 27 pulgadas con resolución QHD y tasa de refresco de 240Hz.",
     "code": "SMG-OdysseyG7",
@@ -196,7 +182,6 @@
     ]
   },
   {
-    "id": 15,
     "title": "Mesa de Centro de Vidrio",
     "description": "Mesa de centro de vidrio templado con acabado en madera.",
     "code": "Mesa-Centro-Vidrio",
@@ -210,7 +195,6 @@
     ]
   },
   {
-    "id": 16,
     "title": "Set de Herramientas para Auto",
     "description": "Set de herramientas profesionales para el mantenimiento de automóviles.",
     "code": "Herramientas-Auto",
@@ -224,7 +208,6 @@
     ]
   },
   {
-    "id": 17,
     "title": "Juego de Sofá y Sillón",
     "description": "Juego de sofá y sillón con diseño moderno y tapizado en tela.",
     "code": "Sofá-Sillón",
@@ -238,7 +221,6 @@
     ]
   },
   {
-    "id": 18,
     "title": "Cafetera Automática DeLonghi",
     "description": "Cafetera automática con sistema de molido y preparación de café expreso.",
     "code": "DeLonghi-Cafetera",
@@ -252,7 +234,6 @@
     ]
   },
   {
-    "id": 19,
     "title": "Bicicleta Estática NordicTrack",
     "description": "Bicicleta estática con pantalla táctil y programas de entrenamiento integrados.",
     "code": "NordicTrack-Bicicleta",
@@ -266,7 +247,6 @@
     ]
   },
   {
-    "id": 20,
     "title": "Juego de Cuchillos de Cocina",
     "description": "Juego de cuchillos de acero inoxidable con bloque de madera.",
     "code": "Cuchillos-Cocina",
@@ -280,7 +260,6 @@
     ]
   },
   {
-    "id": 21,
     "title": "Auriculares Bluetooth JBL",
     "description": "Auriculares inalámbricos con sonido JBL Pure Bass y duración de batería de 20 horas.",
     "code": "JBL-Bluetooth",
@@ -294,7 +273,6 @@
     ]
   },
   {
-    "id": 22,
     "title": "Mesa de Comedor de Madera",
     "description": "Mesa de comedor de madera maciza con capacidad para 6 personas.",
     "code": "Mesa-Comedor",
@@ -308,7 +286,6 @@
     ]
   },
   {
-    "id": 23,
     "title": "Smart TV LG 55 pulgadas",
     "description": "Smart TV con resolución 4K, webOS y compatible con HDR10.",
     "code": "LG-SmartTV",
@@ -322,7 +299,6 @@
     ]
   },
   {
-    "id": 24,
     "title": "Juego de Tazas de Café",
     "description": "Juego de 6 tazas de café de cerámica con diseño moderno.",
     "code": "Tazas-Café",
@@ -336,7 +312,6 @@
     ]
   },
   {
-    "id": 25,
     "title": "Silla de Playa Portátil",
     "description": "Silla de playa plegable y ligera con respaldo ajustable.",
     "code": "Silla-Playa",
@@ -350,7 +325,6 @@
     ]
   },
   {
-    "id": 26,
     "title": "Cámara Instantánea Fujifilm",
     "description": "Cámara instantánea con impresión de fotos en segundos y lente dual.",
     "code": "Fujifilm-Instantánea",
@@ -364,7 +338,6 @@
     ]
   },
   {
-    "id": 27,
     "title": "Juego de Toallas de Baño",
     "description": "Juego de toallas de baño de algodón egipcio, suaves y absorbentes.",
     "code": "Toallas-Baño",
@@ -378,7 +351,6 @@
     ]
   },
   {
-    "id": 28,
     "title": "Afeitadora Eléctrica Philips",
     "description": "Afeitadora eléctrica con tecnología de recorte preciso y batería de larga duración.",
     "code": "Philips-Afeitadora",
@@ -392,7 +364,6 @@
     ]
   },
   {
-    "id": 29,
     "title": "Mochila para Portátil",
     "description": "Mochila resistente con compartimento para portátil de hasta 15 pulgadas.",
     "code": "Mochila-Portátil",
@@ -406,7 +377,6 @@
     ]
   },
   {
-    "id": 30,
     "title": "Juego de Sábanas de Algodón",
     "description": "Juego de sábanas de algodón 100% con diseño estampado y suave al tacto.",
     "code": "Sábanas-Algodón",

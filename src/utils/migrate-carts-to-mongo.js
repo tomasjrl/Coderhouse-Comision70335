@@ -3,7 +3,7 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
 import mongoose from 'mongoose';
-import Carrito from '../models/carrito.js'; // Importa el modelo Carrito
+import Cart from '../models/cartModel.js'; // Importa el modelo Carrito
 
 // Configuración
 const DB_URL = 'mongodb://localhost:27017/e-commerce';
@@ -15,34 +15,34 @@ const FS_DATA_FILE = path.join(__dirname, '../data/carts.json');
 mongoose.connect(DB_URL);
 
 // Leer datos de FS
-const datosFS = fs.readFileSync(FS_DATA_FILE, 'utf8');
-const carritosFS = JSON.parse(datosFS);
+const dataFS = fs.readFileSync(FS_DATA_FILE, 'utf8');
+const cartsFS = JSON.parse(dataFS);
 
 // Función para migrar datos
 async function migrateData() {
     try {
-        for (const carrito of carritosFS) {
-            const nuevoCarrito = {
+        for (const cart of cartsFS) {
+            const newCart = {
                 products: []
             };
 
-            if (carrito.products && carrito.products.length > 0) {
-                for (const item of carrito.products) {
+            if (cart.products && cart.products.length > 0) {
+                for (const item of cart.products) {
                     if (!mongoose.Types.ObjectId.isValid(item.product)) {
                         console.warn(`ID del producto inválido: ${item.product}`);
                         continue; // Ignorar este producto si no es válido
                     }
 
-                    nuevoCarrito.products.push({
+                    newCart.products.push({
                         product: item.product, // Usa directamente el _id del producto desde carts.json
                         quantity: item.quantity
                     });
                 }
             }
 
-            const carritoMongo = new Carrito(nuevoCarrito);
-            await carritoMongo.save();
-            console.log(`Carrito insertado con éxito: ${carritoMongo._id}`);
+            const cartMongo = new Cart(newCart);
+            await cartMongo.save();
+            console.log(`Carrito insertado con éxito: ${cartMongo._id}`);
         }
     } catch (error) {
         console.error("Error al migrar carritos:", error);
