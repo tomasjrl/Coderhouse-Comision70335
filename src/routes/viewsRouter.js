@@ -175,7 +175,7 @@ viewsRouter.get("/carts/:cid", async (req, res) => {
       };
     });
 
-    res.render("cart-details", { cart: cart._id, products });
+    res.render("cart-details", { cart: { id: cart._id, ...cart }, products });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error al obtener carrito" });
