@@ -4,7 +4,7 @@ import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const dataPath = path.join(__dirname, "..", "data", "products.json");
+const dataPath = path.join(__dirname, "..", "data", "productos.json");
 
 class ProductManager {
   constructor() {
@@ -20,7 +20,7 @@ class ProductManager {
         return [];
       } else {
         console.error(
-          "Error al cargar products.json. Se utilizará un array vacío.",
+          "Error al cargar productos.json. Se utilizará un array vacío.",
           error
         );
         return [];
@@ -32,8 +32,16 @@ class ProductManager {
     fs.writeFileSync(dataPath, JSON.stringify(this.products, null, 2));
   }
 
-  getAllProducts() {
-    return this.products;
+  getAllProducts(limit = null) {
+    if (limit === null) {
+      return this.products;
+    }
+  
+    if (typeof limit !== "number" || limit <= 0) {
+      throw new Error("?limit= Debe ser un número entero positivo");
+    }
+  
+    return this.products.slice(0, limit);
   }
 
   getProductById(id) {
@@ -52,8 +60,7 @@ class ProductManager {
       "price",
       "status",
       "stock",
-      "category",
-      "thumbnails",
+      "category"
     ];
 
     const missingLabels = requiredLabels.filter(
@@ -70,10 +77,10 @@ class ProductManager {
       description,
       code,
       price,
-      status,
+      status = true,
       stock,
       category,
-      thumbnails,
+      thumbnails = [],
     } = productData;
 
     if (typeof code !== "string") {
@@ -135,63 +142,113 @@ class ProductManager {
 
   updateProduct(id, updates) {
     if (updates.id !== undefined) {
-      throw new Error("No se permite actualizar el ID del producto");
+      return {
+        error: "No se permite actualizar el ID del producto",
+        statusCode: 400,
+      };
     }
-
-    const productIndex = this.products.findIndex(
-      (product) => product.id === id
-    );
-
+  
+    const productIndex = this.products.findIndex((product) => product.id === id);
+  
     if (productIndex === -1) {
-      throw new Error(
-        `No se puede actualizar. Producto no encontrado con ID ${id}`
-      );
+      return {
+        error: `No se puede actualizar. Producto no encontrado con ID ${id}`,
+        statusCode: 404,
+      };
     }
-
-    if (updates.code !== undefined) {
-      if (typeof updates.code !== "string") {
-        throw new Error("El código debe ser un string");
+  
+    const allowedFields = [
+      "title",
+      "description",
+      "code",
+      "price",
+      "status",
+      "stock",
+      "category",
+      "thumbnails",
+    ];
+  
+    // Verifica si hay campos no permitidos
+    const unknownFields = Object.keys(updates).filter((field) => !allowedFields.includes(field));
+    if (unknownFields.length > 0) {
+      return {
+        error: `No se permiten los siguientes campos: ${unknownFields.join(", ")}`,
+        statusCode: 400,
+      };
+    }
+  
+    // Filtra los campos actualizados para solo incluir los campos permitidos
+    const filteredUpdates = {};
+    for (const field of allowedFields) {
+      if (updates[field] !== undefined) {
+        filteredUpdates[field] = updates[field];
       }
-      if (this.products.some((p) => p.code === updates.code && p.id !== id)) {
-        throw new Error(`Ya existe un producto con el código ${updates.code}`);
+    }
+  
+    // Actualiza solo los campos permitidos
+    if (filteredUpdates.code !== undefined) {
+      if (typeof filteredUpdates.code !== "string") {
+        return {
+          error: "El código debe ser un string",
+          statusCode: 400,
+        };
+      }
+      if (this.products.some((p) => p.code === filteredUpdates.code && p.id !== id)) {
+        return {
+          error: `Ya existe un producto con el código ${filteredUpdates.code}`,
+          statusCode: 400,
+        };
       }
     }
-
-    if (updates.status !== undefined && typeof updates.status !== "boolean") {
-      throw new Error("El status debe ser un valor booleano (true/false)");
+  
+    if (filteredUpdates.status !== undefined && typeof filteredUpdates.status !== "boolean") {
+      return {
+        error: "El status debe ser un valor booleano (true/false)",
+        statusCode: 400,
+      };
     }
-
+  
     if (
-      updates.stock !== undefined &&
-      (!Number.isInteger(updates.stock) || updates.stock < 0)
+      filteredUpdates.stock !== undefined &&
+      (!Number.isInteger(filteredUpdates.stock) || filteredUpdates.stock < 0)
     ) {
-      throw new Error("El stock debe ser un número entero no negativo");
+      return {
+        error: "El stock debe ser un número entero no negativo",
+        statusCode: 400,
+      };
     }
-
+  
     if (
-      updates.price !== undefined &&
-      (typeof updates.price !== "number" || updates.price <= 0)
+      filteredUpdates.price !== undefined &&
+      (typeof filteredUpdates.price !== "number" || filteredUpdates.price <= 0)
     ) {
-      throw new Error("El precio debe ser un número positivo");
+      return {
+        error: "El precio debe ser un número positivo",
+        statusCode: 400,
+      };
     }
-
+  
     if (
-      updates.thumbnails &&
-      (!Array.isArray(updates.thumbnails) ||
-        updates.thumbnails.length === 0 ||
-        !updates.thumbnails.every((thumbnail) => typeof thumbnail === "string"))
+      filteredUpdates.thumbnails &&
+      (!Array.isArray(filteredUpdates.thumbnails) ||
+        filteredUpdates.thumbnails.length === 0 ||
+        !filteredUpdates.thumbnails.every((thumbnail) => typeof thumbnail === "string"))
     ) {
-      throw new Error(
-        "El campo thumbnails debe ser un arreglo no vacío de strings"
-      );
+      return {
+        error: "El campo thumbnails debe ser un arreglo no vacío de strings",
+        statusCode: 400,
+      };
     }
-
+  
     this.products[productIndex] = {
       ...this.products[productIndex],
-      ...updates,
+      ...filteredUpdates,
     };
     this.saveProducts();
-    return this.products[productIndex];
+    return {
+      data: this.products[productIndex],
+      statusCode: 200,
+    };
   }
 
   deleteProduct(id) {

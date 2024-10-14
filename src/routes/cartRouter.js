@@ -27,7 +27,7 @@ cartRouter.get("/:cid", (req, res) => {
   }
 });
 
-cartRouter.post("/:cid/products/:pid", (req, res) => {
+cartRouter.post("/:cid/product/:pid", (req, res) => {
   try {
     const cartId = parseInt(req.params.cid);
     const productId = parseInt(req.params.pid);

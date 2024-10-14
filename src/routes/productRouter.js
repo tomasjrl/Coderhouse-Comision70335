@@ -5,8 +5,21 @@ const productRouter = express.Router();
 const productManager = new ProductManager();
 
 const getAllProducts = (req, res) => {
+  const limit = req.query.limit;
+
+  // Validar el parámetro limit
+  if (limit !== undefined) {
+    // Verifica si es un número entero positivo
+    if (!/^\d+$/.test(limit) || parseInt(limit) <= 0) {
+      return res.status(400).json({
+        error: "?limit= debe ser un número entero positivo"
+      });
+    }
+  }
+
   try {
-    const products = productManager.getAllProducts();
+    const parsedLimit = limit ? parseInt(limit) : null;
+    const products = productManager.getAllProducts(parsedLimit);
     res.json(products);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -54,11 +67,12 @@ const addProduct = (req, res) => {
 const updateProduct = (req, res) => {
   const productId = parseInt(req.params.pid);
   const updates = req.body;
-  try {
-    const updatedProduct = productManager.updateProduct(productId, updates);
-    res.json(updatedProduct);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
+  const result = productManager.updateProduct(productId, updates);
+
+  if (result.error) {
+    res.status(result.statusCode).json({ error: result.error });
+  } else {
+    res.status(result.statusCode).json(result.data);
   }
 };
 

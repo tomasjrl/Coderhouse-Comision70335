@@ -20,7 +20,7 @@
     "code": "P002",
     "price": 15.99,
     "status": true,
-    "stock": 150,
+    "stock": 110,
     "category": "Segundo",
     "thumbnails": [
       "ruta/imagen3.jpg",
@@ -40,5 +40,27 @@
       "ruta/imagen5.jpg",
       "ruta/imagen6.jpg"
     ]
+  },
+  {
+    "id": 4,
+    "title": "Producto-4",
+    "description": "Descripción producto 4",
+    "code": "P004",
+    "price": 25.99,
+    "status": true,
+    "stock": 125,
+    "category": "Cuarto",
+    "thumbnails": []
+  },
+  {
+    "id": 5,
+    "title": "Producto-5",
+    "description": "Descripción producto 5",
+    "code": "P005",
+    "price": 25.99,
+    "status": true,
+    "stock": 125,
+    "category": "Quinto",
+    "thumbnails": []
   }
 ]
