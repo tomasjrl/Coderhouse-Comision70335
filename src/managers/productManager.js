@@ -142,19 +142,12 @@ class ProductManager {
 
   updateProduct(id, updates) {
     if (updates.id !== undefined) {
-      return {
-        error: "No se permite actualizar el ID del producto",
-        statusCode: 400,
-      };
+      throw new Error("No se permite actualizar el ID del producto");
     }
   
     const productIndex = this.products.findIndex((product) => product.id === id);
-  
     if (productIndex === -1) {
-      return {
-        error: `No se puede actualizar. Producto no encontrado con ID ${id}`,
-        statusCode: 404,
-      };
+      throw new Error(`No se puede actualizar. Producto no encontrado con ID ${id}`);
     }
   
     const allowedFields = [
@@ -168,16 +161,11 @@ class ProductManager {
       "thumbnails",
     ];
   
-    // Verifica si hay campos no permitidos
     const unknownFields = Object.keys(updates).filter((field) => !allowedFields.includes(field));
     if (unknownFields.length > 0) {
-      return {
-        error: `No se permiten los siguientes campos: ${unknownFields.join(", ")}`,
-        statusCode: 400,
-      };
+      throw new Error(`No se permiten los siguientes campos: ${unknownFields.join(", ")}`);
     }
   
-    // Filtra los campos actualizados para solo incluir los campos permitidos
     const filteredUpdates = {};
     for (const field of allowedFields) {
       if (updates[field] !== undefined) {
@@ -185,70 +173,35 @@ class ProductManager {
       }
     }
   
-    // Actualiza solo los campos permitidos
     if (filteredUpdates.code !== undefined) {
       if (typeof filteredUpdates.code !== "string") {
-        return {
-          error: "El código debe ser un string",
-          statusCode: 400,
-        };
+        throw new Error("El código debe ser un string");
       }
       if (this.products.some((p) => p.code === filteredUpdates.code && p.id !== id)) {
-        return {
-          error: `Ya existe un producto con el código ${filteredUpdates.code}`,
-          statusCode: 400,
-        };
+        throw new Error(`Ya existe un producto con el código ${filteredUpdates.code}`);
       }
     }
   
     if (filteredUpdates.status !== undefined && typeof filteredUpdates.status !== "boolean") {
-      return {
-        error: "El status debe ser un valor booleano (true/false)",
-        statusCode: 400,
-      };
+      throw new Error("El status debe ser un valor booleano (true/false)");
     }
   
     if (
       filteredUpdates.stock !== undefined &&
       (!Number.isInteger(filteredUpdates.stock) || filteredUpdates.stock < 0)
     ) {
-      return {
-        error: "El stock debe ser un número entero no negativo",
-        statusCode: 400,
-      };
+      throw new Error("El stock debe ser un número entero no negativo");
     }
   
     if (
       filteredUpdates.price !== undefined &&
       (typeof filteredUpdates.price !== "number" || filteredUpdates.price <= 0)
     ) {
-      return {
-        error: "El precio debe ser un número positivo",
-        statusCode: 400,
-      };
+      throw new Error("El precio debe ser un número positivo");
     }
   
-    if (
-      filteredUpdates.thumbnails &&
-      (!Array.isArray(filteredUpdates.thumbnails) ||
-        filteredUpdates.thumbnails.length === 0 ||
-        !filteredUpdates.thumbnails.every((thumbnail) => typeof thumbnail === "string"))
-    ) {
-      return {
-        error: "El campo thumbnails debe ser un arreglo no vacío de strings",
-        statusCode: 400,
-      };
-    }
-  
-    this.products[productIndex] = {
-      ...this.products[productIndex],
-      ...filteredUpdates,
-    };
-    this.saveProducts();
-    return {
-      data: this.products[productIndex],
-      statusCode: 200,
-    };
+    this.products[productIndex] = { ...this.products[productIndex], ...filteredUpdates };
+    return this.products[productIndex];
   }
 
   deleteProduct(id) {

@@ -7,9 +7,7 @@ const productManager = new ProductManager();
 const getAllProducts = (req, res) => {
   const limit = req.query.limit;
 
-  // Validar el parámetro limit
   if (limit !== undefined) {
-    // Verifica si es un número entero positivo
     if (!/^\d+$/.test(limit) || parseInt(limit) <= 0) {
       return res.status(400).json({
         error: "?limit= debe ser un número entero positivo"
@@ -67,12 +65,12 @@ const addProduct = (req, res) => {
 const updateProduct = (req, res) => {
   const productId = parseInt(req.params.pid);
   const updates = req.body;
-  const result = productManager.updateProduct(productId, updates);
 
-  if (result.error) {
-    res.status(result.statusCode).json({ error: result.error });
-  } else {
-    res.status(result.statusCode).json(result.data);
+  try {
+    const result = productManager.updateProduct(productId, updates);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
 };
 
