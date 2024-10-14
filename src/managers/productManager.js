@@ -83,12 +83,28 @@ class ProductManager {
       thumbnails = [],
     } = productData;
 
+    if (typeof title !== "string") {
+      throw new Error("El Título debe ser de tipo string");
+    }
+
+    if (typeof description !== "string") {
+      throw new Error("La descripción debe ser de tipo string");
+    }
+
+    if (typeof category !== "string") {
+      throw new Error("La categoría debe ser de tipo string");
+    }
+
     if (typeof code !== "string") {
       throw new Error("El código debe ser de tipo string");
     }
 
     if (this.products.some((product) => product.code === code)) {
       throw new Error(`Ya existe un producto con el código ${code}`);
+    }
+    
+    if (typeof price !== "number" || price <= 0) {
+      throw new Error("El precio debe ser un número positivo");
     }
 
     if (typeof status !== "boolean") {
@@ -97,18 +113,8 @@ class ProductManager {
       );
     }
 
-    if (typeof stock === "string") {
-      stock = parseInt(stock);
-    }
-    if (!Number.isInteger(stock) || stock < 0) {
+    if (!Number.isInteger(stock) || stock < 0 || typeof stock !== "number") {
       throw new Error("El stock debe ser un número entero no negativo");
-    }
-    
-    if (typeof price === "string") {
-      price = parseFloat(price);
-    }
-    if (typeof price !== "number" || price <= 0) {
-      throw new Error("El precio debe ser un número positivo");
     }
 
     if (
@@ -116,7 +122,7 @@ class ProductManager {
       !thumbnails.every((thumbnail) => typeof thumbnail === "string")
     ) {
       throw new Error(
-        "El campo thumbnails debe ser un arreglo de strings"
+        "El campo thumbnails debe ser un arreglo de strings o vacío"
       );
     }
 
@@ -142,67 +148,78 @@ class ProductManager {
 
   updateProduct(id, updates) {
     if (updates.id !== undefined) {
-      throw new Error("No se permite actualizar el ID del producto");
+        throw new Error("No se permite actualizar el ID del producto");
     }
-  
+
     const productIndex = this.products.findIndex((product) => product.id === id);
     if (productIndex === -1) {
-      throw new Error(`No se puede actualizar. Producto no encontrado con ID ${id}`);
+        throw new Error(`No se puede actualizar. Producto no encontrado con ID ${id}`);
     }
-  
+
     const allowedFields = [
-      "title",
-      "description",
-      "code",
-      "price",
-      "status",
-      "stock",
-      "category",
-      "thumbnails",
+        "title",
+        "description",
+        "code",
+        "price",
+        "status",
+        "stock",
+        "category",
+        "thumbnails",
     ];
-  
+
     const unknownFields = Object.keys(updates).filter((field) => !allowedFields.includes(field));
     if (unknownFields.length > 0) {
-      throw new Error(`No se permiten los siguientes campos: ${unknownFields.join(", ")}`);
+        throw new Error(`No se permiten los siguientes campos: ${unknownFields.join(", ")}`);
     }
-  
+
     const filteredUpdates = {};
     for (const field of allowedFields) {
-      if (updates[field] !== undefined) {
-        filteredUpdates[field] = updates[field];
-      }
+        if (updates[field] !== undefined) {
+            filteredUpdates[field] = updates[field];
+        }
     }
-  
+
+    const stringFields = ["title", "description", "category", "code"];
+    stringFields.forEach(field => {
+        if (filteredUpdates[field] !== undefined && typeof filteredUpdates[field] !== "string") {
+            throw new Error(`El campo ${field} debe ser un string`);
+        }
+    });
+
+    const validatePositiveNumber = (value, fieldName, isInteger = false) => {
+        if (typeof value !== "number" || value <= 0 || (isInteger && !Number.isInteger(value))) {
+            throw new Error(`El campo ${fieldName} debe ser un número ${isInteger ? 'entero no negativo' : 'positivo'}`);
+        }
+    };
+
+    if (filteredUpdates.stock !== undefined) {
+        validatePositiveNumber(filteredUpdates.stock, 'stock', true);
+    }
+
+    if (filteredUpdates.price !== undefined) {
+        validatePositiveNumber(filteredUpdates.price, 'price');
+    }
+
     if (filteredUpdates.code !== undefined) {
-      if (typeof filteredUpdates.code !== "string") {
-        throw new Error("El código debe ser un string");
-      }
-      if (this.products.some((p) => p.code === filteredUpdates.code && p.id !== id)) {
-        throw new Error(`Ya existe un producto con el código ${filteredUpdates.code}`);
-      }
+        if (this.products.some((p) => p.code === filteredUpdates.code && p.id !== id)) {
+            throw new Error(`Ya existe un producto con el código ${filteredUpdates.code}`);
+        }
     }
-  
+
     if (filteredUpdates.status !== undefined && typeof filteredUpdates.status !== "boolean") {
-      throw new Error("El status debe ser un valor booleano (true/false)");
+        throw new Error("El status debe ser un valor booleano (true/false)");
     }
-  
-    if (
-      filteredUpdates.stock !== undefined &&
-      (!Number.isInteger(filteredUpdates.stock) || filteredUpdates.stock < 0)
-    ) {
-      throw new Error("El stock debe ser un número entero no negativo");
-    }
-  
-    if (
-      filteredUpdates.price !== undefined &&
-      (typeof filteredUpdates.price !== "number" || filteredUpdates.price <= 0)
-    ) {
-      throw new Error("El precio debe ser un número positivo");
-    }
-  
+
+    if (filteredUpdates.thumbnails !== undefined) {
+      const { thumbnails } = filteredUpdates;
+      if (!Array.isArray(thumbnails) || !thumbnails.every((thumbnail) => typeof thumbnail === "string")) {
+          throw new Error("El campo thumbnails debe ser un arreglo de strings o vacío");
+      }
+  }
+
     this.products[productIndex] = { ...this.products[productIndex], ...filteredUpdates };
     return this.products[productIndex];
-  }
+}
 
   deleteProduct(id) {
     const productIndex = this.products.findIndex(
