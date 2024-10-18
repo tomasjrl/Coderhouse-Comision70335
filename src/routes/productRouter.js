@@ -32,7 +32,7 @@ const productRouter = (getAllProducts, getProductById, addProduct, updateProduct
       if (error.message.includes("Producto no encontrado")) {
         return res.status(404).json({ message: error.message });
       }
-      handleError(res, error); // Manejo de otros errores
+      handleError(res, error);
     }
   });
 
@@ -95,7 +95,7 @@ const productRouter = (getAllProducts, getProductById, addProduct, updateProduct
       if (error.message.includes("Producto no encontrado")) {
         return res.status(404).json({ message: error.message });
       }
-      handleError(res, error); // Manejo de otros errores
+      handleError(res, error);
     }
   });
 
