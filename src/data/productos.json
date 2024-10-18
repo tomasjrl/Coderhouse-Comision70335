@@ -15,9 +15,9 @@
   },
   {
     "id": 2,
-    "title": "Laptop HP Pavilion",
+    "title": "123",
     "description": "Laptop con procesador Intel Core i5, 8GB de RAM y 512GB SSD.",
-    "code": "HP-Pavilion",
+    "code": "123",
     "price": 899,
     "status": true,
     "stock": 30,

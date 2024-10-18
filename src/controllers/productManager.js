@@ -144,64 +144,78 @@ class ProductManager {
 
   updateProduct(id, updates) {
     if (updates.id !== undefined) {
-      throw new Error("No se permite actualizar el ID del producto");
+        throw new Error("No se permite actualizar el ID del producto");
     }
 
-    const productIndex = this.products.findIndex(
-      (product) => product.id === id
-    );
-
+    const productIndex = this.products.findIndex((product) => product.id === id);
     if (productIndex === -1) {
-      throw new Error(
-        `No se puede actualizar. Producto no encontrado con ID ${id}`
-      );
+        throw new Error(`No se puede actualizar. Producto no encontrado con ID ${id}`);
     }
 
-    if (updates.code !== undefined) {
-      if (typeof updates.code !== "string") {
-        throw new Error("El código debe ser un string");
-      }
-      if (this.products.some((p) => p.code === updates.code && p.id !== id)) {
-        throw new Error(`Ya existe un producto con el código ${updates.code}`);
-      }
+    const allowedFields = [
+        "title",
+        "description",
+        "code",
+        "price",
+        "status",
+        "stock",
+        "category",
+        "thumbnails",
+    ];
+
+    const unknownFields = Object.keys(updates).filter((field) => !allowedFields.includes(field));
+    if (unknownFields.length > 0) {
+        throw new Error(`No se permiten los siguientes campos: ${unknownFields.join(", ")}`);
     }
 
-    if (updates.status !== undefined && typeof updates.status !== "boolean") {
-      throw new Error("El status debe ser un valor booleano (true/false)");
+    const filteredUpdates = {};
+    for (const field of allowedFields) {
+        if (updates[field] !== undefined) {
+            filteredUpdates[field] = updates[field];
+        }
     }
 
-    if (
-      updates.stock !== undefined &&
-      (!Number.isInteger(updates.stock) || updates.stock < 0)
-    ) {
-      throw new Error("El stock debe ser un número entero no negativo");
-    }
+    const stringFields = ["title", "description", "category", "code"];
+    stringFields.forEach(field => {
+        if (filteredUpdates[field] !== undefined && typeof filteredUpdates[field] !== "string") {
+            throw new Error(`El campo ${field} debe ser un string`);
+        }
+    });
 
-    if (
-      updates.price !== undefined &&
-      (typeof updates.price !== "number" || updates.price <= 0)
-    ) {
-      throw new Error("El precio debe ser un número positivo");
-    }
-
-    if (
-      updates.thumbnails &&
-      (!Array.isArray(updates.thumbnails) ||
-        updates.thumbnails.length === 0 ||
-        !updates.thumbnails.every((thumbnail) => typeof thumbnail === "string"))
-    ) {
-      throw new Error(
-        "El campo thumbnails debe ser un arreglo no vacío de strings"
-      );
-    }
-
-    this.products[productIndex] = {
-      ...this.products[productIndex],
-      ...updates,
+    const validatePositiveNumber = (value, fieldName, isInteger = false) => {
+        if (typeof value !== "number" || value <= 0 || (isInteger && !Number.isInteger(value))) {
+            throw new Error(`El campo ${fieldName} debe ser un número ${isInteger ? 'entero no negativo' : 'positivo'}`);
+        }
     };
-    this.saveProducts();
-    return this.products[productIndex];
+
+    if (filteredUpdates.stock !== undefined) {
+        validatePositiveNumber(filteredUpdates.stock, 'stock', true);
+    }
+
+    if (filteredUpdates.price !== undefined) {
+        validatePositiveNumber(filteredUpdates.price, 'price');
+    }
+
+    if (filteredUpdates.code !== undefined) {
+        if (this.products.some((p) => p.code === filteredUpdates.code && p.id !== id)) {
+            throw new Error(`Ya existe un producto con el código ${filteredUpdates.code}`);
+        }
+    }
+
+    if (filteredUpdates.status !== undefined && typeof filteredUpdates.status !== "boolean") {
+        throw new Error("El status debe ser un valor booleano (true/false)");
+    }
+
+    if (filteredUpdates.thumbnails !== undefined) {
+      const { thumbnails } = filteredUpdates;
+      if (!Array.isArray(thumbnails) || !thumbnails.every((thumbnail) => typeof thumbnail === "string")) {
+          throw new Error("El campo thumbnails debe ser un arreglo de strings o vacío");
+      }
   }
+
+    this.products[productIndex] = { ...this.products[productIndex], ...filteredUpdates };
+    return this.products[productIndex];
+}
 
   deleteProduct(id) {
     const productIndex = this.products.findIndex(
