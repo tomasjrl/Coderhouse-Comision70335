@@ -41,7 +41,7 @@ const productRouter = (getAllProducts, getProductById, addProduct, updateProduct
       const result = addProduct(req.body);
       res.status(201).json(result);
     } catch (error) {
-      // Manejo específico de errores
+
       const errorMessages = [
         "El Título debe ser de tipo string",
         "La descripción debe ser de tipo string",
@@ -59,7 +59,6 @@ const productRouter = (getAllProducts, getProductById, addProduct, updateProduct
         return res.status(400).json({ message: error.message });
       }
       
-      // Pasar otros errores al middleware de manejo de errores
       next(error);
     }
   });
