@@ -5,7 +5,7 @@ import ProductManager from "./productManager.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const dataPath = path.join(__dirname, "..", "data", "carts.json");
+const dataPath = path.join(__dirname, "..", "data", "carrrito.json");
 const productManager = new ProductManager();
 
 class CartManager {
@@ -21,7 +21,7 @@ class CartManager {
       if (error.code === "ENOENT") {
         return [];
       } else {
-        console.error("Error al cargar carts.json. Se utilizará un array vacío.", error);
+        console.error("Error al cargar carrito.json. Se utilizará un array vacío.", error);
         return [];
       }
     }

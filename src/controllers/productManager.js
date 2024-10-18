@@ -4,7 +4,7 @@ import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const dataPath = path.join(__dirname, "..", "data", "products.json");
+const dataPath = path.join(__dirname, "..", "data", "productos.json");
 
 class ProductManager {
   constructor() {
@@ -20,7 +20,7 @@ class ProductManager {
         return [];
       } else {
         console.error(
-          "Error al cargar products.json. Se utilizará un array vacío.",
+          "Error al cargar productos.json. Se utilizará un array vacío.",
           error
         );
         return [];

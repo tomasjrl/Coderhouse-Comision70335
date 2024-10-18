@@ -16,12 +16,44 @@ body {
   padding: 10px;
 }
 
+header {
+  max-width: 1400px;
+  background-color: #333;
+  color: #fff;
+  padding: 1em;
+  text-align: center;
+  border: 1px solid #d1d1d1;
+  border-radius: 6px;
+  margin: 0 auto;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+nav li {
+  margin-right: 20px;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+}
+
+nav a:hover {
+  color: #ccc;
+}
+
 .title {
   color: rgb(232, 232, 232);
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 2px;
-  padding: 50px;
+  padding: 20px;
 }
 
 .title-form {
@@ -68,9 +100,23 @@ body {
   background-color: #2f9733;
 }
 
+.form-group .status-label {
+  display: block;
+  margin-bottom: 5px;
+  color: rgb(232, 232, 232);
+}
+
+.form-group .status-select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #333;
+}
 
 .products-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 40px auto;
   padding: 20px;
   background-color: #474646;
@@ -91,22 +137,24 @@ body {
   border: 1px solid #ddd;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
   border-radius: 10px;
-
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
+  justify-content: end;
+  align-items: center;
+  min-height: 340px;
 }
 
 .product h2 {
-  margin-top: 0;
+  margin-bottom: 10px;
   text-align: center;
   padding: 10px;
   border-bottom: 1px solid #ccc;
+  width: 100%;
 }
 
-.product p {
-  padding-top: 10px;
+.title-product{
+  color: black;
+  font-size: 2em;
 }
 
 .submit-btn-delete {
@@ -117,6 +165,51 @@ body {
 
 .submit-btn-delete:hover {
   background-color: rgb(221, 15, 15);
+}
+
+.btn-primary,
+.btn-link {
+  width: 100%;
+  height: 50px;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  color: #fff;
+  border-radius: 5px;
+  transition: background-color 0.2s ease;
+  margin: 10px;
+}
+
+.btn-link a {
+  color: #fff;
+}
+
+.btn-link:hover {
+  background-color: #2e5e96;
+}
+
+.btn-link {
+  background-color: #7a9dc6;
+}
+
+.btn-primary {
+  background-color: #4CAF50;
+}
+
+.btn-primary:hover {
+  background-color: #2f9733;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+h3 {
+  font-size: 1.1em;
+  padding: 6px 6px;
 }
 
 /* Media queries para hacerlo responsive */
