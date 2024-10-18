@@ -38,7 +38,7 @@ class ProductManager {
     }
   
     if (typeof limit !== "number" || limit <= 0) {
-      throw new Error("?limit= Debe ser un número entero positivo");
+      return { error: true, message: "?limit= Debe ser un número entero positivo" };
     }
   
     return this.products.slice(0, limit);
