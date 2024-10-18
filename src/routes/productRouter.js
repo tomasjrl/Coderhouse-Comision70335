@@ -1,93 +1,63 @@
 import express from "express";
-import ProductManager from "../managers/productManager.js";
 
-const productRouter = express.Router();
-const productManager = new ProductManager();
+const productRouter = (getAllProducts, getProductById, addProduct, updateProduct, deleteProduct) => {
+  const router = express.Router();
 
-const getAllProducts = (req, res) => {
-  const limit = req.query.limit;
+  const handleError = (res, error) => {
+    console.error(error);
+    res.status(error.status || 500).json({ message: error.message });
+  };
 
-  if (limit !== undefined) {
-    if (!/^\d+$/.test(limit) || parseInt(limit) <= 0) {
-      return res.status(400).json({
-        error: "?limit= debe ser un número entero positivo"
-      });
+  router.get("/", (req, res) => {
+    const limit = req.query.limit;
+    try {
+      const products = getAllProducts(limit ? parseInt(limit) : null);
+      res.json(products);
+    } catch (error) {
+      handleError(res, error);
     }
-  }
+  });
 
-  try {
-    const parsedLimit = limit ? parseInt(limit) : null;
-    const products = productManager.getAllProducts(parsedLimit);
-    res.json(products);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+  router.get("/:pid", (req, res) => {
+    const pid = Number(req.params.pid);
+    try {
+      const product = getProductById(pid);
+      res.json(product);
+    } catch (error) {
+      handleError(res, error);
+    }
+  });
+
+  router.post("/", (req, res) => {
+    try {
+      const newProduct = addProduct(req.body);
+      res.status(201).json(newProduct);
+    } catch (error) {
+      handleError(res, error);
+    }
+  });
+
+  router.put("/:pid", (req, res) => {
+    const pid = Number(req.params.pid);
+    try {
+      const updatedProduct = updateProduct(pid, req.body);
+      res.json(updatedProduct);
+    } catch (error) {
+      handleError(res, error);
+    }
+  });
+
+  router.delete("/:pid", (req, res) => {
+    const pid = Number(req.params.pid);
+    try {
+      deleteProduct(pid);
+      res.status(204).json();
+    } catch (error) {
+      handleError(res, error);
+    }
+  });
+
+  return router;
 };
-
-const getProduct = (req, res) => {
-  const productId = parseInt(req.params.pid);
-  try {
-    const product = productManager.getProductById(productId);
-    res.json(product);
-  } catch (error) {
-    res.status(404).json({ error: error.message });
-  }
-};
-
-const addProduct = (req, res) => {
-  const {
-    title,
-    description,
-    code,
-    price,
-    status,
-    stock,
-    category,
-    thumbnails,
-  } = req.body;
-  try {
-    const newProduct = productManager.addProduct({
-      title,
-      description,
-      code,
-      price,
-      status,
-      stock,
-      category,
-      thumbnails,
-    });
-    res.status(201).json(newProduct);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
-
-const updateProduct = (req, res) => {
-  const productId = parseInt(req.params.pid);
-  const updates = req.body;
-
-  try {
-    const result = productManager.updateProduct(productId, updates);
-    res.status(200).json(result);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
-
-const deleteProduct = (req, res) => {
-  const productId = parseInt(req.params.pid);
-  try {
-    const deletedProduct = productManager.deleteProduct(productId);
-    res.status(204).json(deletedProduct);
-  } catch (error) {
-    res.status(404).json({ error: error.message });
-  }
-};
-
-productRouter.get("/", getAllProducts);
-productRouter.get("/:pid", getProduct);
-productRouter.post("/", addProduct);
-productRouter.put("/:pid", updateProduct);
-productRouter.delete("/:pid", deleteProduct);
 
 export default productRouter;
