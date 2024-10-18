@@ -12,9 +12,9 @@
   },
   {
     "id": 2,
-    "title": "Zapatos Deportivos Nike Air",
-    "description": "Zapatos deportivos con tecnología Air Max para mayor comodidad.",
-    "code": "Nike-Air",
+    "title": "Zapatos Deportivos Adidas",
+    "description": "Zapatos deportivos con tecnología Sport para mayor comodidad.",
+    "code": "Adidas-Sport",
     "price": 155,
     "status": true,
     "stock": 100,
